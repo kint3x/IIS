@@ -35,12 +35,12 @@ $db = new Database();
                             <button type="button" id="dropdownMenu1" data-toggle="dropdown" class="btn btn-outline-secondary dropdown-toggle">Login <span class="caret"></span></button>
                             <ul class="dropdown-menu dropdown-menu-right mt-2">
                                <li class="px-3 py-2">
-                                   <form class="form" role="form">
+                                   <form class="form" role="form" id="loginForm">
                                         <div class="form-group">
-                                            <input id="emailInput" placeholder="Email" class="form-control form-control-sm" type="text" required="">
+                                            <input id="emailLogin" placeholder="Email" class="form-control form-control-sm" type="text" required="">
                                         </div>
                                         <div class="form-group">
-                                            <input id="passwordInput" placeholder="Password" class="form-control form-control-sm" type="text" required="">
+                                            <input id="passwordLogin" placeholder="Password" class="form-control form-control-sm" type="password" required="">
                                         </div>
                                         <div class="form-group">
                                             <button type="submit" class="btn btn-primary btn-block">Login</button>
@@ -115,6 +115,27 @@ $db = new Database();
 
                 event.preventDefault();
               });
+
+              $("#loginForm").submit(function (event) {
+                var formData = {
+                  email: $("#emailLogin").val(),
+                  heslo: $("#passwordLogin").val(),
+                };
+
+                $.ajax({
+                  type: "POST",
+                  url: "/ajax/user_login.php",
+                  data: formData,
+                  dataType: "json",
+                  encode: true,
+                }).done(function (data) {
+                  console.log(data);
+                });
+
+                event.preventDefault();
+              });
+
+
             });
         </script>
     </body>
