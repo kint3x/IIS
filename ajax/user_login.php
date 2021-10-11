@@ -1,9 +1,9 @@
 <?php
 session_start();
 
-require "../defines.php";
+require_once "../defines.php";
 
-require ROOT."/classes/database.class.php";
+require_once ROOT."/classes/database.class.php";
 
 if(isset($_POST['email']) && isset($_POST['heslo'])){
 
