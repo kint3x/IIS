@@ -5,6 +5,7 @@ require ("defines.php");
 if(isset($_GET["logout"])){
     if(isset($_SESSION['user'])){
         unset($_SESSION['user']);
+        header("Location: /");
     }
 }
 
@@ -38,7 +39,6 @@ $db = new Database();
             <li class="nav-item"><a href="/" class="nav-link">Domov</a></li>
           </ul>
           <ul class="nav navbar-nav flex-row justify-content-between ml-auto">
-            <li class="nav-item order-2 order-md-1"><a href="#" class="nav-link" title="settings"><i class="fa fa-cog fa-fw fa-lg"></i></a></li>
             <?php
             if(!isset($_SESSION["user"])){
                 echo ' 
@@ -67,6 +67,7 @@ $db = new Database();
             else{
                 echo '
                 <!-- Icon dropdown -->
+                  <li class="nav-item order-2 order-md-1"><a href="#" class="nav-link" title="settings"><i class="fa fa-cog fa-fw fa-lg"></i></a></li>
                   <li class="nav-item me-3 me-lg-0 dropdown">
                     <a
                       class="nav-link dropdown-toggle"
@@ -171,7 +172,7 @@ $db = new Database();
          encode: true,
         }).done(function (data) {
          if(data.success){
-            window.location = window.location.href.split("?")[0];
+          location.reload();
          }
         });
 
