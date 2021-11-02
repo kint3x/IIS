@@ -7,8 +7,8 @@ require_once "../defines.php";
 require_once ROOT."/classes/database.class.php";
 require_once ROOT."/classes/user.class.php";
 
-if(isset($_POST['email']) && isset($_POST['heslo']) && isset($_POST['hesloagain']) && isset($_POST['meno']) &&
-   isset($_POST['priezvisko']) && isset($_POST['adresa'])){
+if(isset($_POST['email']) && isset($_POST['passwordCurrent']) && isset($_POST['passwordNew']) && isset($_POST['passwordNewAgain']) && isset($_POST['name']) &&
+   isset($_POST['surname']) && isset($_POST['address'])){
 
 	if(!isset($_SESSION['user'])){
 		return "Neprihlásený užívateľ";
@@ -23,32 +23,39 @@ if(isset($_POST['email']) && isset($_POST['heslo']) && isset($_POST['hesloagain'
 		}
 	}
 
-
 	$db = new Database();
-	if($db->error) return "Nedá sa pripojiť k DB";
+	if ($db->error) return "Nedá sa pripojiť k DB";
 	$conn = $db->handle; 
 
-	if($_POST['heslo'] != ""){
-		if($_POST['heslo'] == $_POST['hesloagain']){
+	if ($_POST['passwordNew'] != "") {
+		// Check if the entered password matches the current password
+		// if (!password_verify($_POST['passwordNew'], $_SESSION['user']['password'])) {
+		// 	echo json_encode(
+		// 		"success" => false,
+		// 		"error" => "Nesprávne aktuálne heslo."
+		// 	);
+		// }
+
+		if ($_POST['passwordNew'] == $_POST['passwordNewAgain']){
 			$stmt = $conn->prepare("UPDATE User SET password = ? WHERE email = ? ");
-			$pw = password_hash($_POST["heslo"],PASSWORD_DEFAULT); // funkcia nejde vlozit do bin param
-			$stmt->bind_param("ss",$pw,$_POST["email"]);
+			$pw = password_hash($_POST['passwordNew'], PASSWORD_DEFAULT); // funkcia nejde vlozit do bin param
+			$stmt->bind_param("ss", $pw, $_POST["email"]);
 		 	$stmt->execute();
 		}
-		else{
+		else {
 			echo json_encode(
 				array(
 					"success" => false,
 					"error" => "Heslá sa nezhodujú!"
 				)
 			);
+
 			return;
 		}
-		
 	}
 
 	$stmt = $conn->prepare("UPDATE User SET name = ? , surname = ? , address = ? WHERE email = ? ");
-	$stmt->bind_param("ssss",$_POST['meno'],$_POST['priezvisko'],$_POST['adresa'],$_POST["email"]);
+	$stmt->bind_param("ssss", $_POST['name'], $_POST['surname'], $_POST['address'], $_POST["email"]);
 	$stmt->execute();
 
 	$db->close();

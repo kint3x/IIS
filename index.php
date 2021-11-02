@@ -22,7 +22,7 @@ if(isset($_GET["logout"])){
        $("#register").submit(function (event) {
         var formData = {
          email: $("#emailReg").val(),
-         heslo: $("#hesloReg").val(),
+         password: $("#passwordReg").val(),
         };
 
         $.ajax({
@@ -49,7 +49,7 @@ if(isset($_GET["logout"])){
        $("#loginForm").submit(function (event) {
         var formData = {
          email: $("#emailLogin").val(),
-         heslo: $("#passwordLogin").val(),
+         password: $("#passwordLogin").val(),
         };
 
         $.ajax({
@@ -69,36 +69,37 @@ if(isset($_GET["logout"])){
 
        $("#settingsForm").submit(function (event) {
         var formData = {
-        email: $("#emailset").val(),
-         heslo: $("#hesloset").val(),
-         hesloagain: $("#heslosetagain").val(),
-         meno: $("#nameset").val(),
-         priezvisko: $("#surnameset").val(),
-         adresa: $("#addressset").val()
+         email: $("#emailSet").val(),
+         passwordCurrent: $("#passwordCurrent").val(),
+         passwordNew: $("#passwordSet").val(),
+         passwordNewAgain: $("#passwordSetAgain").val(),
+         name: $("#nameSet").val(),
+         surname: $("#surnameSet").val(),
+         address: $("#addressSet").val()
         };
-
+        
         $.ajax({
-         type: "POST",
-         url: "/ajax/user_edit.php",
-         data: formData,
-         dataType: "json",
-         encode: true,
+          type: "POST",
+          url: "/ajax/user_edit.php",
+          data: formData,
+          dataType: "json",
+          encode: true,
         }).done(function (data) {
-         if(data.success){
+          if(data.success){
             var succ = "<div class='alert alert-success' role='alert'>Nastavenia boli uložené</div>";
-          $("#settings_alert").css('display','block');
-          $("#settings_alert").html(succ).delay(2000).fadeOut();
-         }
-         else{
+            $("#settings_alert").css('display','block');
+            $("#settings_alert").html(succ).delay(2000).fadeOut();
+          }
+          else{
             var alert = "<div class='alert alert-warning' role='alert'>"+data.error+"</div>";
-
+            
             $("#settings_alert").css('display','block');
             $("#settings_alert").html(alert).delay(2000).fadeOut();
             
-         }
-
-        $("#hesloset").val("");
-        $("#heslosetagain").val("");
+          }
+          
+        $("#passwordSet").val("");
+        $("#passwordSetAgain").val("");
         });
 
         event.preventDefault();
