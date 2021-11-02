@@ -6,15 +6,16 @@ Class User{
 	
 	public $error;
 
-	private $email,$password,$name,$surname,$role,$address;
-
+	private $email, $password, $name, $surname, $role, $address;
 
 	public function __construct($email){
 		$db = new Database();
+
 		if($db->error) {
 			$this->error = true;
 			return "Nedá sa pripojiť k DB";
 		}
+		
 		$conn = $db->handle;
 
 		$res = $conn->query("SELECT * FROM User WHERE email = '{$email}'");
@@ -32,15 +33,14 @@ Class User{
 		$this->surname = $res["surname"];
 		$this->role = $res["role"];
 		$this->address = $res["address"];
-
-
 		$this->error = false;
-
 	}
 
 	public function get_data(){
-		if($this->error) return false;
-
+		if($this->error) {
+			return false;
+		}
+		
 		return array(
 			"email" => $this->email,
 			"password" => $this->password,
