@@ -24,7 +24,7 @@ function get_head($params=array()){
 	     <script type="text/javascript" src="/js/font-awesome.js"></script>
 	     %s
 	  </head>';	
-	  return sprintf($head,$options["title"],$options["html"]);
+	  return sprintf($head, $options["title"], $options["html"]);
 }
 
 function get_navbar(){
@@ -95,13 +95,15 @@ function get_navbar(){
                   </li>
                 ';
             }
-           if(!isset($_SESSION["user"])){
+
+            if(!isset($_SESSION["user"])){
           	 $nav .=' 
 		          </ul>
 		        </div>
 		      </div>
 		    </nav> 
-		    <div id="modalRegister" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		    
+			<div id="modalRegister" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		      <div class="modal-dialog" id="reg_dialog">
 		        <div class="modal-content">
 		          <form id="register">
@@ -180,7 +182,7 @@ function get_navbar(){
 						</div>
 
 			             <div class="form-group">
-					    <label for="adresa">Adresa</label>
+					    <label for="address">Adresa</label>
 					    <textarea class="form-control" id="addressSet" rows="3">'.$user_data['address'].'</textarea>
 					  </div>
 			          <div id="settings_alert"></div>
@@ -193,7 +195,6 @@ function get_navbar(){
 			        </form>
 			      </div>
 			    </div>
-
 			    ';
 			}
     return $nav;

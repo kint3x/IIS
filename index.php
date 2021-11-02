@@ -12,10 +12,9 @@ if(isset($_GET["logout"])){
 ?>
 
 <html>
-  <?php echo get_head() ?>
+  <?php echo get_head(); ?>
   <body>
     <?php echo get_navbar(); ?>
-    
 
     <script>
       $(document).ready(function () {
@@ -103,11 +102,7 @@ if(isset($_GET["logout"])){
 
         event.preventDefault();
        });
-
-
-
       });
     </script>
   </body>
-
 </html>
