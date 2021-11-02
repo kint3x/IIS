@@ -160,9 +160,9 @@ function get_navbar(){
 
 			             <div class="form-group">
 			              <label for="hesloReg">Zmeniť heslo</label>
-						  <input type="password" class="form-control" id="passwordCurrent" placeholder="Aktuálne heslo" style="margin-bottom:5px;">
-			              <input type="password" class="form-control" id="passwordSet" placeholder="Nové heslo" style="margin-bottom:5px;">
-			              <input type="password" class="form-control" id="passwordSetAgain" placeholder="Potvrdenie hesla">
+						  <input type="password" class="form-control" id="passwordCurrent" autocomplete="current-password" placeholder="Aktuálne heslo" style="margin-bottom:5px;">
+			              <input type="password" class="form-control" id="passwordSet" autocomplete="new-password" placeholder="Nové heslo" style="margin-bottom:5px;">
+			              <input type="password" class="form-control" id="passwordSetAgain" autocomplete="new-password" placeholder="Potvrdenie hesla">
 			             </div>
 
 			           	<div class="form-group">
