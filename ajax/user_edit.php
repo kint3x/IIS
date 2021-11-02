@@ -29,12 +29,16 @@ if(isset($_POST['email']) && isset($_POST['passwordCurrent']) && isset($_POST['p
 
 	if ($_POST['passwordNew'] != "") {
 		// Check if the entered password matches the current password
-		// if (!password_verify($_POST['passwordNew'], $_SESSION['user']['password'])) {
-		// 	echo json_encode(
-		// 		"success" => false,
-		// 		"error" => "Nesprávne aktuálne heslo."
-		// 	);
-		// }
+		if (!password_verify($_POST['passwordCurrent'], $user_data['password'])) {
+			echo json_encode(
+				array(
+					"success" => false,
+					"error" => "Nesprávne aktuálne heslo."
+				)
+			);
+
+			return;
+		}
 
 		if ($_POST['passwordNew'] == $_POST['passwordNewAgain']){
 			$stmt = $conn->prepare("UPDATE User SET password = ? WHERE email = ? ");
@@ -60,12 +64,12 @@ if(isset($_POST['email']) && isset($_POST['passwordCurrent']) && isset($_POST['p
 
 	$db->close();
 
-
 	echo json_encode(
-				array(
-					"success" => true,
-					"error" => ""
-				)
-			);
-			return;
+		array(
+			"success" => true,
+			"error" => ""
+		)
+	);
+
+	return;
 }

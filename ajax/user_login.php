@@ -33,7 +33,7 @@ if(isset($_POST['email']) && isset($_POST['password'])){
 
  		$_SESSION['user'] =array(
  			"email" => $_POST['email'],
- 			 "role" => $data['role']
+ 			"role" => $data['role']
  		) ;
 
  		echo json_encode(

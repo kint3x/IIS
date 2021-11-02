@@ -91,8 +91,7 @@ if(isset($_GET["logout"])){
             $("#settings_alert").html(succ).delay(2000).fadeOut();
           }
           else{
-            var alert = "<div class='alert alert-warning' role='alert'>"+data.error+"</div>";
-            
+            var alert = "<div class='alert alert-warning' role='alert'>" + data.error + "</div>";
             $("#settings_alert").css('display','block');
             $("#settings_alert").html(alert).delay(2000).fadeOut();
             
