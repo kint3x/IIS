@@ -5,7 +5,7 @@ require_once "../defines.php";
 
 require_once ROOT."/classes/database.class.php";
 
-if(isset($_POST['email']) && isset($_POST['heslo'])){
+if(isset($_POST['email']) && isset($_POST['password'])){
 	//check mail
 	$pattern = "/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i";
 	if(!preg_match($pattern, $_POST['email'])){
@@ -41,11 +41,11 @@ if(isset($_POST['email']) && isset($_POST['heslo'])){
 	}
 
 	//keby chceme kontrolovat aj heslo tak overenie ale asi netreba
-	if(strlen($_POST["heslo"])<4){
+	if(strlen($_POST["password"])<4){
 		echo json_encode(
 			array(
 				"success" => false,
-				"error" => "Heslo musí obsahovať aspoň 4 znaky"
+				"error" => "password musí obsahovať aspoň 4 znaky"
 			)
 		);
 		return;
@@ -53,7 +53,7 @@ if(isset($_POST['email']) && isset($_POST['heslo'])){
 	//registracia noveho užívateľa
 
 	$stmt = $conn->prepare("INSERT INTO User (email,password,role) VALUES (?, ? , ".USER_REGULAR.")");
-	$pw = password_hash($_POST["heslo"],PASSWORD_DEFAULT); // funkcia nejde vlozit do bin param
+	$pw = password_hash($_POST["password"],PASSWORD_DEFAULT); // funkcia nejde vlozit do bin param
 	$stmt->bind_param("ss",$_POST["email"],$pw);
  	$stmt->execute();
 

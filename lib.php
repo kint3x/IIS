@@ -118,7 +118,7 @@ function get_navbar(){
 		             </div>
 		             <div class="form-group">
 		              <label for="hesloReg">Heslo</label>
-		              <input type="password" class="form-control" id="hesloReg" placeholder="Heslo">
+		              <input type="password" class="form-control" id="passwordReg" placeholder="Heslo">
 		             </div>
 		          <div id="reg_alert"></div>
 		          </div>
@@ -154,24 +154,26 @@ function get_navbar(){
 
 			             <div class="form-group">
 			              <label for="emailReg">Email</label>
-			              <input type="email" class="form-control" id="emailset" aria-describedby="emailHelp"
+			              <input type="email" class="form-control" id="emailSet" aria-describedby="emailHelp"
 			              value="'.$user_data['email'].'" readonly>
 			             </div>
+
 			             <div class="form-group">
 			              <label for="hesloReg">Zmeniť heslo</label>
-			              <input type="password" class="form-control" id="hesloset" placeholder="Heslo" style="margin-bottom:5px;">
-			              <input type="password" class="form-control" id="heslosetagain" placeholder="Heslo znova">
+						  <input type="password" class="form-control" id="passwordCurrent" placeholder="Aktuálne heslo" style="margin-bottom:5px;">
+			              <input type="password" class="form-control" id="passwordSet" placeholder="Nové heslo" style="margin-bottom:5px;">
+			              <input type="password" class="form-control" id="passwordSetAgain" placeholder="Potvrdenie hesla">
 			             </div>
 
 			           	<div class="form-group">
 			           		<label>Meno a Priezvisko</label>
 			             <div class="row">
 						    <div class="col">
-						      <input type="text" class="form-control" placeholder="Meno" id="nameset"
+						      <input type="text" class="form-control" placeholder="Meno" id="nameSet"
 						      value="'.$user_data['name'].'">
 						    </div>
 						    <div class="col">
-						      <input type="text" class="form-control" placeholder="Priezvisko" id="surnameset"
+						      <input type="text" class="form-control" placeholder="Priezvisko" id="surnameSet"
 						      value="'.$user_data['surname'].'">
 						    </div>
 						  </div>
@@ -179,7 +181,7 @@ function get_navbar(){
 
 			             <div class="form-group">
 					    <label for="adresa">Adresa</label>
-					    <textarea class="form-control" id="addressset" rows="3">'.$user_data['address'].'</textarea>
+					    <textarea class="form-control" id="addressSet" rows="3">'.$user_data['address'].'</textarea>
 					  </div>
 			          <div id="settings_alert"></div>
 			          </div>

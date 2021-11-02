@@ -5,7 +5,7 @@ require_once "../defines.php";
 
 require_once ROOT."/classes/database.class.php";
 
-if(isset($_POST['email']) && isset($_POST['heslo'])){
+if(isset($_POST['email']) && isset($_POST['password'])){
 
 	$db = new Database();
 	if($db->error) return "Nedá sa pripojiť k DB";
@@ -25,13 +25,14 @@ if(isset($_POST['email']) && isset($_POST['heslo'])){
 		);
 		return;
  	}
+
  	$data = $res->fetch_assoc();
 
- 	if(password_verify($_POST["heslo"], $data["password"])){
+ 	if(password_verify($_POST['password'], $data['password'])){
  		//heslo je ok
 
  		$_SESSION['user'] =array(
- 			"email" => $_POST["email"],
+ 			"email" => $_POST['email'],
  			 "role" => $data['role']
  		) ;
 
