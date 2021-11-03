@@ -1,5 +1,6 @@
 <?php
 
+require_once "defines.php";
 require_once ROOT."/classes/user.class.php";
 
 //lib
@@ -81,7 +82,7 @@ function get_navbar(){
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                       <li>
-                        <a class="dropdown-item" href="user/settings.php">Môj účet</a>
+                        <a class="dropdown-item" href="/user/settings.php">Môj účet</a>
                       </li>
 					            <li>
                         <a class="dropdown-item" href="#">Moje konferencie</a>
@@ -137,10 +138,6 @@ function get_navbar(){
 		    ';
 			}
 			else{
-    
-			    $user = new User($_SESSION['user']['email']);
-			    $user_data= $user->get_data();
-
 			    $nav .='
 				    </ul>
 			        </div>

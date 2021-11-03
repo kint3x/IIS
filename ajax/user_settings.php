@@ -12,10 +12,10 @@ if(isset($_POST['email']) && isset($_POST['name']) && isset($_POST['surname']) &
 		return "Neprihlásený užívateľ";
 	}
 
-	$user = new User($_SESSION['user']['email']);
+	$user = new User($_SESSION['user']['id']);
 	$user_data = $user->get_data();
 
-	if($_POST['email'] != $_SESSION['user']['email']){
+	if($_POST['email'] != $user_data['email']){
 		if($user_data['role'] != USER_ADMIN){
 			return "Iba admin môže upravovať ostatných užívateľov";
 		}
@@ -28,8 +28,8 @@ if(isset($_POST['email']) && isset($_POST['name']) && isset($_POST['surname']) &
 	}
 		
 	$conn = $db->handle; 
-	$stmt = $conn->prepare("UPDATE User SET name = ? , surname = ? , address = ? WHERE email = ? ");
-	$stmt->bind_param("ssss", $_POST['name'], $_POST['surname'], $_POST['address'], $_POST["email"]);
+	$stmt = $conn->prepare("UPDATE User SET name = ?, surname = ?, address = ? WHERE id = ?");
+	$stmt->bind_param("sssi", $_POST['name'], $_POST['surname'], $_POST['address'], $user_data['id']);
 	$stmt->execute();
 	$db->close();
 

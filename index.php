@@ -1,6 +1,6 @@
 <?php
 session_start();
-require ("defines.php");
+require_once "defines.php";
 
 if(isset($_GET["logout"])){
     if(isset($_SESSION['user'])){

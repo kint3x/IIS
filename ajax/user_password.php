@@ -13,7 +13,7 @@ if(isset($_POST['passwordCurrent']) && isset($_POST['passwordNew']) && isset($_P
 		return "Neprihlásený užívateľ";
 	}
 
-	$user = new User($_SESSION['user']['email']);
+	$user = new User($_SESSION['user']['id']);
 	$user_data = $user->get_data();
 	
 	// Check if the entered password matches the current password
@@ -36,9 +36,9 @@ if(isset($_POST['passwordCurrent']) && isset($_POST['passwordNew']) && isset($_P
 		} 
 		
 		$conn = $db->handle; 
-		$stmt = $conn->prepare("UPDATE User SET password = ? WHERE email = ? ");
+		$stmt = $conn->prepare("UPDATE User SET password = ? WHERE id = ? ");
 		$pw = password_hash($_POST['passwordNew'], PASSWORD_DEFAULT);
-		$stmt->bind_param("ss", $pw, $user_data['email']);
+		$stmt->bind_param("ss", $pw, $user_data['id']);
 		$stmt->execute();
 		$db->close();
 	}

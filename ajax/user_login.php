@@ -8,7 +8,9 @@ require_once ROOT."/classes/database.class.php";
 if(isset($_POST['email']) && isset($_POST['password'])){
 
 	$db = new Database();
-	if($db->error) return "Nedá sa pripojiť k DB";
+	if($db->error) {
+		return "Nedá sa pripojiť k DB";
+	}
 	$conn = $db->handle;
 
 	$stmt = $conn->prepare("SELECT * FROM User WHERE email = ? LIMIT 1");
@@ -20,7 +22,7 @@ if(isset($_POST['email']) && isset($_POST['password'])){
  		echo json_encode(
 			array(
 				"success" => false,
-				"error" => "Zadaný email nie je registrovaný"
+				"error" => "Zadaný email nie je registrovaný."
 			)
 		);
 		return;
@@ -29,10 +31,10 @@ if(isset($_POST['email']) && isset($_POST['password'])){
  	$data = $res->fetch_assoc();
 
  	if(password_verify($_POST['password'], $data['password'])){
- 		//heslo je ok
+		// correct pwd
 
  		$_SESSION['user'] =array(
- 			"email" => $_POST['email'],
+			"id" => $data['id'],
  			"role" => $data['role']
  		) ;
 
@@ -48,7 +50,7 @@ if(isset($_POST['email']) && isset($_POST['password'])){
  		echo json_encode(
 			array(
 				"success" => false,
-				"error" => "Nesprávne heslo"
+				"error" => "Nesprávne heslo."
 			)
 		);
 		return;

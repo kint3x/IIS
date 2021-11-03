@@ -70,7 +70,7 @@ require_once '../defines.php';
             surname: $("#surnameSet").val(),
             address: $("#addressSet").val()
           };
-            
+          
           $.ajax({
             type: "POST",
             url: "/ajax/user_settings.php",
@@ -78,18 +78,19 @@ require_once '../defines.php';
             dataType: "json",
             encode: true,
           }).done(function (data) {
+            console.log("here");
             if(data.success){
               var succ = "<div class='alert alert-success alert-dismissible' role='alert'>" 
-                + "Nastavenia boli uložené" 
-                + "<button class='close font-weight-light' data-dismiss='alert' aria-label='close'>&times;</button>"
-                + "</div>";
+              + "Nastavenia boli uložené" 
+              + "<button class='close font-weight-light' data-dismiss='alert' aria-label='close'>&times;</button>"
+              + "</div>";
               $("#settingsAlert").css('display','block');
               $("#settingsAlert").html(succ);
             }
             else{
               var alert = "<div class='alert alert-warning alert-dismissible' role='alert'>" 
-                + "<a href='#' class='close font-weight-light' data-dismiss='alert' aria-label='close'>&times;</a>"
-                + data.error + "</div>";
+              + "<a href='#' class='close font-weight-light' data-dismiss='alert' aria-label='close'>&times;</a>"
+              + data.error + "</div>";
               $("#settingsAlert").css('display','block');
               $("#settingsAlert").html(alert);
             }
@@ -101,7 +102,7 @@ require_once '../defines.php';
     </script>
 
     <?php
-    $user = new User($_SESSION['user']['email']);
+    $user = new User($_SESSION['user']['id']);
 	  $user_data= $user->get_data();
 
     echo "
