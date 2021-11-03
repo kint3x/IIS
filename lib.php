@@ -68,7 +68,6 @@ function get_navbar(){
             else{
                 $nav .= '
                 <!-- Icon dropdown -->
-                  <li class="nav-item order-2 order-md-1"><a href="#" class="nav-link" title="settings" data-toggle="modal" data-target="#modalProfileSettings"><i class="fa fa-cog fa-fw fa-lg"></i></a></li>
                   <li class="nav-item me-3 me-lg-0 dropdown">
                     <a
                       class="nav-link dropdown-toggle"
@@ -82,6 +81,9 @@ function get_navbar(){
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                       <li>
+                        <a class="dropdown-item" href="user/settings.php">Môj účet</a>
+                      </li>
+					            <li>
                         <a class="dropdown-item" href="#">Moje konferencie</a>
                       </li>
                       <li>
@@ -144,57 +146,6 @@ function get_navbar(){
 			        </div>
 			      </div>
 			    </nav>
-			    <div id="modalProfileSettings" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-			      <div class="modal-dialog" id="reg_dialog">
-			        <div class="modal-content">
-			         <form id="settingsForm">
-			          <div class="modal-header">
-			            <h3>Upraviť profil</h3>
-			            <button type="button" class="close font-weight-light" data-dismiss="modal" aria-hidden="true">×</button>
-			          </div>
-			          <div class="modal-body">
-
-			             <div class="form-group">
-			              <label for="emailReg">Email</label>
-			              <input type="email" class="form-control" id="emailSet" aria-describedby="emailHelp"
-			              value="'.$user_data['email'].'" readonly>
-			             </div>
-
-			             <div class="form-group">
-			              <label for="hesloReg">Zmeniť heslo</label>
-						  <input type="password" class="form-control" id="passwordCurrent" autocomplete="current-password" placeholder="Aktuálne heslo" style="margin-bottom:5px;">
-			              <input type="password" class="form-control" id="passwordSet" autocomplete="new-password" placeholder="Nové heslo" style="margin-bottom:5px;">
-			              <input type="password" class="form-control" id="passwordSetAgain" autocomplete="new-password" placeholder="Potvrdenie hesla">
-			             </div>
-
-			           	<div class="form-group">
-			           		<label>Meno a Priezvisko</label>
-			             <div class="row">
-						    <div class="col">
-						      <input type="text" class="form-control" placeholder="Meno" id="nameSet"
-						      value="'.$user_data['name'].'">
-						    </div>
-						    <div class="col">
-						      <input type="text" class="form-control" placeholder="Priezvisko" id="surnameSet"
-						      value="'.$user_data['surname'].'">
-						    </div>
-						  </div>
-						</div>
-
-			             <div class="form-group">
-					    <label for="address">Adresa</label>
-					    <textarea class="form-control" id="addressSet" rows="3">'.$user_data['address'].'</textarea>
-					  </div>
-			          <div id="settings_alert"></div>
-			          </div>
-			          <div class="modal-footer">
-			            <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-			            <button type="submit" class="btn btn-primary">Nastaviť</button>
-			          </div>
-			        </div>
-			        </form>
-			      </div>
-			    </div>
 			    ';
 			}
     return $nav;

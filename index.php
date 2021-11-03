@@ -65,43 +65,6 @@ if(isset($_GET["logout"])){
 
         event.preventDefault();
        });
-
-       $("#settingsForm").submit(function (event) {
-        var formData = {
-         email: $("#emailSet").val(),
-         passwordCurrent: $("#passwordCurrent").val(),
-         passwordNew: $("#passwordSet").val(),
-         passwordNewAgain: $("#passwordSetAgain").val(),
-         name: $("#nameSet").val(),
-         surname: $("#surnameSet").val(),
-         address: $("#addressSet").val()
-        };
-        
-        $.ajax({
-          type: "POST",
-          url: "/ajax/user_edit.php",
-          data: formData,
-          dataType: "json",
-          encode: true,
-        }).done(function (data) {
-          if(data.success){
-            var succ = "<div class='alert alert-success' role='alert'>Nastavenia boli uložené</div>";
-            $("#settings_alert").css('display','block');
-            $("#settings_alert").html(succ).delay(2000).fadeOut();
-          }
-          else{
-            var alert = "<div class='alert alert-warning' role='alert'>" + data.error + "</div>";
-            $("#settings_alert").css('display','block');
-            $("#settings_alert").html(alert).delay(2000).fadeOut();
-            
-          }
-          
-        $("#passwordSet").val("");
-        $("#passwordSetAgain").val("");
-        });
-
-        event.preventDefault();
-       });
       });
     </script>
   </body>
