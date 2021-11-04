@@ -11,3 +11,4 @@
 - V ajaxoch máme volania DB. Prečo to nehodiť rovno ku classam ktoré dané tabulky spravujú?
 - Kontrola chýb pri User, Database, Conferences.
 - ajax call -> if (data.success) -> obsluhu vynať do funkcíí
+- vyhľadávanie v mojich konferenciách
