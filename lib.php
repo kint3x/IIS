@@ -7,7 +7,7 @@ require_once ROOT."/classes/user.class.php";
 function get_head($params=array()){
 
 	$options["html"] = "";
-	$options["title"] = "IIS Konferencia";
+	$options["title"] = "Konferencie";
 
 	$options = array_replace_recursive($options, $params);
 
@@ -32,7 +32,7 @@ function get_navbar(){
 	$nav = ' 
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" role="navigation">
       <div class="container">
-        <a class="navbar-brand" href="#">IIS Konferencia</a>
+        <a class="navbar-brand" href="#">Konferencie</a>
         <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#exCollapsingNavbar">
           &#9776;
         </button>
@@ -85,7 +85,7 @@ function get_navbar(){
                         <a class="dropdown-item" href="/user/settings.php">Môj účet</a>
                       </li>
 					            <li>
-                        <a class="dropdown-item" href="#">Moje konferencie</a>
+                        <a class="dropdown-item" href="/user/conferences.php">Moje konferencie</a>
                       </li>
                       <li>
                         <a class="dropdown-item" href="#">Rozvrh</a>

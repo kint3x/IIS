@@ -2,6 +2,7 @@
 session_start();
 
 require_once '../defines.php';
+require_once '../lib.php';
 ?>
 
 <html>
