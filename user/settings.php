@@ -16,7 +16,6 @@ require_once '../lib.php';
       $(document).ready(function () {
         // Remove allerts when closing the window
         $("#changePasswordModal").on('hide.bs.modal', function(event) {
-          console.log("here");
           $("#passwordAlert").html("");
         });
 

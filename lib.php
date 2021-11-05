@@ -59,7 +59,7 @@ function get_navbar(){
                           <button type="submit" class="btn btn-primary btn-block">Prihlásiť sa</button>
                         </div>
                         <div class="form-group text-center">
-                          <small><a href="#" data-toggle="modal" data-target="#modalRegister">Nemáte účet? Registrujte sa!</a></small>
+                          <small><a href="#" data-toggle="modal" data-target="#registerModal">Nemáte účet? Registrujte sa!</a></small>
                         </div>
                       </form>
                     </li>
@@ -106,26 +106,24 @@ function get_navbar(){
 		      </div>
 		    </nav> 
 		    
-			<div id="modalRegister" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-		      <div class="modal-dialog" id="reg_dialog">
+			<div id="registerModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		      <div class="modal-dialog" id="regDialog">
 		        <div class="modal-content">
-		          <form id="register">
-		          <div class="modal-header">
-		            <h3>Registrácia</h3>
-		            <button type="button" class="close font-weight-light" data-dismiss="modal" aria-hidden="true">×</button>
-		          </div>
-		          <div class="modal-body">
-
-		             <div class="form-group">
-		              <label for="emailReg">Email</label>
-		              <input type="email" class="form-control" id="emailReg" aria-describedby="emailHelp" placeholder="Prosím zadajte email">
-		              <small id="emailHelp" class="form-text text-muted">email musí byť formátu email@priklad.com</small>
-		             </div>
-		             <div class="form-group">
-		              <label for="hesloReg">Heslo</label>
-		              <input type="password" class="form-control" id="passwordReg" placeholder="Heslo">
-		             </div>
-		          <div id="reg_alert"></div>
+            <form id="register">
+            <div class="modal-header">
+            <h3>Registrácia</h3>
+            <button type="button" class="close font-weight-light" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+              <div id="regAlert"></div>
+		           <div class="form-group">
+		            <label for="emailReg">Email</label>
+		            <input type="email" class="form-control" id="emailReg" aria-describedby="emailHelp" placeholder="priklad@email.com">
+		           </div>
+		           <div class="form-group">
+		            <label for="hesloReg">Heslo</label>
+		            <input type="password" class="form-control" id="passwordReg" placeholder="Heslo">
+		           </div>
 		          </div>
 		          <div class="modal-footer">
 		            <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
