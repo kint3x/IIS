@@ -58,9 +58,9 @@ if(isset($_GET["logout"])){
         $("#loginForm").submit(function (event) {
           var formData = {
             email: $("#emailLogin").val(),
-            password: $("#passwordLogin").val(),
+            password: $("#passwordLogin").val()
           };
-
+          
           $.ajax({
             type: "POST",
             url: "/ajax/user_login.php",
@@ -68,12 +68,14 @@ if(isset($_GET["logout"])){
             dataType: "json",
             encode: true,
           }).done(function (data) {
-            if(data.success){
-            location.reload();
-          }
-        });
-
-         event.preventDefault();
+            console.log("here2");
+            
+            if (data.success) {
+              location.reload();
+            }
+          });
+          
+          event.preventDefault();
         });
       });
     </script>

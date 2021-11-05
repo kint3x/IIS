@@ -3,9 +3,8 @@ require_once ROOT."/classes/database.class.php";
 
 Class User {
 	public static $error_message = "";
-	public $error;
-	
-	private $email, $password, $name, $surname, $role, $address;
+
+	private $user_data = array();
 
 	/**
 	 * Registers a new user. Returns 'false' in case of any problems and sets
@@ -31,9 +30,14 @@ Class User {
 
 		if (!($stmt->execute())) {
 			self::$error_message = 'Problém pri registrácii užívateľa.';
+			$stmt->close();
+			$db->close();
 			return false;
 		}
 
+		$stmt->close();
+		$db->close();
+		
 		return true;
 	}
 
@@ -78,65 +82,67 @@ Class User {
 
 		if ($count > 0) {
 			self::$error_message = 'Pre zadaný email už existuje účet.';
+			$stmt->close();
+			$res->close();
+			$db->close();
 			return false;
 		}
+		
+		$stmt->close();
+		$db->close();
 
 		return true;
 	}
 
-	public function __construct($identif, $from_email = false){
-		
+	/**
+	 * Create an object representing a logged in user.
+	 */
+	public function __construct($email, $password){
 		$db = new Database();
 
 		if($db->error) {
-			$this->error = true;
-			return "Nedá sa pripojiť k DB";
+			self::$error_message = 'Problém s pripojením k databáze.';
+			throw new Exception('Problém s pripojením k databáze.');
 		}
 		
 		$conn = $db->handle;
 
-		// User identified either by email or id
-		if ($from_email) {
-			$res = $conn->query("SELECT * FROM User WHERE email = '{$identif}'");
-		} else {
-			$res = $conn->query("SELECT * FROM User WHERE id = '{$identif}'");
-		}
+		// User identified by email
+		$stmt = $conn->prepare("SELECT * FROM User WHERE email = ?");
+		$stmt->bind_param('s', $email);
+		$stmt->execute();
+ 		$res = $stmt->get_result();
 
 		if($res->num_rows < 1){
 			// No user found
-			$this->error = true;
-			return;
+			self::$error_message = 'Zadaný užívateľ neexistuje.';
+			$db->close();
+			throw new Exception('Zadaný užívateľ neexistuje.');
 		}
 
 		$res = $res->fetch_assoc();
 
+		if (!(password_verify($password, $res['password']))) {
+			// Wrong password
+			self::$error_message = 'Nesprávne heslo.';
+			$stmt->close();
+			$res->close();
+			$db->close();
+			throw new Exception('Nesprávne heslo.');			
+		}
+		
 		// Save the data
-		$this->id = $res["id"];
-		$this->email = $res["email"];
-		$this->password = $res["password"];
-		$this->name = $res["name"];
-		$this->surname = $res["surname"];
-		$this->role = $res["role"];
-		$this->address = $res["address"];
-		$this->error = false;
-
+		$this->user_data = $res;
+		
+		$stmt->close();
 		$db->close();
 	}
 
-	public function get_data() {
-		if($this->error) {
-			return false;
-		}
-		
-		return array(
-			"id" => $this->id,
-			"email" => $this->email,
-			"password" => $this->password,
-			"name" => $this->name,
-			"surname" => $this->surname,
-			"role" => $this->role,
-			"address" => $this->address
-		);
+	/**
+	 * Return user data.
+	 */
+	public function get_user_data() {		
+		return $this->user_data;
 	}
 
 

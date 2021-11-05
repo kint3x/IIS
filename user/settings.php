@@ -1,8 +1,9 @@
 <?php
-session_start();
-
 require_once '../defines.php';
-require_once '../lib.php';
+require_once ROOT.'/lib.php';
+require_once ROOT.'/classes/user.class.php';
+
+session_start();
 ?>
 
 <html>
@@ -102,8 +103,7 @@ require_once '../lib.php';
     </script>
 
     <?php
-    $user = new User($_SESSION['user']['id']);
-	  $user_data= $user->get_data();
+	  $user_data = $_SESSION['user']->get_user_data();
 
     echo "
     <div class='container'>  

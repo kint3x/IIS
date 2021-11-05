@@ -3,11 +3,16 @@ require_once "../defines.php";
 require_once ROOT."/classes/database.class.php";
 
 Class Conferences{
+	public static $error_message = "";
 
+	/**
+	 * Return a list of all conferences.
+	 */
 	public function get_conferences_all() {
 		$db = new Database();
 
 		if($db->error) {
+			self::$error_message = 'Problém s pripojením k databáze.';
 			return False;
 		}
 
@@ -22,10 +27,14 @@ Class Conferences{
 		return $conferences;
 	}
 
+	/**
+	 * Return a list of all conferences made by the owner.
+	 */
 	public function get_conferences_by_owner($owner_id) {		
 		$db = new Database();
 
 		if($db->error) {
+			self::$error_message = 'Problém s pripojením k databáze.';
 			return False;
 		}
 
@@ -45,6 +54,9 @@ Class Conferences{
 		return $conferences;
 	}
 
+	/**
+	 * Create a new conference.
+	 */
 	public function create_conference(
 			$owner_id, 
 			$name,
@@ -58,6 +70,7 @@ Class Conferences{
 		$db = new Database();
 
 		if ($db->error) {
+			self::$error_message = 'Problém s pripojením k databáze.';
 			return false;
 		}
 

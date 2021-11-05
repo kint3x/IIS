@@ -13,8 +13,8 @@ require_once ROOT.'/classes/conferences.class.php';
         <?php echo get_navbar(); ?>
         
         <?php 
-            $conferences = new Conferences();
-            $data = $conferences->get_conferences_by_owner($_SESSION['user']['id']);
+            // $conferences = new Conferences();
+            // $data = $conferences->get_conferences_by_owner($_SESSION['user']['id']);
             
             echo "
                 <div class='container'>  
