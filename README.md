@@ -8,3 +8,8 @@
 - Pri zmene hesla v 'user_password' sa nekontroluje formát nového hesla.
 - Po registrácii sa treba znova prihlasovať -> možno automaticky prihlásiť.
 - Login formulár ako pop-up formulár namiesto menu? Menu sa občas skryje (napr. ak pri výbere textu vyjdem s myšou mimo menu) a je to nepríjemné.
+- V ajaxoch máme volania DB. Prečo to nehodiť rovno ku classam ktoré dané tabulky spravujú?
+- Kontrola chýb pri User, Database, Conferences.
+- ajax call -> if (data.success) -> obsluhu vynať do funkcíí
+- vyhľadávanie v mojich konferenciách
+- required_once "../defines.php" nefunguje v triedach
