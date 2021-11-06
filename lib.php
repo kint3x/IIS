@@ -142,6 +142,20 @@ function get_navbar(){
                       </li>
                     </ul>
                   </li>
+
+                  <li class="nav-item me-auto">
+                  <a
+                      class="nav-link"
+                      href="#"
+                      id="cartToggle"
+                      role="button"
+                      data-toggle="cart"
+                      aria-expanded="false"
+                    >
+                      <i class="fas fa-shopping-cart"></i>
+                    </a>
+                  </li>
+                  
 				        </ul>
 			        </div>
 			      </div>
