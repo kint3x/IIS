@@ -79,10 +79,9 @@ session_start();
             dataType: "json",
             encode: true,
           }).done(function (data) {
-            console.log("here");
             if(data.success){
               var succ = "<div class='alert alert-success alert-dismissible' role='alert'>" 
-              + "Nastavenia boli uložené" 
+              + "Nastavenia boli uložené." 
               + "<button class='close font-weight-light' data-dismiss='alert' aria-label='close'>&times;</button>"
               + "</div>";
               $("#settingsAlert").css('display','block');

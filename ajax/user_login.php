@@ -1,8 +1,9 @@
 <?php
-session_start();
 
 require_once "../defines.php";
 require_once ROOT."/classes/database.class.php";
+
+session_start();
 
 if (isset($_POST['email']) && isset($_POST['password'])) {
 	try {
@@ -14,12 +15,7 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
 		$res = false;
 	}
 	
-	echo json_encode(
-		array(
-			"success" => $res,
-			"error" => User::$error_message
-		)
-	);
+	echo_json_response($res, User::$error_message);
 
 	return;
 }

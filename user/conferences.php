@@ -1,9 +1,10 @@
 <?php
-session_start();
 
 require_once '../defines.php';
 require_once ROOT.'/lib.php';
 require_once ROOT.'/classes/conferences.class.php';
+
+session_start();
 ?>
 
 <html>

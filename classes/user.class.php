@@ -148,7 +148,7 @@ Class User {
 	/**
 	 * Change user password.
 	 */
-	 public function change_password($currentPassword, $newPassword, $newPasswordAgain) {		
+	public function change_password($currentPassword, $newPassword, $newPasswordAgain) {		
 		// Check if the entered current password is correct
 		if (!password_verify($currentPassword, $this->user_data['password'])) {
 			self::$error_message = 'Zadané nesprávne aktuálne heslo.';
@@ -169,16 +169,69 @@ Class User {
 		$password = password_hash($newPassword, PASSWORD_DEFAULT);
 
 		$db = new Database();
+
+		if($db->error) {
+			self::$error_message = 'Problém s pripojením k databáze.';
+			return false;
+		}
+
 		$conn = $db->handle;
 		$stmt = $conn->prepare('UPDATE User SET password = ? WHERE id = ?');
 		$stmt->bind_param("si", $password, $this->user_data['id']);
 		
 		if (!($stmt->execute())) {
-			self::$error_message = 'Chyba pri zmene hesla.';
+			$stmt->close();
+			$db->close();
+			self::$error_message = 'Nastsala chyba pri zmene hesla.';
 			return false;
 		}
+
+		$stmt->close();
+		$db->close();
 
 		return true;
 	}
 
+	/**
+	 * Change user data.
+	 */
+	public function change_user_data($email, $name, $surname, $address) {
+		// Check if user wants to also change his email
+		if ($email != $this->user_data['email']) {
+			if (!self::verify_email($email)) {
+				self::$error_message = 'Pre zadaný email už existuje účet.';
+				return false;
+			}
+		}
+
+		$db = new Database();
+
+		if($db->error) {
+			self::$error_message = 'Problém s pripojením k databáze.';
+			return false;
+		}
+
+		$conn = $db->handle;
+		$stmt = $conn->prepare("UPDATE User SET email = ?, name = ?, surname = ?, address = ? WHERE id = ?");
+		$stmt->bind_param(
+			"ssssi",
+			$email,
+			$name,
+			$surname,
+			$address,
+			$this->user_data['id']
+		);
+		
+		if (!$stmt->execute()) {
+			$db->close();
+			$stmt->close();
+			self::$error_message = 'Nastala chyba pri zmene údajov.';
+			return false;
+		};
+		
+		$stmt->close();
+		$db->close();
+
+		return true;
+	}
 }

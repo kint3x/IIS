@@ -1,13 +1,16 @@
 <?php
-session_start();
+
 require_once "defines.php";
 
+session_start();
+
 if(isset($_GET["logout"])){
-    if(isset($_SESSION['user'])){
-        unset($_SESSION['user']);
-        header("Location: /");
-    }
+  if(isset($_SESSION['user'])){
+    unset($_SESSION['user']);
+    header("Location: /");
+  }
 }
+
 
 ?>
 
@@ -68,11 +71,11 @@ if(isset($_GET["logout"])){
             dataType: "json",
             encode: true,
           }).done(function (data) {
-            console.log("here2");
             
             if (data.success) {
               location.reload();
             }
+            
           });
           
           event.preventDefault();
