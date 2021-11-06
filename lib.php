@@ -46,49 +46,14 @@ function get_navbar(){
                 $nav .= ' 
                 <li class="dropdown order-1">
                   <button type="button" data-toggle="modal" data-target="#loginModal" class="btn btn-outline-secondary">Prihlásiť sa</button>
-                </li>';
-            }
-            else{
-                $nav .= '
-                <!-- Icon dropdown -->
-                  <li class="nav-item me-3 me-lg-0 dropdown">
-                    <a
-                      class="nav-link dropdown-toggle"
-                      href="#"
-                      id="navbarDropdown"
-                      role="button"
-                      data-toggle="dropdown"
-                      aria-expanded="false"
-                    >
-                      <i class="fas fa-user"></i>
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                      <li>
-                        <a class="dropdown-item" href="/user/settings.php">Môj účet</a>
-                      </li>
-					            <li>
-                        <a class="dropdown-item" href="/user/conferences.php">Moje konferencie</a>
-                      </li>
-                      <li>
-                        <a class="dropdown-item" href="#">Rozvrh</a>
-                      </li>
-                      <li><hr class="dropdown-divider" /></li>
-                      <li>
-                        <a class="dropdown-item" href="/?logout=true">Odhlásiť sa</a>
-                      </li>
-                    </ul>
-                  </li>
-                ';
-            }
-
-            if(!isset($_SESSION["user"])){
-          	 $nav .=' 
+                </li>
+                
 		          </ul>
 		        </div>
 		      </div>
 		    </nav> 
 		    
-			<div id="registerModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			  <div id="registerModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		      <div class="modal-dialog" id="regDialog">
 		        <div class="modal-content">
             <form id="registerForm">
@@ -145,16 +110,43 @@ function get_navbar(){
             </div>
 		        </form>
 		      </div>
-		    </ div>
-		    ';
-			}
-			else{
-			    $nav .='
-				    </ul>
+		    </ div>';
+            }
+            else{
+                $nav .= '
+                <!-- Icon dropdown -->
+                  <li class="nav-item me-3 me-lg-0 dropdown">
+                    <a
+                      class="nav-link dropdown-toggle"
+                      href="#"
+                      id="navbarDropdown"
+                      role="button"
+                      data-toggle="dropdown"
+                      aria-expanded="false"
+                    >
+                      <i class="fas fa-user"></i>
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <li>
+                        <a class="dropdown-item" href="/user/settings.php">Môj účet</a>
+                      </li>
+					            <li>
+                        <a class="dropdown-item" href="/user/conferences.php">Moje konferencie</a>
+                      </li>
+                      <li>
+                        <a class="dropdown-item" href="#">Rozvrh</a>
+                      </li>
+                      <li><hr class="dropdown-divider" /></li>
+                      <li>
+                        <a class="dropdown-item" href="/?logout=true">Odhlásiť sa</a>
+                      </li>
+                    </ul>
+                  </li>
+				        </ul>
 			        </div>
 			      </div>
-			    </nav>
-			    ';
-			}
+			    </nav>';
+            }
+
     return $nav;
 }

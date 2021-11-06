@@ -236,4 +236,11 @@ Class User {
 
 		return true;
 	}
+
+	/**
+	 * Checks if the logged in user is admin.
+	 */
+	public function is_admin() {
+		return $this->user_data['role'] == USER_ADMIN;
+	}
 }

@@ -27,21 +27,15 @@ session_start();
                     </div>
                   </div>
                   <div class='row'>
-                    <div class='col-sm-12 align-self-center'>
+                    <div class='col-sm-12 align-self-center text-align='center'>
                       <div class='list-group'>";
-            // echo "<a href='#' class='list-group-item list-group-item-action'>nazov</a>";
-            
-            // echo "</div>
-            // </div>
-            // <div class='col-sm-6 align-self-right'>
-            // <div class='list-group'>";
-            
-            // echo "<a href='#' class='list-group-item list-group-item-action'>nazov</a>";
-
+                      
             foreach ($data as $row) {
               echo "
               <a href='#' class='list-group-item list-group-item-action'>   
-                {$row['name']}
+                <h6>
+                  {$row['name']}
+                </h6>
               </a>
               ";
             };

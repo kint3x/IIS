@@ -8,7 +8,7 @@ session_start();
 
 if(isset($_POST['passwordCurrent']) && isset($_POST['passwordNew']) && isset($_POST['passwordNewAgain'])){
 	if(!isset($_SESSION['user'])){
-		echo_json_response(false, 'Neprihlásený užívateľ');
+		echo_json_response(false, 'Neprihlásený užívateľ.');
 		return;
 	}
 
