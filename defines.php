@@ -3,6 +3,7 @@
 define('USER_ADMIN',1);
 define('USER_REGULAR',0);
 define('ROOT',__DIR__);
+define('DATE_FORMAT',  'd.m.y - h:i');
 
 include_once(ROOT."/lib.php");
 

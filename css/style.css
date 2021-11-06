@@ -28,6 +28,12 @@ body {
   padding-top: 5rem;
 }
 
+.my-img-top {
+    width: 100% !important;
+    height: 15rem !important;
+    object-fit: cover !important;
+}
+
 .pb-1 {
   padding-bottom: 10 !important;
 }

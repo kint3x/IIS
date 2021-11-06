@@ -7,6 +7,34 @@ Class User {
 	private $user_data = array();
 
 	/**
+	 * Delete user with a given id
+	 */
+	public static function delete_user($id) {
+		$db = new Database();
+
+		if ($db->error) {
+			self::$error_message = 'Problém s pripojením k databáze.';
+			return false;
+		}
+	
+		$conn = $db->handle;
+		$stmt = $conn->prepare('DELETE FROM User WHERE id = ?');
+		$stmt->bind_param('i', $id);
+
+		if (!($stmt->execute())) {
+			self::$error_message = 'Problém pri mazaní užívateľa.';
+			$stmt->close();
+			$db->close();
+			return false;
+		}
+
+		$stmt->close();
+		$db->close();
+		
+		return true;
+	}
+
+	/**
 	 * Registers a new user. Returns 'false' in case of any problems and sets
 	 * saves the error description in 'error_message'.
 	 */
@@ -123,9 +151,9 @@ Class User {
 			throw new Exception($message);
 		}
 
-		$res = $res->fetch_assoc();
+		$rows = $res->fetch_assoc();
 
-		if (!(password_verify($password, $res['password']))) {
+		if (!(password_verify($password, $rows['password']))) {
 			// Wrong password
 			self::$error_message = $message;
 			$stmt->close();
@@ -134,7 +162,7 @@ Class User {
 		}
 		
 		// Save the data
-		$this->user_data = $res;
+		$this->user_data = $rows;
 		
 		$stmt->close();
 		$db->close();
@@ -195,24 +223,57 @@ Class User {
 	}
 
 	/**
-	 * Change user data.
+	 * Get the email registered to the given id.
+	 */
+	public static function get_email_by_id($id) {
+		$db = new Database();
+		
+		if($db->error) {	
+			self::$error_message = 'Problém s pripojením k databáze.';
+			return false;
+		}
+		
+		$conn = $db->handle;
+		$stmt = $conn->prepare('SELECT * FROM User WHERE id = ?');
+		$stmt->bind_param('i', $id);
+		$stmt->execute();
+		$res = $stmt->get_result();
+		$rows = $res->fetch_assoc();
+
+		$stmt->close();
+		$db->close();
+		
+		return $rows['email'];
+	}
+
+	/**
+	 * Change this user's data.
 	 */
 	public function change_user_data($email, $name, $surname, $address) {
+		$res = self::change_user_data_by_id($this->user_data['id'], $email, $name, $surname, $address);
+		$res = $res && $this->update_user();
+
+		return $res;
+	}
+
+	/**
+	 * Change user data for the given user.
+	 */
+	public static function change_user_data_by_id($id, $email, $name, $surname, $address) {
 		// Check if user wants to also change his email
-		if ($email != $this->user_data['email']) {
+		if ($email != self::get_email_by_id($id)) {
 			if (!self::verify_email($email)) {
-				self::$error_message = 'Pre zadaný email už existuje účet.';
 				return false;
 			}
 		}
-
+		
 		$db = new Database();
-
+		
 		if($db->error) {
 			self::$error_message = 'Problém s pripojením k databáze.';
 			return false;
 		}
-
+		
 		$conn = $db->handle;
 		$stmt = $conn->prepare("UPDATE User SET email = ?, name = ?, surname = ?, address = ? WHERE id = ?");
 		$stmt->bind_param(
@@ -221,7 +282,7 @@ Class User {
 			$name,
 			$surname,
 			$address,
-			$this->user_data['id']
+			$id
 		);
 		
 		if (!$stmt->execute()) {
@@ -242,5 +303,31 @@ Class User {
 	 */
 	public function is_admin() {
 		return $this->user_data['role'] == USER_ADMIN;
+	}
+
+	/**
+	 * Makes sure user data is updated after changes were made.
+	 */
+	public function update_user() {
+		$db = new Database();
+		
+		if($db->error) {
+			self::$error_message = 'Problém s pripojením k databáze.';
+			return false;
+		}
+
+		$conn = $db->handle;
+
+		// User identified by id
+		$res = $conn->query("SELECT * FROM User WHERE id = {$this->user_data['id']}");
+		$rows = $res->fetch_assoc();
+		
+		// Save the data
+		$this->user_data = $rows;
+		
+		$res->close();
+		$db->close();
+
+		return true;
 	}
 }

@@ -110,4 +110,13 @@ Class Conferences{
 
 		return true;
 	}
+
+	/**
+	 * Calculate how many tickets are left for the given conference.
+	 */
+	public static function number_tickets_left($id) {
+
+
+		return true;
+	}
 }
