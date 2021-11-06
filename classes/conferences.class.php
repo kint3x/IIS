@@ -21,7 +21,6 @@ Class Conferences{
 		$stmt = $conn->query('SELECT * FROM Conference');
 		$conferences = $stmt->fetch_all(MYSQLI_ASSOC);
 		
-		$stmt->close();
 		$db->close();
 
 		return $conferences;
@@ -45,7 +44,6 @@ Class Conferences{
 		
 		if (!$stmt->execute()) {
 			self::$error_message = 'Chyba pri načítaní údajov.';
-			$stmt->close();
 			$db->close();
 			return false;
 		};
@@ -53,8 +51,6 @@ Class Conferences{
 		$res = $stmt->get_result();
 		$conferences = $res->fetch_all(MYSQLI_ASSOC);
 		
-		$res->close();
-		$stmt->close();
 		$db->close();
 
 		return $conferences;
@@ -100,12 +96,10 @@ Class Conferences{
 
 		if (!$stmt->execute()) {
 			self::$error_message = 'Chyba pri načítaní údajov.';
-			$stmt->close();
 			$db->close();
 			return false;
 		};
 		
-		$stmt->close();
 		$db->close();
 
 		return true;
@@ -114,9 +108,34 @@ Class Conferences{
 	/**
 	 * Calculate how many tickets are left for the given conference.
 	 */
-	public static function number_tickets_left($id) {
+	public static function get_number_tickets_left($id) {
+		$db = new Database();
 
+		if ($db->error) {
+			self::$error_message = 'Problém s pripojením k databáze.';
+			return false;
+		}
 
-		return true;
+		$conn = $db->handle;
+		
+		$stmt = $conn->prepare('SELECT SUM(num_tickets) FROM Reservation WHERE conference_id = ?');
+		$stmt->bind_param('i', $id);
+		$stmt->execute();
+		$res = $stmt->get_result();
+		$rows = $res->fetch_all();
+
+		$reserved_tickets = $rows[0][0];
+		
+		$stmt = $conn->prepare('SELECT capacity FROM Conference WHERE id = ?');
+		$stmt->bind_param('i', $id);
+		$stmt->execute();
+		$res = $stmt->get_result();
+		$rows = $res->fetch_all();
+
+		$capacity = $rows[0][0] - $reserved_tickets;
+		
+		$db->close();
+
+		return $capacity;
 	}
 }

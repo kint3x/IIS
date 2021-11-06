@@ -23,12 +23,10 @@ Class User {
 
 		if (!($stmt->execute())) {
 			self::$error_message = 'Problém pri mazaní užívateľa.';
-			$stmt->close();
 			$db->close();
 			return false;
 		}
 
-		$stmt->close();
 		$db->close();
 		
 		return true;
@@ -58,12 +56,10 @@ Class User {
 
 		if (!($stmt->execute())) {
 			self::$error_message = 'Problém pri registrácii užívateľa.';
-			$stmt->close();
 			$db->close();
 			return false;
 		}
 
-		$stmt->close();
 		$db->close();
 		
 		return true;
@@ -110,13 +106,10 @@ Class User {
 
 		if ($count > 0) {
 			self::$error_message = 'Pre zadaný email už existuje účet.';
-			$stmt->close();
-			$res->close();
 			$db->close();
 			return false;
 		}
 		
-		$stmt->close();
 		$db->close();
 
 		return true;
@@ -146,7 +139,6 @@ Class User {
 		if($res->num_rows < 1){
 			// No user found
 			self::$error_message = $message;
-			$stmt->close();
 			$db->close();
 			throw new Exception($message);
 		}
@@ -156,7 +148,6 @@ Class User {
 		if (!(password_verify($password, $rows['password']))) {
 			// Wrong password
 			self::$error_message = $message;
-			$stmt->close();
 			$db->close();
 			throw new Exception($message);			
 		}
@@ -164,7 +155,6 @@ Class User {
 		// Save the data
 		$this->user_data = $rows;
 		
-		$stmt->close();
 		$db->close();
 	}
 
@@ -210,13 +200,11 @@ Class User {
 		$stmt->bind_param("si", $password, $this->user_data['id']);
 		
 		if (!($stmt->execute())) {
-			$stmt->close();
 			$db->close();
 			self::$error_message = 'Nastala chyba pri zmene hesla.';
 			return false;
 		}
 
-		$stmt->close();
 		$db->close();
 
 		return true;
@@ -240,7 +228,6 @@ Class User {
 		$res = $stmt->get_result();
 		$rows = $res->fetch_assoc();
 
-		$stmt->close();
 		$db->close();
 		
 		return $rows['email'];
@@ -292,7 +279,6 @@ Class User {
 			return false;
 		};
 		
-		$stmt->close();
 		$db->close();
 
 		return true;
@@ -325,7 +311,6 @@ Class User {
 		// Save the data
 		$this->user_data = $rows;
 		
-		$res->close();
 		$db->close();
 
 		return true;
