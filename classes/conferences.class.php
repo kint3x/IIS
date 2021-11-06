@@ -8,7 +8,7 @@ Class Conferences{
 	/**
 	 * Return a list of all conferences.
 	 */
-	public function get_conferences_all() {
+	public static function get_conferences_all() {
 		$db = new Database();
 
 		if($db->error) {
@@ -30,7 +30,7 @@ Class Conferences{
 	/**
 	 * Return a list of all conferences made by the owner.
 	 */
-	public function get_conferences_by_owner($owner_id) {		
+	public static function get_conferences_by_owner($owner_id) {		
 		$db = new Database();
 
 		if($db->error) {
@@ -42,7 +42,13 @@ Class Conferences{
 		
 		$stmt = $conn->prepare('SELECT * FROM Conference WHERE id_user = ?');
 		$stmt->bind_param('i', $owner_id);
-		$stmt->execute();
+		
+		if (!$stmt->execute()) {
+			self::$error_message = 'Chyba pri načítaní údajov.';
+			$stmt->close();
+			$db->close();
+			return false;
+		};
 		
 		$res = $stmt->get_result();
 		$conferences = $res->fetch_all(MYSQLI_ASSOC);
@@ -57,7 +63,7 @@ Class Conferences{
 	/**
 	 * Create a new conference.
 	 */
-	public function create_conference(
+	public static function create_conference(
 			$owner_id, 
 			$name,
 			$description,
@@ -91,7 +97,13 @@ Class Conferences{
 			$capacity,
 			$place	
 		);
-		$stmt->execute();
+
+		if (!$stmt->execute()) {
+			self::$error_message = 'Chyba pri načítaní údajov.';
+			$stmt->close();
+			$db->close();
+			return false;
+		};
 		
 		$stmt->close();
 		$db->close();
