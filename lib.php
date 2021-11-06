@@ -109,7 +109,7 @@ function get_navbar(){
             </div>
 		        </form>
 		      </div>
-		    </ div>';
+		    </div>';
             }
             else{
                 $nav .= '
@@ -172,14 +172,13 @@ function get_navbar(){
 			                    <h4><b>Košík</b></h4>
 			                  </div>
 			                  <div class="col align-self-center text-right text-muted">3 items</div>
-		                		</div>
-		            		</div>
+		                </div>
+		            	</div>
 					        <button type="button" class="close font-weight-light" data-dismiss="modal" aria-label="Close">
 					          <span aria-hidden="true">&times;</span>
 					        </button>
 					      </div>
-					      <div class="modal-body" style="padding:15px;">
-					        
+					      <div class="modal-body" style="padding:15px;">  
 					        <div class="row justify-content-center">
 						        <div class="col-md-10 cart">
 						            <div class="row border-top border-bottom">
@@ -203,13 +202,12 @@ function get_navbar(){
 						                    <div class="col"> <a href="#">-</a><a href="#" class="border">1</a><a href="#">+</a> </div>
 						                    <div class="col">&euro; 44.00 <span class="close">&#10005;</span></div>
 						                </div>
-						            </div>
-						            
+						            </div> 
 						        </div>
-
-					      </div>
-					    </div>
-					  </div>
+					     		</div>
+					    	</div>
+					  	</div>
+						</div>
 					</div>
 					<script>
 

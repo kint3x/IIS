@@ -16,7 +16,6 @@ start_session_if_none();
         
         <?php 
           // TODO vypis forech do funkcie
-
           $data = Conferences::get_conferences_by_owner($_SESSION['user']->get_user_data()['id']);
 
           echo "
