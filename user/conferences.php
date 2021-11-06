@@ -45,7 +45,7 @@ start_session_if_none();
                   <b>Do: </b>'.date(DATE_FORMAT, $row['time_from']).'.</li>
                   <li class="list-group-item"><b>Kde: </b>'.$row['place'].'</li>
                   <li class="list-group-item"><b>Cena: </b>'.$row['price'].' &euro;</li>
-                  <li class="list-group-item"><b>Voľné miesta: </b>'.$row['capacity'].'</li>
+                  <li class="list-group-item"><b>Voľné miesta: </b>'.Conferences::get_number_tickets_left($row['id']).'</li>
                 </ul>
                 <div class="card-body">
                   <a href="#" class="card-link">Card link</a>
