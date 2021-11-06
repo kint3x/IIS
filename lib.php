@@ -39,7 +39,7 @@ function get_navbar(){
           <ul class="nav navbar-nav">
             <li class="nav-item"><a href="/" class="nav-link">Domov</a></li>
           </ul>
-          <ul class="nav navbar-nav flex-row justify-content-between ml-auto">';
+          <ul class="nav navbar-nav flex-row justify-content-between ml-auto align-items-middle">';
 
             if(!isset($_SESSION["user"])){
                 $nav .= ' 
@@ -123,7 +123,7 @@ function get_navbar(){
                       data-toggle="dropdown"
                       aria-expanded="false"
                     >
-                      <i class="fas fa-user"></i>
+                      <i class="fas fa-user "></i>
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                       <li>
@@ -142,13 +142,14 @@ function get_navbar(){
                     </ul>
                   </li>
 
-                  <li class="nav-item me-auto">
+                  <li class="nav-item me-auto dropdown kosik_icon">
                   <a
-                      class="nav-link"
+                      class="nav-link dropdown-toggle"
                       href="#"
                       id="cartToggle"
                       role="button"
-                      data-toggle="cart"
+                      data-toggle="modal"
+                      data-target="#cartModal"
                       aria-expanded="false"
                     >
                       <i class="fas fa-shopping-cart"></i>
@@ -158,7 +159,67 @@ function get_navbar(){
 				        </ul>
 			        </div>
 			      </div>
-			    </nav>';
+			    </nav>
+
+			    <!-- Shopping cart --!>
+			    <div class="modal fade" id="cartModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					  <div class="modal-dialog" role="document">
+					    <div class="modal-content">
+					      <div class="modal-header">
+					        <div class="title">
+		                <div class="row">
+		                    <div class="col">
+			                    <h4><b>Košík</b></h4>
+			                  </div>
+			                  <div class="col align-self-center text-right text-muted">3 items</div>
+		                		</div>
+		            		</div>
+					        <button type="button" class="close font-weight-light" data-dismiss="modal" aria-label="Close">
+					          <span aria-hidden="true">&times;</span>
+					        </button>
+					      </div>
+					      <div class="modal-body" style="padding:15px;">
+					        
+					        <div class="row justify-content-center">
+						        <div class="col-md-10 cart">
+						            <div class="row border-top border-bottom">
+						                <div class="row main align-items-center">
+						                    <div class="col-2"><img class="img-fluid" src="/img/placeholder.jpg"></div>
+						                    <div class="col">
+						                        <div class="row text-muted">Konference</div>
+						                        <div class="row">Ako být sexi</div>
+						                    </div>
+						                    <div class="col"> <a href="#">-</a><span class="h5" style="margin-left:4px;margin-right:4px;">1</a><a href="#">+</a> </div>
+						                    <div class="col">&euro; 44.00 <span class="close" style="cursor:pointer;">&#10005;</span></div>
+						                </div>
+						            </div>
+						            <div class="row">
+						                <div class="row main align-items-center">
+						                    <div class="col-2"><img class="img-fluid" src="/img/placeholder.jpg"></div>
+						                    <div class="col">
+						                        <div class="row text-muted">Shirt</div>
+						                        <div class="row">Cotton T-shirt</div>
+						                    </div>
+						                    <div class="col"> <a href="#">-</a><a href="#" class="border">1</a><a href="#">+</a> </div>
+						                    <div class="col">&euro; 44.00 <span class="close">&#10005;</span></div>
+						                </div>
+						            </div>
+						            
+						        </div>
+
+					      </div>
+					    </div>
+					  </div>
+					</div>
+					<script>
+
+						$("#cartModal").on("shown.bs.modal", function () {
+						  
+						});
+
+					</script>
+			    ';
+
             }
 
     return $nav;
