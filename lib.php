@@ -3,7 +3,6 @@
 require_once "defines.php";
 require_once ROOT."/classes/user.class.php";
 
-//lib
 function get_head($params=array()){
 
 	$options["html"] = "";
