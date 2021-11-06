@@ -2,7 +2,7 @@
 
 require_once "defines.php";
 
-session_start();
+start_session_if_none();
 
 if(isset($_GET["logout"])){
   if(isset($_SESSION['user'])){

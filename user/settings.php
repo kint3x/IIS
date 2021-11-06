@@ -3,7 +3,7 @@ require_once '../defines.php';
 require_once ROOT.'/lib.php';
 require_once ROOT.'/classes/user.class.php';
 
-session_start();
+start_session_if_none();
 ?>
 
 <html>

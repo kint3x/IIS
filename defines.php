@@ -3,6 +3,7 @@
 define('USER_ADMIN',1);
 define('USER_REGULAR',0);
 define('ROOT',__DIR__);
+define('DATE_FORMAT',  'd.m.y - h:i');
 
 include_once(ROOT."/lib.php");
 
@@ -18,4 +19,13 @@ function echo_json_response($success, $error) {
     );
 
     return;
+}
+
+/**
+ * Start session if it hasn't been started yet.
+ */
+function start_session_if_none() {
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
 }

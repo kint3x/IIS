@@ -4,7 +4,7 @@ require_once "../defines.php";
 require_once ROOT."/classes/user.class.php";
 require_once ROOT."/classes/database.class.php";
 
-session_start();
+start_session_if_none();
 
 if(isset($_POST['passwordCurrent']) && isset($_POST['passwordNew']) && isset($_POST['passwordNewAgain'])){
 	if(!isset($_SESSION['user'])){

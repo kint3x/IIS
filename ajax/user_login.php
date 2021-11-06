@@ -3,7 +3,7 @@
 require_once "../defines.php";
 require_once ROOT."/classes/database.class.php";
 
-session_start();
+start_session_if_none();
 
 if (isset($_POST['email']) && isset($_POST['password'])) {
 	try {
