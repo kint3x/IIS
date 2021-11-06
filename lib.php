@@ -45,25 +45,7 @@ function get_navbar(){
             if(!isset($_SESSION["user"])){
                 $nav .= ' 
                 <li class="dropdown order-1">
-                  <button type="button" id="dropdownMenu1" data-toggle="dropdown" class="btn btn-outline-secondary dropdown-toggle">Prihlásiť sa <span class="caret"></span></button>
-                  <ul class="dropdown-menu dropdown-menu-right mt-2" style="min-width:200px">
-                    <li class="px-3 py-2">
-                      <form class="form" role="form" id="loginForm">
-                        <div class="form-group">
-                          <input id="emailLogin" placeholder="Email" class="form-control form-control-sm" type="text" required="">
-                        </div>
-                        <div class="form-group">
-                          <input id="passwordLogin" placeholder="Password" class="form-control form-control-sm" type="password" required="">
-                        </div>
-                        <div class="form-group">
-                          <button type="submit" class="btn btn-primary btn-block">Prihlásiť sa</button>
-                        </div>
-                        <div class="form-group text-center">
-                          <small><a href="#" data-toggle="modal" data-target="#registerModal">Nemáte účet? Registrujte sa!</a></small>
-                        </div>
-                      </form>
-                    </li>
-                  </ul>
+                  <button type="button" data-toggle="modal" data-target="#loginModal" class="btn btn-outline-secondary">Prihlásiť sa</button>
                 </li>';
             }
             else{
@@ -109,30 +91,61 @@ function get_navbar(){
 			<div id="registerModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		      <div class="modal-dialog" id="regDialog">
 		        <div class="modal-content">
-            <form id="register">
+            <form id="registerForm">
             <div class="modal-header">
             <h3>Registrácia</h3>
             <button type="button" class="close font-weight-light" data-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body">
               <div id="regAlert"></div>
-		           <div class="form-group">
+		          <div class="form-group">
 		            <label for="emailReg">Email</label>
-		            <input type="email" class="form-control" id="emailReg" aria-describedby="emailHelp" placeholder="priklad@email.com">
-		           </div>
-		           <div class="form-group">
+		            <input type="email" class="form-control" id="emailReg" aria-describedby="emailHelp" placeholder="priklad@email.com" required>
+		          </div>
+		          <div class="form-group">
 		            <label for="hesloReg">Heslo</label>
-		            <input type="password" class="form-control" id="passwordReg" placeholder="Heslo">
-		           </div>
+		            <input type="password" class="form-control" id="passwordReg" placeholder="Heslo" required>
 		          </div>
-		          <div class="modal-footer">
-		            <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-		            <button type="submit" class="btn btn-primary">Registrovať</button>
-		          </div>
+		        </div>
+		        <div class="modal-footer">
+		          <button type="submit" class="btn btn-primary">Registrovať</button>
+		        </div>
 		        </div>
 		        </form>
 		      </div>
 		    </div>
+
+        <div id="loginModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		      <div class="modal-dialog" id="loginDialog">
+		        <div class="modal-content">
+            <form id="loginForm">
+            <div class="modal-header">
+            <h3>Prihlásenie</h3>
+            <button type="button" class="close font-weight-light" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+               <div id="loginAlert"></div>
+		           <div class="form-group">
+		            <label for="emailLogin">Email</label>
+		            <input type="email" class="form-control" id="emailLogin" aria-describedby="emailHelp" placeholder="priklad@email.com" required>
+		           </div>
+		           <div class="form-group">
+		            <label for="hesloLogin">Heslo</label>
+		            <input type="password" class="form-control" id="passwordLogin" placeholder="Heslo" required>
+		           </div>
+		          </div>
+              <div class="modal-footer">
+                <div class="flex-fill">  
+                  <div class="d-flex justify-content-between align-items-center">
+                    <a href="#" data-toggle="modal" data-target="#registerModal" data-dismiss="modal">Nemáte účet? Registrujte sa!</a>
+		                <button type="submit" class="btn btn-primary">Prihlásiť sa</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+		        </form>
+		      </div>
+		    </ div>
 		    ';
 			}
 			else{

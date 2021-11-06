@@ -98,6 +98,8 @@ Class User {
 	 * Create an object representing a logged in user.
 	 */
 	public function __construct($email, $password){
+		$message = 'Nesprávny email alebo heslo';
+
 		$db = new Database();
 
 		if($db->error) {
@@ -115,20 +117,20 @@ Class User {
 
 		if($res->num_rows < 1){
 			// No user found
-			self::$error_message = 'Zadaný užívateľ neexistuje.';
+			self::$error_message = $message;
+			$stmt->close();
 			$db->close();
-			throw new Exception('Zadaný užívateľ neexistuje.');
+			throw new Exception($message);
 		}
 
 		$res = $res->fetch_assoc();
 
 		if (!(password_verify($password, $res['password']))) {
 			// Wrong password
-			self::$error_message = 'Nesprávne heslo.';
+			self::$error_message = $message;
 			$stmt->close();
-			$res->close();
 			$db->close();
-			throw new Exception('Nesprávne heslo.');			
+			throw new Exception($message);			
 		}
 		
 		// Save the data
@@ -182,7 +184,7 @@ Class User {
 		if (!($stmt->execute())) {
 			$stmt->close();
 			$db->close();
-			self::$error_message = 'Nastsala chyba pri zmene hesla.';
+			self::$error_message = 'Nastala chyba pri zmene hesla.';
 			return false;
 		}
 

@@ -11,7 +11,7 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
 		$_SESSION['user'] = $user;
 		$res = true;
 	}
-	catch (exception $e) {
+	catch (Exception $e) {
 		$res = false;
 	}
 	

@@ -168,11 +168,11 @@ session_start();
             <div class='form-group'>
               <input type='email' class='form-control' aria-describedby='emailHelp' autocomplete='username' hidden='true'>
             <label>Staré heslo</label>
-              <input type='password' class='form-control' id='passwordCurrent' autocomplete='current-password' style='margin-bottom:5px;'>
+              <input type='password' class='form-control' id='passwordCurrent' autocomplete='current-password' style='margin-bottom:5px;' required>
 			      <label>Nové heslo</label>
-              <input type='password' class='form-control' id='passwordSet' autocomplete='new-password' style='margin-bottom:5px;'>
+              <input type='password' class='form-control' id='passwordSet' autocomplete='new-password' style='margin-bottom:5px;' required>
 			      <label>Potvrdenie hesla</label>
-			        <input type='password' class='form-control' id='passwordSetAgain' autocomplete='new-password' style='margin-bottom:5px;'>
+			        <input type='password' class='form-control' id='passwordSetAgain' autocomplete='new-password' style='margin-bottom:5px;' required>
 			      </div>
           </div>
           <div class='modal-footer' >

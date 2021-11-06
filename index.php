@@ -26,7 +26,11 @@ if(isset($_GET["logout"])){
           $("#regAlert").html("");
         });
 
-        $("#register").submit(function (event) {
+        $("#loginModal").on('hide.bs.modal', function(event) {
+          $("#loginAlert").html("");
+        });
+
+        $("#registerForm").submit(function (event) {
           var formData = {
             email: $("#emailReg").val(),
             password: $("#passwordReg").val(),
@@ -45,8 +49,7 @@ if(isset($_GET["logout"])){
                 + "<button class='close font-weight-light' data-dismiss='alert' aria-label='close'>&times;</button>"
                 + "</div>";
               $("#regAlert").html(alert);
-            }
-            else{
+            } else {
               var succ = "<div class='alert alert-success' role='alert'>Tvoje konto bolo vytvorené, môžeš sa prihlásiť!</div>";
               $('#regAlert').html(succ);
               $('#emailReg').val(''); 
@@ -63,7 +66,7 @@ if(isset($_GET["logout"])){
             email: $("#emailLogin").val(),
             password: $("#passwordLogin").val()
           };
-          
+
           $.ajax({
             type: "POST",
             url: "/ajax/user_login.php",
@@ -71,9 +74,15 @@ if(isset($_GET["logout"])){
             dataType: "json",
             encode: true,
           }).done(function (data) {
-            
             if (data.success) {
+              $("#loginModal").modal('hide');
               location.reload();
+            } else {
+              var alert = "<div class='alert alert-warning' role='alert'>"
+                + data.error
+                + "<button class='close font-weight-light' data-dismiss='alert' aria-label='close'>&times;</button>"
+                + "</div>";
+              $("#loginAlert").html(alert);
             }
             
           });
