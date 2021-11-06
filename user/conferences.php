@@ -4,7 +4,8 @@ require_once '../defines.php';
 require_once ROOT.'/lib.php';
 require_once ROOT.'/classes/conferences.class.php';
 
-session_start();
+start_session_if_none();
+
 ?>
 
 <html>
@@ -29,7 +30,7 @@ session_start();
                   <div class='row'>
                     <div class='col-sm-12 align-self-center text-align='center'>
                       <div class='list-group'>";
-                      
+
             foreach ($data as $row) {
               echo "
               <a href='#' class='list-group-item list-group-item-action'>   

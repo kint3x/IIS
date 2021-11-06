@@ -1,7 +1,8 @@
 <?php
-session_start();
 require ("../defines.php");
 require(ROOT."/classes/database.class.php");
+
+start_session_if_none();
 
 ?>
 <!DOCTYPE html>
