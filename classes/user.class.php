@@ -243,4 +243,26 @@ Class User {
 	public function is_admin() {
 		return $this->user_data['role'] == USER_ADMIN;
 	}
+
+	/**
+	 * Return a list of all users.
+	 */
+	public static function get_users_all() {
+		$db = new Database();
+
+		if($db->error) {
+			self::$error_message = 'Problém s pripojením k databáze.';
+			return False;
+		}
+
+		$conn = $db->handle;
+		
+		$stmt = $conn->query('SELECT * FROM User');
+		$users = $stmt->fetch_all(MYSQLI_ASSOC);
+		
+		$stmt->close();
+		$db->close();
+
+		return $users;
+	}
 }

@@ -113,6 +113,7 @@ function get_navbar(){
 		    </ div>';
             }
             else{
+              if ($_SESSION["user"]->is_admin() == USER_REGULAR){
                 $nav .= '
                 <!-- Icon dropdown -->
                   <li class="nav-item me-3 me-lg-0 dropdown">
@@ -146,6 +147,45 @@ function get_navbar(){
 			        </div>
 			      </div>
 			    </nav>';
+            }else{
+              $nav .= '
+                <!-- Icon dropdown -->
+                  <li class="nav-item me-3 me-lg-0 dropdown">
+                    <a
+                      class="nav-link dropdown-toggle"
+                      href="#"
+                      id="navbarDropdown"
+                      role="button"
+                      data-toggle="dropdown"
+                      aria-expanded="false"
+                    >
+                      <i class="fas fa-user"></i>
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <li>
+                        <a class="dropdown-item" href="/user/settings.php">Môj účet</a>
+                      </li>
+                      <li>
+                        <a class="dropdown-item" href="/user/manage_users.php">Správa uživateľov</a>
+                      </li>
+					            <li>
+                        <a class="dropdown-item" href="/user/conferences.php">Moje konferencie</a>
+                      </li>
+                      <li>
+                        <a class="dropdown-item" href="#">Rozvrh</a>
+                      </li>
+                      <li><hr class="dropdown-divider" /></li>
+                      <li>
+                        <a class="dropdown-item" href="/?logout=true">Odhlásiť sa</a>
+                      </li>
+                    </ul>
+                  </li>
+				        </ul>
+			        </div>
+			      </div>
+			    </nav>';
+
+            }
             }
 
     return $nav;
