@@ -46,7 +46,7 @@ start_session_if_none();
                 </div>
           ";
 
-          // Show cards for each of the conferences
+          // Show cards for each of the conferences 
           echo "<div class='row justify-content-between'>";
 
           foreach ($data as $row) {
