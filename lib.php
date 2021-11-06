@@ -22,6 +22,7 @@ function get_head($params=array()){
 	     <link rel="stylesheet" href="/css/font-awesome.css"> 
 	     <script type="text/javascript" src="/js/bootstrap.min.js"></script>
 	     <script type="text/javascript" src="/js/font-awesome.js"></script>
+	     <script type="text/javascript" src="/js/cart.js"></script>
 	     %s
 	  </head>';	
 	  return sprintf($head, $options["title"], $options["html"]);
