@@ -67,6 +67,7 @@ start_session_if_none();
               </ul>
               <div class="card-footer">
                 <a href="#" class="btn btn-outline-dark">Upraviť</a>
+                <a style="cursor:pointer;color:white;"  class="btn btn-primary" onclick="add_to_cart('.$row['id'].',this)" >Pridať do košíka</a>
               </div>
             </div>
             ';
