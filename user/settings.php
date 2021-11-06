@@ -40,9 +40,9 @@ session_start();
                 + "Heslo bolo úspešne zmenené." 
                 + "<button class='close font-weight-light' data-dismiss='alert' aria-label='close'>&times;</button>"
                 + "</div>";
-              $("#passwordAlert").css('display','block');
-              $("#passwordAlert").html(succ);
-              
+                $("#passwordAlert").css('display','block');
+                $("#passwordAlert").html(succ);
+                
               $('#passwordCurrent').val("");
               $("#passwordSet").val("");
               $("#passwordSetAgain").val("");
@@ -57,9 +57,9 @@ session_start();
               $("#passwordSet").val("");
               $("#passwordSetAgain").val("");
             }
-
+            
           });
-
+          
           event.preventDefault();
         });
 

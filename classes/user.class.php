@@ -145,5 +145,40 @@ Class User {
 		return $this->user_data;
 	}
 
+	/**
+	 * Change user password.
+	 */
+	 public function change_password($currentPassword, $newPassword, $newPasswordAgain) {		
+		// Check if the entered current password is correct
+		if (!password_verify($currentPassword, $this->user_data['password'])) {
+			self::$error_message = 'Zadané nesprávne aktuálne heslo.';
+			return false;
+		}
+		
+		// New passwords don't match
+		if ($newPassword != $newPasswordAgain) {
+			self::$error_message = 'Nové heslá sa nezhodujú.';
+			return false;
+		}
+		
+		// Check if new password matches the criteria
+		if (!self::verify_password($newPassword)) {
+			return false;
+		};
+
+		$password = password_hash($newPassword, PASSWORD_DEFAULT);
+
+		$db = new Database();
+		$conn = $db->handle;
+		$stmt = $conn->prepare('UPDATE User SET password = ? WHERE id = ?');
+		$stmt->bind_param("si", $password, $this->user_data['id']);
+		
+		if (!($stmt->execute())) {
+			self::$error_message = 'Chyba pri zmene hesla.';
+			return false;
+		}
+
+		return true;
+	}
 
 }
