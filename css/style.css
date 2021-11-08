@@ -46,3 +46,19 @@ body {
     visibility: hidden;
 } 
 
+.cart_button{
+    width: 100%;
+    text-align: center;
+    padding: 30px;
+    text-decoration: none;
+    background-color: #343A40;
+    color: #FFF;
+    margin-top: 10px;
+
+}
+
+.cart_button:hover{
+    color: #FFF;
+    text-decoration: none;
+    background-color: #545A60;
+}

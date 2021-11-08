@@ -47,7 +47,19 @@ function get_navbar(){
                 <li class="dropdown order-1">
                   <button type="button" data-toggle="modal" data-target="#loginModal" class="btn btn-outline-secondary">Prihlásiť sa</button>
                 </li>
-                
+                 <li class="nav-item me-auto dropdown kosik_icon order-2">
+                  <a
+                      class="nav-link dropdown-toggle"
+                      href="#"
+                      id="cartToggle"
+                      role="button"
+                      data-toggle="modal"
+                      data-target="#cartModal"
+                      aria-expanded="false"
+                    >
+                      <i class="fas fa-shopping-cart"></i>
+                    </a>
+                  </li>
 		          </ul>
 		        </div>
 		      </div>
@@ -160,7 +172,9 @@ function get_navbar(){
 				        </ul>
 			        </div>
 			      </div>
-			    </nav>
+			    </nav>';
+			  	}
+					$nav .='
 
 			    <!-- Shopping cart --!>
 			    <div class="modal fade" id="cartModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -205,6 +219,11 @@ function get_navbar(){
 						                </div>
 						            </div> 
 						        </div>
+						        <div class="col-md-12">
+						        	<div class="row" style="padding:10%;padding-bottom:0px;">
+						        		<a href="/pokladna/" class="cart_button">Prejsť do pokladne</a>
+						        	</div>
+						        </div>
 					     		</div>
 					    	</div>
 					  	</div>
@@ -217,9 +236,10 @@ function get_navbar(){
 						});
 
 					</script>
-			    ';
 
-            }
+					';
+					
+
 
     return $nav;
 }
