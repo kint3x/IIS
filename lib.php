@@ -22,6 +22,7 @@ function get_head($params=array()){
 	     <link rel="stylesheet" href="/css/font-awesome.css"> 
 	     <script type="text/javascript" src="/js/bootstrap.min.js"></script>
 	     <script type="text/javascript" src="/js/font-awesome.js"></script>
+	     <script type="text/javascript" src="/js/cart.js"></script>
 	     %s
 	  </head>';	
 	  return sprintf($head, $options["title"], $options["html"]);
@@ -46,7 +47,19 @@ function get_navbar(){
                 <li class="dropdown order-1">
                   <button type="button" data-toggle="modal" data-target="#loginModal" class="btn btn-outline-secondary">Prihlásiť sa</button>
                 </li>
-                
+                 <li class="nav-item me-auto dropdown kosik_icon order-2">
+                  <a
+                      class="nav-link dropdown-toggle"
+                      href="#"
+                      id="cartToggle"
+                      role="button"
+                      data-toggle="modal"
+                      data-target="#cartModal"
+                      aria-expanded="false"
+                    >
+                      <i class="fas fa-shopping-cart"></i>
+                    </a>
+                  </li>
 		          </ul>
 		        </div>
 		      </div>
@@ -109,7 +122,7 @@ function get_navbar(){
             </div>
 		        </form>
 		      </div>
-		    </ div>';
+		    </div>';
             }
             else{
                 $nav .= '
@@ -159,7 +172,9 @@ function get_navbar(){
 				        </ul>
 			        </div>
 			      </div>
-			    </nav>
+			    </nav>';
+			  	}
+					$nav .='
 
 			    <!-- Shopping cart --!>
 			    <div class="modal fade" id="cartModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -172,14 +187,13 @@ function get_navbar(){
 			                    <h4><b>Košík</b></h4>
 			                  </div>
 			                  <div class="col align-self-center text-right text-muted">3 items</div>
-		                		</div>
-		            		</div>
+		                </div>
+		            	</div>
 					        <button type="button" class="close font-weight-light" data-dismiss="modal" aria-label="Close">
 					          <span aria-hidden="true">&times;</span>
 					        </button>
 					      </div>
-					      <div class="modal-body" style="padding:15px;">
-					        
+					      <div class="modal-body" style="padding:15px;">  
 					        <div class="row justify-content-center">
 						        <div class="col-md-10 cart">
 						            <div class="row border-top border-bottom">
@@ -203,13 +217,17 @@ function get_navbar(){
 						                    <div class="col"> <a href="#">-</a><a href="#" class="border">1</a><a href="#">+</a> </div>
 						                    <div class="col">&euro; 44.00 <span class="close">&#10005;</span></div>
 						                </div>
-						            </div>
-						            
+						            </div> 
 						        </div>
-
-					      </div>
-					    </div>
-					  </div>
+						        <div class="col-md-12">
+						        	<div class="row" style="padding:10%;padding-bottom:0px;">
+						        		<a href="/pokladna/" class="cart_button">Prejsť do pokladne</a>
+						        	</div>
+						        </div>
+					     		</div>
+					    	</div>
+					  	</div>
+						</div>
 					</div>
 					<script>
 
@@ -218,9 +236,10 @@ function get_navbar(){
 						});
 
 					</script>
-			    ';
 
-            }
+					';
+					
+
 
     return $nav;
 }

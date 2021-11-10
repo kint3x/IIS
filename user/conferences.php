@@ -16,7 +16,6 @@ start_session_if_none();
         
         <?php 
           // TODO vypis forech do funkcie
-
           $data = Conferences::get_conferences_by_owner($_SESSION['user']->get_user_data()['id']);
 
           echo "
@@ -46,7 +45,7 @@ start_session_if_none();
                 </div>
           ";
 
-          // Show cards for each of the conferences
+          // Show cards for each of the conferences 
           echo "<div class='row justify-content-between'>";
 
           foreach ($data as $row) {
@@ -68,6 +67,7 @@ start_session_if_none();
               </ul>
               <div class="card-footer">
                 <a href="#" class="btn btn-outline-dark">Upraviť</a>
+                <a style="cursor:pointer;color:white;"  class="btn btn-primary" onclick="add_to_cart('.$row['id'].',this)" >Pridať do košíka</a>
               </div>
             </div>
             ';
