@@ -1,5 +1,5 @@
 <?php
-require_once "../defines.php";
+require_once ROOT."/defines.php";
 require_once ROOT."/classes/database.class.php";
 
 Class Conferences{
@@ -106,7 +106,7 @@ Class Conferences{
 	}
 
 	/**
-	 * Calculate how many tickets are left for the given conference.
+	 * Calculate how many tickets are left for the given conference. returns -1 if doesnt exist
 	 */
 	public static function get_number_tickets_left($id) {
 		$db = new Database();
@@ -130,6 +130,11 @@ Class Conferences{
 		$stmt->bind_param('i', $id);
 		$stmt->execute();
 		$res = $stmt->get_result();
+
+		if($res->num_rows == 0){
+			return -1;
+		}
+
 		$rows = $res->fetch_all();
 
 		$capacity = $rows[0][0] - $reserved_tickets;
