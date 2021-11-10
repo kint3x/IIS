@@ -15,9 +15,12 @@ start_session_if_none();
         <?php echo get_navbar(); ?>
         
         <?php 
-          // TODO vypis forech do funkcie
+          if (isset($_GET["confName"])) {
+            $data = Conferences::search_owner_by_name($_SESSION['user']->get_user_data()['id'], $_GET['confName']);
+          } else {
+            $data = Conferences::get_conferences_by_owner($_SESSION['user']->get_user_data()['id']);
+          }
 
-          $data = Conferences::get_conferences_by_owner($_SESSION['user']->get_user_data()['id']);
 
           echo "
               <div class='container'>  
@@ -30,18 +33,19 @@ start_session_if_none();
 
           // Search bar
           echo "
-                <div class='row pb-2'>
-                  <div class='col-sm-3 align-self-center'>
+                <div class='d-flex flex-row pb-2 justify-content-left'>
+                  <div class='pr-2'>
                     <a href='#' class='btn btn-primary'>Nová konferencia</a>
                   </div>
-                  <div class='col-sm-4 align-self-center'>
+                  <div>
+                    <form role='search'>
                     <div class='input-group'>
-                      <input type='search' id='searchForm' class='form-control rounded' placeholder='Hľadať' aria-label='Search'
-                        aria-describedby='search-addon' />
-                      <button type='button' class='btn btn-primary'>
-                        <i class='fas fa-search'></i>
-                      </button>
+                        <input type='text' class='form-control' placeholder='Názov' name='confName'>
+                        <div class='input-group-btn d-inline-flex align-items-center'>
+                            <button class='btn btn-default' type='submit'><i class='fa fa-search'></i></button>
+                        </div>
                     </div>
+                    </form>
                   </div>
                 </div>
           ";

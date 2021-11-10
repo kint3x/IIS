@@ -138,4 +138,35 @@ Class Conferences{
 
 		return $capacity;
 	}
+
+	/**
+	 * Returns the conferences matching the given name and id.
+	 */
+	public static function search_owner_by_name($id, $name) {
+		$db = new Database();
+
+		if($db->error) {
+			self::$error_message = 'Problém s pripojením k databáze.';
+			return False;
+		}
+
+		$conn = $db->handle;
+		
+		$stmt = $conn->prepare("SELECT * FROM Conference WHERE id_user = ? AND name LIKE ?");
+		$name =  "%".$name."%";
+		$stmt->bind_param('is', $id, $name);
+		
+		if (!$stmt->execute()) {
+			self::$error_message = 'Chyba pri načítaní údajov.';
+			$db->close();
+			return false;
+		};
+		
+		$res = $stmt->get_result();
+		$conferences = $res->fetch_all(MYSQLI_ASSOC);
+		
+		$db->close();
+
+		return $conferences;	
+	}
 }
