@@ -42,6 +42,9 @@ body {
   padding-bottom: 2rem !important;
 }
 
+.pr-2 {
+  padding-right: 2rem !important;
+
 .kosik_icon .dropdown-toggle::after {
     visibility: hidden;
 } 
