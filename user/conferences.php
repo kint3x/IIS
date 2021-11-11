@@ -53,28 +53,7 @@ start_session_if_none();
           echo "<div class='row justify-content-between'>";
 
           foreach ($data as $row) {
-            echo '
-            <div class="card mb-4" style="width: 48%;">
-              <img class="card-img-top my-img-top" src="'.$row['image_url'].'" alt="">
-              <div class="card-body">
-                <h5 class="card-title">'.$row['name'].'</h5>
-                <p class="card-text text-truncate">'.$row['description'].'</p>
-              </div>
-              <ul class="list-group list-group-flush">
-                <li class="list-group-item">
-                <b>Od: </b>'.date(DATE_FORMAT, $row['time_from']).'
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <b>Do: </b>'.date(DATE_FORMAT, $row['time_from']).'.</li>
-                <li class="list-group-item"><b>Kde: </b>'.$row['place'].'</li>
-                <li class="list-group-item"><b>Cena: </b>'.$row['price'].' &euro;</li>
-                <li class="list-group-item"><b>Voľné miesta: </b>'.Conferences::get_number_tickets_left($row['id']).'</li>
-              </ul>
-              <div class="card-footer">
-                <a href="#" class="btn btn-outline-dark">Upraviť</a>
-                <a style="cursor:pointer;color:white;"  class="btn btn-primary" onclick="add_to_cart('.$row['id'].',this)" >Pridať do košíka</a>
-              </div>
-            </div>
-            ';
+            get_conference_card($row);
           };
 
           echo "    </div>

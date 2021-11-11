@@ -2,6 +2,7 @@
 
 require_once "defines.php";
 require_once ROOT."/classes/user.class.php";
+require_once ROOT."/classes/conferences.class.php";
 
 function get_head($params=array()){
 
@@ -26,6 +27,31 @@ function get_head($params=array()){
 	     %s
 	  </head>';	
 	  return sprintf($head, $options["title"], $options["html"]);
+}
+
+function get_conference_card($db_entry) {
+	echo '
+    <div class="card mb-4" style="width: 48%;">
+      <img class="card-img-top my-img-top" src="'.$db_entry['image_url'].'" alt="">
+      <div class="card-body">
+        <h5 class="card-title">'.$db_entry['name'].'</h5>
+        <p class="card-text text-truncate">'.$db_entry['description'].'</p>
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+        <b>Od: </b>'.date(DATE_FORMAT, $db_entry['time_from']).'
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <b>Do: </b>'.date(DATE_FORMAT, $db_entry['time_from']).'.</li>
+        <li class="list-group-item"><b>Kde: </b>'.$db_entry['place'].'</li>
+        <li class="list-group-item"><b>Cena: </b>'.$db_entry['price'].' &euro;</li>
+        <li class="list-group-item"><b>Voľné miesta: </b>'.Conferences::get_number_tickets_left($db_entry['id']).'</li>
+      </ul>
+      <div class="card-footer">
+        <a href="#" class="btn btn-outline-dark">Upraviť</a>
+        <a style="cursor:pointer;color:white;"  class="btn btn-primary" onclick="add_to_cart('.$db_entry['id'].',this)" >Pridať do košíka</a>
+      </div>
+    </div>
+    ';
 }
 
 function get_navbar(){
