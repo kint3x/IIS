@@ -107,7 +107,7 @@ function get_navbar(){
 		          </div>
 		          <div class="form-group">
 		            <label for="hesloReg">Heslo</label>
-		            <input type="password" class="form-control" id="passwordReg" placeholder="Heslo" required>
+		            <input type="password" class="form-control" id="passwordReg" autocomplete="new-password" placeholder="Heslo" required>
 		          </div>
 		        </div>
 		        <div class="modal-footer">
