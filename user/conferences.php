@@ -14,13 +14,8 @@ start_session_if_none();
     <body>
         <?php echo get_navbar(); ?>
         
-        <?php 
-          if (isset($_GET["confName"])) {
-            $data = Conferences::search_owner_by_name($_SESSION['user']->get_user_data()['id'], $_GET['confName']);
-          } else {
-            $data = Conferences::get_conferences_by_owner($_SESSION['user']->get_user_data()['id']);
-          }
-
+        <?php
+          // Header
           echo "
               <div class='container'>  
                 <div class='row'>
@@ -30,7 +25,7 @@ start_session_if_none();
                 </div>
                 ";
 
-          // Search bar
+          // Add conferences and search bar
           echo "
                 <div class='d-flex flex-row pb-2 justify-content-left'>
                   <div class='pr-2'>
@@ -48,16 +43,36 @@ start_session_if_none();
                   </div>
                 </div>
           ";
+          
+          // Display conferences
+          if (isset($_GET["confName"])) {
+            $data = Conferences::search_owner_by_name($_SESSION['user']->get_user_data()['id'], $_GET['confName']);
+            $alert_message = "Pre zadaný výraz '{$_GET["confName"]}' sme nenašli žiadnu konferenciu.";
+          } else {
+            $data = Conferences::get_conferences_by_owner($_SESSION['user']->get_user_data()['id']);
+            $alert_message = 'Zatiaľ ste nevytvorili žiadnu konferenciu.';
+          }
 
-          // Show cards for each of the conferences 
-          echo "<div class='row justify-content-between'>";
+          if (count($data) === 0) {
+            // No conferences found
+            echo "
+              <div class='alert alert-secondary' role='alert'>
+                {$alert_message}
+              </div>
+            ";        
+          } else {
+            // Show cards for each of the conferences
+            echo "<div class='row justify-content-between'>";
+  
+            foreach ($data as $row) {
+              get_conference_card($row);
+            };
 
-          foreach ($data as $row) {
-            get_conference_card($row);
-          };
+            echo "</div>";
+          }
 
-          echo "    </div>
-                  </div>
+
+          echo "  </div>
                 </div>
               </div>
           ";
