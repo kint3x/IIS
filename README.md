@@ -5,6 +5,7 @@
 - ajax call -> if (data.success) -> obsluhu vynať do funkcíí
 - required_once "../defines.php" nefunguje v triedach
 - košík zobrazený aj bez prihlásenia
+- responsive design - rozmiestnenie prvkov pri inom aspecte
 
 ## TODO if time
 - moje konferencie rozsirene vyhladavacie filtre a zoradenie
