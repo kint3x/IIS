@@ -153,7 +153,7 @@ start_session_if_none();
       </div>
     ";
 
-    echo "
+    ?>
     <div id='changePasswordModal' class='modal fade' role='dialog'>
       <div class='modal-dialog'>
         <div class='modal-content'>
@@ -182,6 +182,4 @@ start_session_if_none();
         </div>
       </div>
     </div>
-    ";
-    ?>
 </html>

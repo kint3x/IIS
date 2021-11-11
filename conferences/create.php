@@ -14,6 +14,18 @@ start_session_if_none();
     <body>
         <?php echo get_navbar(); ?>
     
-        
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 align-self-center pb-2">
+                    <h1>
+                        Pridať konferenciu
+                    </h1>
+                </div>
+            </div>
+            
+            <div class="row">
+                <form 
+            </div>
+        </div>
     </body>
 </html
