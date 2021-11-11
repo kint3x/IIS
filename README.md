@@ -6,6 +6,7 @@
 - required_once "../defines.php" nefunguje v triedach
 - košík zobrazený aj bez prihlásenia
 - responsive design - rozmiestnenie prvkov pri inom aspecte
+- autocomplete password -> suggest new nenapise heslo
 
 ## TODO if time
 - moje konferencie rozsirene vyhladavacie filtre a zoradenie
