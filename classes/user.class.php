@@ -207,6 +207,8 @@ Class User {
 
 		$db->close();
 
+		$this->update_user();
+
 		return true;
 	}
 
