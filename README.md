@@ -6,7 +6,7 @@
 - miesto konania konferencie odvodit z miestnosti kde sa kona
 - pridat tagy konferenciam
 - sprava miestostnosti uzivatelmi
-- detail zobrazenia konferencie
+- detail zobrazenia konferencie + ak je uziv prihlaseny a patri mu konferencia -> moznost editovania
 - nahravanie obrazkov ku konferenciam
 
 ## NICE TO HAVE
