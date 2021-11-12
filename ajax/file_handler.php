@@ -19,13 +19,12 @@ session_start();
 if(!isset($_SESSION['user'])){
      echo  json_encode(array(
             'error' => true,
-            'message' => "Súbor je zlého formátu, povolené sú len jpg,jpeg a png"
+            'message' => "Súbor je zlého formátu. Povolené sú len jpg, jpeg a png."
         ));
         return;
 }
+
 // header json
-
-
 header('Content-type: application/json');
 
     $file = FileUpload::upload_File($_FILES);
