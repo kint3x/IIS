@@ -72,7 +72,7 @@ start_session_if_none();
                             </li>
                         </ul>
                         <div class="card-footer">
-                            <a style="cursor:pointer;color:white;"  class="btn btn-primary" onclick="add_to_cart('.$db_entry['id'].',this)" >Pridať do košíka</a>
+                            <a style="cursor:pointer;color:white;"  class="btn btn-margin btn-primary" onclick="add_to_cart('.$db_entry['id'].',this)" >Pridať do košíka</a>
                             
                             <!-- Logged in owner should be able to edit the conference -->
                             <?php if(isset($_SESSION['user']) && $_SESSION['user']->get_user_data()['id'] == $conference['id_user']) {

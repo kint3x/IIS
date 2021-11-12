@@ -47,8 +47,8 @@ function get_conference_card($db_entry) {
         <li class="list-group-item col-sm-6"><b>Voľné miesta: </b>'.Conferences::get_number_tickets_left($db_entry['id']).'</li>
       </ul>
       <div class="card-footer">
+	  	<a style="cursor:pointer;color:white;"  class="btn btn-margin btn-primary" onclick="add_to_cart('.$db_entry['id'].',this)" >Pridať do košíka</a>
         <a href="#" class="btn btn-outline-dark">Upraviť</a>
-        <a style="cursor:pointer;color:white;"  class="btn btn-primary" onclick="add_to_cart('.$db_entry['id'].',this)" >Pridať do košíka</a>
       </div>
     </div>
     ';
