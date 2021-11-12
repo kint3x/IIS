@@ -8,6 +8,7 @@
 - sprava miestostnosti uzivatelmi
 - detail zobrazenia konferencie + ak je uziv prihlaseny a patri mu konferencia -> moznost editovania
 - nahravanie obrazkov ku konferenciam
+- prihlasenie funguje len z hlavnej stranky (ajax vsade)
 
 ## NICE TO HAVE
 - Autocomplete adressy od googlu https://developers.google.com/maps/documentation/javascript/examples/places-autocomplete-addressform
