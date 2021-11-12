@@ -1,4 +1,4 @@
-
+r
 /* navbar logged in user */
 .navbar-login
 {
@@ -50,6 +50,11 @@ body {
 
 .pr-2 {
   padding-right: 2rem !important;
+}
+
+.badge {
+    margin-right: 0.5rem !important;
+    margin-bottom: 0.5rem !important;
 }
 
 .pl-list-item {
