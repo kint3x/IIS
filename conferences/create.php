@@ -21,7 +21,6 @@ start_session_if_none();
                     fromDate: $("#fromDate").val(),
                     toTime: $("#toTime").val(),
                     toDate: $("#toDate").val(),
-                    place: $("#place").val(),
                     price: $("#price").val(),
                     capacity: $("#capacity").val()
                 };
@@ -33,7 +32,14 @@ start_session_if_none();
                     dataType: "json",
                     encode: true
                 }).done(function (data) {
-                    alert(data.error);
+                    if (!data.success) {
+                        var alert = "<div class='alert alert-warning'>"
+                        + data.error
+                        + "<a href='#' class='close font-weight-light' data-dismiss='alert' aria-label='close'>&times;</a>"
+                        + "</div>";
+                        $("#createFormAlert").css('display','block');
+                        $("#createFormAlert").html(alert);
+                    }
                 });
 
                 event.preventDefault();
@@ -52,10 +58,13 @@ start_session_if_none();
                     </h1>
                 </div>
             </div>
+            <div class="row">
+                <div class="col sm-12" id="createFormAlert"></div>
+            </div>
             <form id="createConference">
                 <div class="form-group">
                   <label for="name">Názov konferencie</label>
-                  <input type="text" class="form-control" id="name" placeholder="Názov">
+                  <input type="text" class="form-control" id="name" placeholder="Názov" required>
                 </div>
                 <div class="form-group">
                   <label for="description">Popis konferencie</label>
@@ -78,10 +87,6 @@ start_session_if_none();
                     <div class="col-sm-3">
                         <input type="date" class="form-control" id="toDate">
                     </div>
-                </div>
-                <div class="form-group">
-                  <label for="place">Miesto konania</label>
-                  <textarea class="form-control" id="place" placeholder="Adresa"></textarea>
                 </div>
                 <div class="form-group">
                     <label for="price">Cena lístku v &euro;</label>

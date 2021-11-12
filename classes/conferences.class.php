@@ -66,8 +66,7 @@ Class Conferences{
 			$time_from,
 			$time_to,
 			$price,
-			$capacity,
-			$place
+			$capacity
 		) {
 			
 		if ($time_from > $time_to) {
@@ -86,18 +85,17 @@ Class Conferences{
 		
 		$stmt = $conn->prepare(
 			'INSERT INTO Conference'
-			.'(id_user, name, description, time_from, time_to, price, capacity, place)'
-			.'VALUES (?, ?, ?, ?, ?, ?, ?, ?)');
+			.'(id_user, name, description, time_from, time_to, price, capacity)'
+			.'VALUES (?, ?, ?, ?, ?, ?, ?)');
 		$stmt->bind_param(
-			'issiiiis',
+			'issiiii',
 			$owner_id, 
 			$name,
 			$description,
 			$time_from,
 			$time_to,
 			$price,
-			$capacity,
-			$place	
+			$capacity
 		);
 
 		if (!$stmt->execute()) {

@@ -12,7 +12,6 @@ if (isset($_POST['name'])
     && isset($_POST['fromDate'])
     && isset($_POST['toTime'])
     && isset($_POST['toDate'])
-    && isset($_POST['place'])
     && isset($_POST['price'])
     && isset($_POST['capacity'])) {
     
@@ -31,8 +30,7 @@ if (isset($_POST['name'])
         $from_ts,
         $to_ts,
         $_POST['price'],
-        $_POST['capacity'],
-        $_POST['place']
+        $_POST['capacity']
     );
 
     echo_json_response($res, Conferences::$error_message);

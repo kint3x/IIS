@@ -40,7 +40,6 @@ function get_conference_card($db_entry) {
       <ul class="list-group list-group-flush">
         <li class="list-group-item"><b>Od: </b>'.date(DATE_FORMAT, $db_entry['time_from']).'</li>
         <li class="list-group-item"><b>Do: </b>'.date(DATE_FORMAT, $db_entry['time_from']).'</li>
-        <li class="list-group-item"><b>Kde: </b>'.$db_entry['place'].'</li>
         <li class="list-group-item"><b>Cena: </b>'.$db_entry['price'].' &euro;</li>
         <li class="list-group-item"><b>Voľné miesta: </b>'.Conferences::get_number_tickets_left($db_entry['id']).'</li>
       </ul>
