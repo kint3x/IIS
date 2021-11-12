@@ -27,6 +27,36 @@ Class Conferences{
 	}
 
 	/**
+	 * Return an array representing a conference with the given id.
+	 */
+	public static function get_conference_by_id($conference_id) {
+		$db = new Database();
+		
+		if($db->error) {
+			self::$error_message = 'Problém s pripojením k databáze.';
+			return False;
+		}
+
+		$conn = $db->handle;
+		
+		$stmt = $conn->prepare('SELECT * FROM Conference WHERE id = ?');
+		$stmt->bind_param('i', $conference_id);
+		
+		if (!$stmt->execute()) {
+			self::$error_message = 'Chyba pri načítaní údajov.';
+			$db->close();
+			return false;
+		};
+		
+		$res = $stmt->get_result();
+		$conference = $res->fetch_assoc();
+		
+		$db->close();
+
+		return $conference;
+	}
+
+	/**
 	 * Return a list of all conferences made by the owner.
 	 */
 	public static function get_conferences_by_owner($owner_id) {		
