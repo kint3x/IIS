@@ -69,6 +69,12 @@ Class Conferences{
 			$capacity,
 			$place
 		) {
+			
+		if ($time_from > $time_to) {
+			self::$error_message = 'Neplatné časové hodnoty počiatku a ukončenia konferencie.';
+			return false;
+		}
+		
 		$db = new Database();
 
 		if ($db->error) {
