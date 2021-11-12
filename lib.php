@@ -32,16 +32,19 @@ function get_head($params=array()){
 function get_conference_card($db_entry) {
 	echo '
     <div class="card mb-4" style="width: 48%;">
-      <img class="card-img-top my-img-top" src="'.$db_entry['image_url'].'" alt="">
+      <img class="card-img-top img-top-fixed-height" src="'.$db_entry['image_url'].'" alt="">
       <div class="card-body">
-        <h5 class="card-title">'.$db_entry['name'].'</h5>
+        <h5 class="card-title">
+			<a href="/conferences/show.php?id='.$db_entry['id'].'" class="text-decoration-none")">'.$db_entry['name'].'</a>
+		</h5>
         <p class="card-text text-truncate">'.$db_entry['description'].'</p>
       </div>
-      <ul class="list-group list-group-flush">
-        <li class="list-group-item"><b>Od: </b>'.date(DATE_FORMAT, $db_entry['time_from']).'</li>
-        <li class="list-group-item"><b>Do: </b>'.date(DATE_FORMAT, $db_entry['time_from']).'</li>
-        <li class="list-group-item"><b>Cena: </b>'.$db_entry['price'].' &euro;</li>
-        <li class="list-group-item"><b>Voľné miesta: </b>'.Conferences::get_number_tickets_left($db_entry['id']).'</li>
+      <ul class="list-group list-group-flush d-flex flex-row flex-wrap">
+        <li class="list-group-item col-sm-6 pl-list-item"><b>Od: </b>'.date(DATE_FORMAT, $db_entry['time_from']).'</li>
+
+		<li class="list-group-item col-sm-6"><b>Do: </b>'.date(DATE_FORMAT, $db_entry['time_from']).'</li>
+        <li class="list-group-item col-sm-6 pl-list-item"><b>Cena: </b>'.$db_entry['price'].' &euro;</li>
+        <li class="list-group-item col-sm-6"><b>Voľné miesta: </b>'.Conferences::get_number_tickets_left($db_entry['id']).'</li>
       </ul>
       <div class="card-footer">
         <a href="#" class="btn btn-outline-dark">Upraviť</a>

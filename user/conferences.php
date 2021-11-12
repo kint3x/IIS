@@ -10,7 +10,7 @@ start_session_if_none();
 
 <html>
     <?php echo get_head(); ?>
-
+    
     <body>
       <?php echo get_navbar(); ?>
       

@@ -28,7 +28,13 @@ body {
   padding-top: 5rem;
 }
 
-.my-img-top {
+.img-top-fixed-height {
+    width: 100% !important;
+    height: 15rem !important;
+    object-fit: cover !important;
+}
+
+.img-top-fixed-height {
     width: 100% !important;
     height: 15rem !important;
     object-fit: cover !important;
@@ -40,6 +46,14 @@ body {
 
 .pb-2 {
   padding-bottom: 2rem !important;
+}
+
+.pr-2 {
+  padding-right: 2rem !important;
+}
+
+.pl-list-item {
+  padding-left: 1.25rem !important;
 }
 
 .kosik_icon .dropdown-toggle::after {
