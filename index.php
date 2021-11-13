@@ -79,31 +79,30 @@ if(isset($_GET["logout"])){
     
       <?php  
         // Display conferences
+        $name = isset($_GET["name"]) ? $_GET["name"] : "";
+        $tag = isset($_GET["tag"]) ? $_GET["tag"] : false;
+        $old = isset($_GET["old"]) ? true : false;
+        
         if (isset($_GET["name"]) || isset($_GET["tag"]) || isset($_GET["old"])) {
-          $name = isset($_GET["name"]) ? $_GET["name"] : false;
-          $tag = isset($_GET["tag"]) ? $_GET["tag"] : false;
-          $old = isset($_GET["old"]) ? true : false;
-
           // Don't search by tag
           if ($tag == "") {
             $tag = false;
           }
 
-          $data = Conferences::search_by_name_tag($name, $tag, $old);
-          
           // Create an alert message displayed if no results were found
           if ($tag === false) {
             $alert_message = "Pre zadaný výraz '{$_GET["name"]}' sme nenašli žiadnu konferenciu.";
-          } else if ($name === false) {
+          } else if ($name == "") {
             $tag_name = Tag::get_name($tag);
             $alert_message = "V kategórii '{$tag_name}' sme nenašli žiadnu konferenciu.";
           } else {
             $alert_message = "Pre zadanú kombináciu parametrov sme nenašli žiadne konferencie.";
           }
         } else {
-          $data = Conferences::get_conferences_all();
           $alert_message = 'Zatiaľ ste nevytvorili žiadnu konferenciu.';
         }
+
+        $data = Conferences::search_by_name_tag($name, $tag, $old);
       
         $sold_out = isset($_GET["soldOut"]) ? true : false;
 

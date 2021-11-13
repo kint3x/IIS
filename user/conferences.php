@@ -50,6 +50,16 @@ start_session_if_none();
               <div class='input-group-btn d-inline-flex align-items-center'>
                   <button class='btn btn-default' type='submit'><i class='fa fa-search'></i></button>
               </div>
+              <div class='form-check form-check-inline pr-2'>
+                <input type='checkbox' class='form-check-input' name='old' id='oldCheck' 
+                  <?php if (isset($_GET['old'])) {echo "checked";}?>>
+                <label class='form-check-label' for='oldCheck'>Ukončené konferencie</label>
+              </div>
+              <div class='form-check form-check-inline'>
+                <input type='checkbox' class='form-check-input' name='soldOut' id='soldOutCheck' 
+                  <?php if (isset($_GET['soldOut'])) {echo "checked";}?>>
+                <label class='form-check-label' for='soldOutCheck'>Vypredané konferencie</label>
+              </div>
           </div>
           </form>
         </div>
@@ -57,31 +67,34 @@ start_session_if_none();
     
       <?php  
         // Display conferences
-        if (isset($_GET["name"]) || isset($_GET["tag"])) {
-          $name = isset($_GET["name"]) ? $_GET["name"] : false;
-          $tag = isset($_GET["tag"]) ? $_GET["tag"] : false;
+        $name = isset($_GET["name"]) ? $_GET["name"] : "";
+        $tag = isset($_GET["tag"]) ? $_GET["tag"] : false;
+        $old = isset($_GET["old"]) ? true : false;
+
+        if (isset($_GET["name"]) || isset($_GET["tag"]) || isset($_GET["old"])) {
 
           // Don't search by tag
           if ($tag == "") {
             $tag = false;
           }
 
-          $data = Conferences::search_by_owner_name_tag($_SESSION['user']->get_user_data()['id'], $name, $tag);
-          
           // Create an alert message displayed if no results were found
           if ($tag === false) {
             $alert_message = "Pre zadaný výraz '{$_GET["name"]}' sme nenašli žiadnu konferenciu.";
-          } else if ($name === false) {
+          } else if ($name == "") {
             $tag_name = Tag::get_name($tag);
             $alert_message = "V kategórii '{$tag_name}' sme nenašli žiadnu konferenciu.";
           } else {
             $alert_message = "Pre zadanú kombináciu parametrov sme nenašli žiadne konferencie.";
           }
         } else {
-          $data = Conferences::get_conferences_by_owner($_SESSION['user']->get_user_data()['id']);
           $alert_message = 'Zatiaľ ste nevytvorili žiadnu konferenciu.';
         }
+
+        $data = Conferences::search_by_owner_name_tag($_SESSION['user']->get_user_data()['id'], $name, $tag, $old);
       
+        $sold_out = isset($_GET["soldOut"]) ? true : false;
+
         if (count($data) === 0) {
           // No conferences found
           echo "
@@ -94,7 +107,7 @@ start_session_if_none();
           echo "<div class='row justify-content-between'>";
 
           foreach ($data as $row) {
-            get_conference_card($row);
+            get_conference_card($row, $sold_out);
           };
       
           echo "</div>";
