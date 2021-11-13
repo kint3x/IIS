@@ -37,7 +37,8 @@ start_session_if_none();
                   }
                 ?>
               </select>
-              <input type='text' class='form-control' placeholder='Názov' name='name'>
+              <input type='text' class='form-control' placeholder='Názov' name='name'
+                value=<?php isset($_GET['name']) ? echo $_GET['name'] : echo ""; ?>>
               <div class='input-group-btn d-inline-flex align-items-center'>
                   <button class='btn btn-default' type='submit'><i class='fa fa-search'></i></button>
               </div>
@@ -89,5 +90,21 @@ start_session_if_none();
           </div>
         </div>
       </div>
+
+      <script>
+        function searchByTag(tag_id) {
+          var url = window.location.href;
+          var index = url.indexOf('?');
+
+          // Remove other params
+          if (index > -1) {
+            url = url.substr(0,index);
+          }
+
+          url = url + "?tag=" + encodeURIComponent(tag_id);
+          window.location.href = url;
+        }
+      </script>
+
     </body>
 </html>

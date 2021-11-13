@@ -44,7 +44,7 @@ function get_conference_card($db_entry) {
 	$tags = Tag::get_conference_tags($db_entry['id']);
 
 	foreach ($tags as $tag) {
-        echo '<a href="#" class="badge badge-dark">'.$tag['name'].'</a>';
+        echo '<div style="cursor:pointer" onclick="searchByTag('.$tag['id'].')" class="badge badge-dark">'.$tag['name'].'</div>';
     }  	
 		  
 	echo '</div>';
