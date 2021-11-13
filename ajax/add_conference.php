@@ -14,7 +14,8 @@ if (isset($_POST['name'])
     && isset($_POST['toTime'])
     && isset($_POST['toDate'])
     && isset($_POST['price'])
-    && isset($_POST['capacity'])) {
+    && isset($_POST['capacity'])
+    && isset($_POST['image_url'])) {
     
     // Get the owner id
     $owner_id = $_SESSION['user']->get_user_data()['id'];
@@ -32,7 +33,8 @@ if (isset($_POST['name'])
         $from_ts,
         $to_ts,
         $_POST['price'],
-        $_POST['capacity']
+        $_POST['capacity'],
+        $_POST['image_url']
     );
     
     // Conference wasn't created
