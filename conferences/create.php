@@ -12,45 +12,6 @@ start_session_if_none();
 <html>
     <?php echo get_head(); ?>
 
-    <script>
-        $(document).ready(function() {
-            $("#createConference").submit(function (event) {
-                var formData = {
-                    name: $("#name").val(),
-                    description: $("#description").val(),
-                    tags: $("#tags").val(),
-                    fromTime: $("#fromTime").val(),
-                    fromDate: $("#fromDate").val(),
-                    toTime: $("#toTime").val(),
-                    toDate: $("#toDate").val(),
-                    price: $("#price").val(),
-                    capacity: $("#capacity").val()
-                };
-
-                $.ajax({
-                    type: "POST",
-                    url: "/ajax/add_conference.php",
-                    data: formData,
-                    dataType: "json",
-                    encode: true
-                }).done(function (data) {
-                    if (!data.success) {
-                        var alert = "<div class='alert alert-warning'>"
-                        + data.error
-                        + "<a href='#' class='close font-weight-light' data-dismiss='alert' aria-label='close'>&times;</a>"
-                        + "</div>";
-                        $("#createFormAlert").css('display','block');
-                        $("#createFormAlert").html(alert);
-                    } else {
-                        window.location.href = "/conferences/show.php?id=" + encodeURIComponent(data.conference_id);
-                    }
-                });
-
-                event.preventDefault();
-            });
-        })
-    </script>
-
     <body>
         <?php echo get_navbar(); ?>
 
@@ -73,6 +34,13 @@ start_session_if_none();
                 <div class="form-group">
                     <label for="description">Popis konferencie</label>
                     <textarea class="form-control" id="description" placeholder="Detailný popis..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="description">Obrázok konferencie</label>
+                    <br>
+                    <input type="file" id="poster"/>
+                    <img id="img_loader" src="/img/loading-buffering.gif" style="height: 50px; display:none;" />
+                    <input type="hidden" name="image" id="img_url"/>
                 </div>
                 <label for="tags">Kategórie</label>
                 <div class="form-group row" name="tags">
@@ -117,5 +85,108 @@ start_session_if_none();
                 <button type="submit" class="btn btn-primary">Pridať</button>
             </form>
         </div>
+
+        <!-- <div class="modal fade" tabindex="-1" role="dialog" id="newTagModal">
+            <div class="modal-dialog" id="loginDialog">
+		        <div class="modal-content">
+                    <form id="loginForm">
+                    <div class="modal-header">
+                        <h3>Novú kategóriu</h3>
+                        <button type="button" class="close font-weight-light" data-dismiss="modal" aria-hidden="true">×</button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="loginAlert"></div>
+		                <div class="form-group">
+		                    <label for="emailLogin">Email</label>
+		                    <input type="email" class="form-control" id="emailLogin" aria-describedby="emailHelp" placeholder="priklad@email.com" required>
+		                </div>
+		                <div class="form-group">
+		                    <label for="hesloLogin">Heslo</label>
+		                    <input type="password" class="form-control" id="passwordLogin" placeholder="Heslo" required>
+		                </div>
+		            </div>
+                    <div class="modal-footer">
+                        <div class="flex-fill">  
+                            <div class="d-flex justify-content-between align-items-center">
+                                <a href="#" data-toggle="modal" data-target="#registerModal" data-dismiss="modal">Nemáte účet? Registrujte sa!</a>
+		                        <button type="submit" class="btn btn-primary">Prihlásiť sa</button>
+                        </div>
+                    </div>
+              </div>         
+        </div> -->
+        <script>
+            $(document).ready(function() {
+                $("#poster").on("change",function(){
+
+                    var formData = new FormData();
+
+                    formData.append("file",document.getElementById("poster").files[0]);
+
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("POST", "/ajax/file_handler.php");
+                    xhr.onreadystatechange = function() // anonymous function (a function without a name).
+                    {
+                         if ((xhr.readyState == 4) && (xhr.status == 200)) // process is completed and http status is OK
+                        {
+                            
+                            var response = JSON.parse(xhr.responseText);
+                            if(response.error){
+                                alert("Nastala chyba pri nahrávaní súboru: "+ response.message);
+                            }
+                            else{
+                                $("#img_loader").attr("src",response.message);    
+                                $("#img_url").val(response.message);                      
+                            }
+                        }
+                    }
+
+                    xhr.send(formData);
+
+                    $("#img_loader").attr("src","/img/loading-buffering.gif");
+                    $("#img_loader").css("display","");
+
+
+
+
+
+                });
+
+                $("#createConference").submit(function (event) {
+                    var formData = {
+                        name: $("#name").val(),
+                        description: $("#description").val(),
+                        tags: $("#tags").val(),
+                        fromTime: $("#fromTime").val(),
+                        fromDate: $("#fromDate").val(),
+                        toTime: $("#toTime").val(),
+                        toDate: $("#toDate").val(),
+                        price: $("#price").val(),
+                        capacity: $("#capacity").val()
+                    };
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/ajax/add_conference.php",
+                        data: formData,
+                        dataType: "json",
+                        encode: true
+                    }).done(function (data) {
+                        if (!data.success) {
+                            var alert = "<div class='alert alert-warning'>"
+                            + data.error
+                            + "<a href='#' class='close font-weight-light' data-dismiss='alert' aria-label='close'>&times;</a>"
+                            + "</div>";
+                            $("#createFormAlert").css('display','block');
+                            $("#createFormAlert").html(alert);
+                        } else {
+                            // TODO redirect to conference detail
+                            alert("TODO redirect to new conference detail.");
+                        }
+                    });
+
+                    event.preventDefault();
+                });
+            })
+        </script>
     </body>
 </html
