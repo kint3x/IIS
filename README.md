@@ -10,6 +10,7 @@
 
 ## TODO if time
 - moje konferencie rozsirene vyhladavacie filtre a zoradenie
+- user/create.php pridavania kategorii, inak odstranit zakomentovane!
 
 
 ## NICE TO HAVE
