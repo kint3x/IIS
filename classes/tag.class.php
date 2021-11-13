@@ -92,7 +92,7 @@ class Tag {
 		$conn = $db->handle;
 		
 		$stmt = $conn->prepare(
-			'SELECT * FROM Tag WHERE id IN (SELECT genre_id FROM `cross_conf_tag` WHERE conference_id = ?)'
+			'SELECT * FROM Tag WHERE id IN (SELECT tag_id FROM `cross_conf_tag` WHERE conference_id = ?)'
 		);
 		$stmt->bind_param('i', $conferrence_id);
 
