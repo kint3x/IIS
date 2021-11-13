@@ -182,7 +182,7 @@ Class Conferences{
 		return $capacity;
 	}
 
-		/**
+	/**
 	 * Returns the conferences matching the given name and id.
 	 */
 	public static function search_by_owner_name_tag($user_id, $name, $tag_id) {
@@ -210,6 +210,50 @@ Class Conferences{
 								  ."AND id IN (SELECT conference_id FROM cross_conf_tag WHERE tag_id = ?)");
 			$name =  "%".$name."%";
 			$stmt->bind_param('isi', $user_id, $name, $tag_id);
+		}
+
+		
+		if (!$stmt->execute()) {
+			self::$error_message = 'Chyba pri načítaní údajov.';
+			$db->close();
+			return false;
+		};
+		
+		$res = $stmt->get_result();
+		$conferences = $res->fetch_all(MYSQLI_ASSOC);
+		
+		$db->close();
+
+		return $conferences;	
+	}
+
+	/**
+	 * Returns the conferences matching the given name and id.
+	 */
+	public static function search_by_name_tag($name, $tag_id) {
+		$db = new Database();
+
+		if($db->error) {
+			self::$error_message = 'Problém s pripojením k databáze.';
+			return False;
+		}
+
+		$conn = $db->handle;
+		
+		if ($name === false) {
+			// only by tag
+			$stmt = $conn->prepare("SELECT * FROM Conference WHERE id IN (SELECT conference_id FROM cross_conf_tag WHERE tag_id = ?)");
+			$stmt->bind_param('i', $tag_id);
+		} else if ($tag_id === false) {
+			// only by name
+			$stmt = $conn->prepare("SELECT * FROM Conference WHERE name LIKE ?");
+			$name =  "%".$name."%";
+			$stmt->bind_param('s', $name);
+		} else {
+			$stmt = $conn->prepare("SELECT * FROM Conference WHERE name LIKE ? "
+								  ."AND id IN (SELECT conference_id FROM cross_conf_tag WHERE tag_id = ?)");
+			$name =  "%".$name."%";
+			$stmt->bind_param('si', $name, $tag_id);
 		}
 
 		

@@ -17,7 +17,7 @@ start_session_if_none();
       <div class='container'>  
         <div class='row'>
           <div class='col-sm-12 align-self-center pb-1'>
-            <h1>Moje konferencie</h1>
+            <h2>Moje konferencie</h2>
           </div>
       </div>
       

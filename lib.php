@@ -59,9 +59,13 @@ function get_conference_card($db_entry) {
     
     
 	echo '<div class="card-footer">
-	  	<a style="cursor:pointer;color:white;"  class="btn btn-margin btn-primary" onclick="add_to_cart('.$db_entry['id'].',this)" >Pridať do košíka</a>
-        <a href="#" class="btn btn-outline-dark">Upraviť</a>
-      </div>
+	  	<a style="cursor:pointer;color:white;"  class="btn btn-margin btn-primary" onclick="add_to_cart('.$db_entry['id'].',this)" >Pridať do košíka</a>';
+    
+	if (isset($_SESSION['user']) && $_SESSION['user']->get_user_data()['id'] == $db_entry['id_user']) {
+		echo '<a href="#" class="btn btn-outline-dark">Upraviť</a>';
+	}
+    
+	echo'  </div>
     </div>';
 }
 
@@ -69,7 +73,7 @@ function get_navbar(){
 	$nav = ' 
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" role="navigation">
       <div class="container">
-        <a class="navbar-brand" href="#">Konferencie</a>
+        <a class="navbar-brand" href="/">Konferencie</a>
         <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#exCollapsingNavbar">
           &#9776;
         </button>
