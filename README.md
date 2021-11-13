@@ -1,6 +1,7 @@
 # IIS
 
 ## TODO
+- Kontrola prihlasenia v ajaxoch a pri vsetkych strankach.
 - Po registrácii sa treba znova prihlasovať -> možno automaticky prihlásiť.
 - ajax call -> if (data.success) -> obsluhu vynať do funkcíí
 - required_once "../defines.php" nefunguje v triedach
