@@ -1,5 +1,7 @@
 <?php
+
 require_once ROOT."/classes/database.class.php";
+require_once ROOT."/classes/reservation.class.php";
 
 Class Conferences{
 	public static $error_message = "";
@@ -23,6 +25,23 @@ Class Conferences{
 		$db->close();
 
 		return $conferences;
+	}
+
+	/**
+	 * Checks if the user owns the conference.
+	 */
+	public static function is_owner($user_id, $conference_id) {
+		$conference = self::get_conference_by_id($conference_id);
+
+		if ($conference === null) {
+			return false;
+		}
+
+		if ($conference['id_user'] != $user_id) {
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
@@ -119,7 +138,7 @@ Class Conferences{
 			.'VALUES (?, ?, ?, ?, ?, ?, ?, ?)');
 		$stmt->bind_param(
 			'issiiiis',
-			$owner_id, 
+			$owner_id,
 			$name,
 			$description,
 			$time_from,
@@ -143,8 +162,65 @@ Class Conferences{
 		return $new_id;
 	}
 
+	public static function update_conference(
+		$id,			
+		$name,
+		$description,
+		$time_from,
+		$time_to,
+		$price,
+		$capacity,
+		$image_url
+	) {
+		if ($time_from > $time_to) {
+			self::$error_message = 'Neplatné časové hodnoty počiatku a ukončenia konferencie.';
+			return false;
+		}
+		
+		$db = new Database();
+
+		if ($db->error) {
+			self::$error_message = 'Problém s pripojením k databáze.';
+			return false;
+		}
+
+		$conn = $db->handle;
+		
+		$stmt = $conn->prepare("UPDATE Conference SET"
+				."name = ?, "
+				."description = ?, "
+				."time_from = ?, "
+				."time_to = ?, "
+				."price = ?, "
+				."capacity = ?, "
+				."image_url = ? "
+				."WHERE id = ?"
+			);
+		$stmt->bind_param(
+			'ssiiiisi',
+			$name,
+			$description,
+			$time_from,
+			$time_to,
+			$price,
+			$capacity,
+			$image_url,
+			$id
+		);
+
+		if (!$stmt->execute()) {
+			self::$error_message = 'Chyba pri zmene údajov.';
+			$db->close();
+			return false;
+		};
+
+		$db->close();
+
+		return true;
+	}
+
 	/**
-	 * Calculate how many tickets are left for the given conference. returns -1 if doesnt exist
+	 * Calculate how many tickets are left for the given conference. Returns -1 if conference doesn't exist.
 	 */
 	public static function get_number_tickets_left($id) {
 		$db = new Database();
@@ -156,20 +232,19 @@ Class Conferences{
 
 		$conn = $db->handle;
 		
-		$stmt = $conn->prepare('SELECT SUM(num_tickets) FROM Reservation WHERE conference_id = ?');
-		$stmt->bind_param('i', $id);
-		$stmt->execute();
-		$res = $stmt->get_result();
-		$rows = $res->fetch_all();
+		$reserved_tickets = Reservation::num_reservation_for_conference($id);
 
-		$reserved_tickets = $rows[0][0];
+		if ($reserved_tickets === false) {
+			self::$error_message = Reservation::$error_message;
+			return -1;
+		}
 		
 		$stmt = $conn->prepare('SELECT capacity FROM Conference WHERE id = ?');
 		$stmt->bind_param('i', $id);
 		$stmt->execute();
 		$res = $stmt->get_result();
 
-		if($res->num_rows == 0){
+		if($res->num_rows < 1){
 			return -1;
 		}
 

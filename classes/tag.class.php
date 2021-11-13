@@ -32,6 +32,33 @@ class Tag {
     }
 
 	/**
+	 * Remove all tags from the given conference.
+	 */
+	public static function remove_tags_from_conference($conferrence_id) {
+		$db = new Database();
+
+		if ($db->error) {
+			self::$error_message = 'Problém s pripojením k databáze.';
+			return false;
+		}
+
+		$conn = $db->handle;
+		
+		$stmt = $conn->prepare("DELETE FROM cross_conf_tag WHERE conference_id = ?");
+		$stmt->bind_param('i', $conferrence_id);
+
+		if (!$stmt->execute()) {
+			self::$error_message = 'Chyba pri vykonávaní dotazu.';
+			$db->close();
+			return false;
+		};
+		
+		$db->close();
+
+		return true;
+	}
+
+	/**
 	 * Add a tag to the given conference.
 	 */
     public static function add_tag_to_conference($conferrence_id, $tag_id) {

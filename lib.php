@@ -47,13 +47,16 @@ function get_conference_card($db_entry) {
         echo '<div style="cursor:pointer" onclick="searchByTag('.$tag['id'].')" class="badge badge-dark">'.$tag['name'].'</div>';
     }  	
 		  
+	$tickets_left = Conferences::get_number_tickets_left($db_entry['id']);
+	$tickets_left = $tickets_left < 0 ? "-" : $tickets_left;
+
 	echo '</div>';
 	echo  '
 		<ul class="list-group list-group-flush d-flex flex-row flex-wrap">
-      	  	<li class="list-group-item col-sm-6 pl-list-item"><b>Od: </b>'.date(DATE_FORMAT, $db_entry['time_from']).'</li>
-				<li class="list-group-item col-sm-6"><b>Do: </b>'.date(DATE_FORMAT, $db_entry['time_from']).'</li>
+      	  	<li class="list-group-item col-sm-6 pl-list-item"><b>Od: </b>'.date(DATE_FORMAT_CARD, $db_entry['time_from']).'</li>
+				<li class="list-group-item col-sm-6"><b>Do: </b>'.date(DATE_FORMAT_CARD, $db_entry['time_from']).'</li>
       	  	<li class="list-group-item col-sm-6 pl-list-item"><b>Cena: </b>'.$db_entry['price'].' &euro;</li>
-      	  	<li class="list-group-item col-sm-6"><b>Voľné miesta: </b>'.Conferences::get_number_tickets_left($db_entry['id']).'</li>
+      	  	<li class="list-group-item col-sm-6"><b>Voľné miesta: </b>'.$tickets_left.'</li>
       	</ul>
 	';
     

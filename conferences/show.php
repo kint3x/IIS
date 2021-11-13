@@ -59,25 +59,25 @@ start_session_if_none();
 
                         <ul class="list-group list-group-flush d-flex flex-row flex-wrap">
                             <li class="list-group-item col-sm-6 pl-list-item">
-                                <b>Od: </b><?php echo date(DATE_FORMAT, $conference['time_from']);?>
+                                <b>Od: </b><?php echo date(DATE_FORMAT_CARD, $conference['time_from']);?>
                             </li>
                             <li class="list-group-item col-sm-6">
-                                <b>Do: </b><?php echo date(DATE_FORMAT, $conference['time_to']);?>
+                                <b>Do: </b><?php echo date(DATE_FORMAT_CARD, $conference['time_to']);?>
                             </li>
                             <li class="list-group-item col-sm-6 pl-list-item">
-                                <b>Cena: </b><?php echo date(DATE_FORMAT, $conference['price']);?> &euro;
+                                <b>Cena: </b><?php echo date(DATE_FORMAT_CARD, $conference['price']);?> &euro;
                             </li>
                             <li class="list-group-item col-sm-6">
                                 <b>Voľné miesta: </b><?php echo Conferences::get_number_tickets_left($conference['id']);?>
                             </li>
                         </ul>
                         <div class="card-footer">
-                            <a style="cursor:pointer;color:white;"  class="btn btn-margin btn-primary" onclick="add_to_cart('.$db_entry['id'].',this)" >Pridať do košíka</a>
+                            <a style="cursor:pointer;color:white;"  class="btn btn-margin btn-primary" onclick="add_to_cart(<?php echo $conference['id'];?>, this)">Pridať do košíka</a>
                             
                             <!-- Logged in owner should be able to edit the conference -->
                             <?php if(isset($_SESSION['user']) && $_SESSION['user']->get_user_data()['id'] == $conference['id_user']) {
                                 ?>
-                                    <a href="/conferences/edit.php?id='.$db_entry['id']." class="btn btn-outline-dark">Upraviť</a>
+                                    <a href="/conferences/edit.php?id=<?php echo $conference['id'];?>" class="btn btn-outline-dark">Upraviť</a>
                                 <?php
                             }
                             ?>
