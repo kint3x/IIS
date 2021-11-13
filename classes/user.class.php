@@ -318,4 +318,33 @@ Class User {
 
 		return true;
 	}
+
+
+	public static function get_all_users($perpage = 0, $offset = 0){
+		$db = new Database();
+        $conn = $db->handle;
+
+        $query = "SELECT * FROM User" ;
+
+        if($perpage > 0 ){
+        	$query.= " LIMIT ".$perpage." OFFSET ".$offset;
+        }
+
+        $req = $conn->query($query);
+
+        $users = array();
+        while ($row = $req->fetch_assoc()){
+        	$users[] = $row;
+        }
+        return $users;
+	}
+
+	public static function get_all_users_count(){
+		$db = new Database();
+        $conn = $db->handle;
+        $cnt_req = $conn->query("SELECT COUNT(*) FROM User");
+        $cnt_res = $cnt_req->fetch_all()[0][0];
+
+        return $cnt_res;
+	}
 }
