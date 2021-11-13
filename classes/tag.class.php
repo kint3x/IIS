@@ -79,6 +79,36 @@ class Tag {
 		return $tags;
 	}
 
+	/**
+	 * Return the name of the catogory with the given id.
+	 */
+	public static function get_name($tag_id) {
+		$db = new Database();
+
+		if($db->error) {
+			self::$error_message = 'Problém s pripojením k databáze.';
+			return False;
+		}
+
+		$conn = $db->handle;
+		
+		$stmt = $conn->prepare('SELECT * FROM Tag WHERE id = ?');
+		$stmt->bind_param('i', $tag_id);
+
+		if (!$stmt->execute()) {
+			self::$error_message = 'Chyba pri načítaní údajov.';
+			$db->close();
+			return false;
+		};
+
+		$res = $stmt->get_result();
+		$tag = $res->fetch_assoc();
+		
+		$db->close();
+
+		return $tag['name'];
+	}
+
     public static function get_conference_tags($conferrence_id) {
 		$db = new Database();
 		

@@ -88,9 +88,6 @@ start_session_if_none();
                         </select>
                     </div>
                 </div>
-                <!-- <div class="pb-1">
-                    <button data-toggle="modal" type="button" data-target="#newTagModal" class="btn btn-outline-dark" id="tagBtn">Pridať kategóriu</button>
-                </div> -->
                 <label for="from">Začiatok konania</label>    
                 <div class="form-group row" id="from">
                     <div class="col-sm-2">
@@ -120,34 +117,5 @@ start_session_if_none();
                 <button type="submit" class="btn btn-primary">Pridať</button>
             </form>
         </div>
-
-        <!-- <div class="modal fade" tabindex="-1" role="dialog" id="newTagModal">
-            <div class="modal-dialog" id="loginDialog">
-		        <div class="modal-content">
-                    <form id="loginForm">
-                    <div class="modal-header">
-                        <h3>Novú kategóriu</h3>
-                        <button type="button" class="close font-weight-light" data-dismiss="modal" aria-hidden="true">×</button>
-                    </div>
-                    <div class="modal-body">
-                        <div id="loginAlert"></div>
-		                <div class="form-group">
-		                    <label for="emailLogin">Email</label>
-		                    <input type="email" class="form-control" id="emailLogin" aria-describedby="emailHelp" placeholder="priklad@email.com" required>
-		                </div>
-		                <div class="form-group">
-		                    <label for="hesloLogin">Heslo</label>
-		                    <input type="password" class="form-control" id="passwordLogin" placeholder="Heslo" required>
-		                </div>
-		            </div>
-                    <div class="modal-footer">
-                        <div class="flex-fill">  
-                            <div class="d-flex justify-content-between align-items-center">
-                                <a href="#" data-toggle="modal" data-target="#registerModal" data-dismiss="modal">Nemáte účet? Registrujte sa!</a>
-		                        <button type="submit" class="btn btn-primary">Prihlásiť sa</button>
-                        </div>
-                    </div>
-              </div>         
-        </div> -->
     </body>
 </html

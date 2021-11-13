@@ -28,7 +28,16 @@ start_session_if_none();
         <div>
           <form role='search'>
           <div class='input-group'>
-              <input type='text' class='form-control' placeholder='Názov' name='confName'>
+              <select class="form-control mr-2" name="tag">
+                <option selected>Výber kategórie</option>
+                <?php
+                  $tags = Tag::get_tags_all();
+                  foreach ($tags as $tag) {
+                      echo "<option value={$tag['id']}>{$tag['name']}</option>";
+                  }
+                ?>
+              </select>
+              <input type='text' class='form-control' placeholder='Názov' name='name'>
               <div class='input-group-btn d-inline-flex align-items-center'>
                   <button class='btn btn-default' type='submit'><i class='fa fa-search'></i></button>
               </div>
@@ -39,9 +48,20 @@ start_session_if_none();
     
       <?php  
         // Display conferences
-        if (isset($_GET["confName"])) {
-          $data = Conferences::search_owner_by_name($_SESSION['user']->get_user_data()['id'], $_GET['confName']);
-          $alert_message = "Pre zadaný výraz '{$_GET["confName"]}' sme nenašli žiadnu konferenciu.";
+        if (isset($_GET["name"]) || isset($_GET["tag"])) {
+          $name = isset($_GET["name"]) ? $_GET["name"] : false;
+          $tag = isset($_GET["tag"]) ? $_GET["tag"] : false;
+          $data = Conferences::search_by_owner_name_tag($_SESSION['user']->get_user_data()['id'], $name, $tag);
+          
+          // Create an alert message displayed if no results were found
+          if ($tag === false) {
+            $alert_message = "Pre zadaný výraz '{$_GET["name"]}' sme nenašli žiadnu konferenciu.";
+          } else if ($name === false) {
+            $tag_name = Tag::get_name($tag);
+            $alert_message = "V kategórii '{$tag_name}' sme nenašli žiadnu konferenciu.";
+          } else {
+            $alert_message = "Pre zadanú kombináciu parametrov sme nenašli žiadne konferencie.";
+          }
         } else {
           $data = Conferences::get_conferences_by_owner($_SESSION['user']->get_user_data()['id']);
           $alert_message = 'Zatiaľ ste nevytvorili žiadnu konferenciu.';
