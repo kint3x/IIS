@@ -42,7 +42,7 @@ start_session_if_none();
                         $("#createFormAlert").css('display','block');
                         $("#createFormAlert").html(alert);
                     } else {
-                        alert("TODO redirect to new conference detail.");
+                        window.location.href = "/conferences/show.php?id=" + encodeURIComponent(data.conference_id);
                     }
                 });
 
