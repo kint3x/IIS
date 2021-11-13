@@ -52,7 +52,7 @@ start_session_if_none();
                             
                             <?php
                             foreach ($tags as $tag) {
-                                echo '<a href="#" class="badge badge-dark">'.$tag['name'].'</a>';
+                                echo '<div onclick="searchByTag('.$tag['id'].')" style="cursor:pointer" class="badge badge-dark">'.$tag['name'].'</div>';
                             }
                             ?>
                         </div>
@@ -78,7 +78,6 @@ start_session_if_none();
                             <?php if(isset($_SESSION['user']) && $_SESSION['user']->get_user_data()['id'] == $conference['id_user']) {
                                 ?>
                                 <a href="#" class="btn btn-outline-dark">Upraviť</a>
-                                
                                 <?php
                             }
                             ?>
@@ -87,5 +86,15 @@ start_session_if_none();
                 </div>
             </div>
         </div>
+
+        <script>
+        function searchByTag(tag_id) {
+            var url = window.location.href;
+
+            url =  "/?tag=" + encodeURIComponent(tag_id);
+            window.location.href = url;
+        }
+        </script>
+
     </body>
 </html
