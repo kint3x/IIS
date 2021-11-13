@@ -304,7 +304,7 @@ Class Conferences{
 
 	/**
 	 * Returns the conferences matching the given name and id.
-	 * $old - include conferences that have alreade ended
+	 * $old - if true include conferences that have alreade ended
 	 */
 	public static function search_by_name_tag($name, $tag_id, $old) {
 		$db = new Database();
@@ -316,23 +316,29 @@ Class Conferences{
 
 		$conn = $db->handle;
 		
-		if ($name === false) {
-			// only by tag
-			$stmt = $conn->prepare("SELECT * FROM Conference WHERE id IN (SELECT conference_id FROM cross_conf_tag WHERE tag_id = ?)");
-			$stmt->bind_param('i', $tag_id);
-		} else if ($tag_id === false) {
-			// only by name
-			$stmt = $conn->prepare("SELECT * FROM Conference WHERE name LIKE ?");
-			$name =  "%".$name."%";
-			$stmt->bind_param('s', $name);
-		} else {
-			$stmt = $conn->prepare("SELECT * FROM Conference WHERE name LIKE ? "
-								  ."AND id IN (SELECT conference_id FROM cross_conf_tag WHERE tag_id = ?)");
-			$name =  "%".$name."%";
-			$stmt->bind_param('si', $name, $tag_id);
+		$current_time = time();
+
+		// Display conferences that have already ended
+		if ($old) {
+			$current_time = 0;
 		}
 
-		
+		if ($name === false) {
+			// only by tag
+			$stmt = $conn->prepare("SELECT * FROM Conference WHERE time_to >= ? AND id IN (SELECT conference_id FROM cross_conf_tag WHERE tag_id = ?)");
+			$stmt->bind_param('ii', $current_time, $tag_id);
+		} else if ($tag_id === false) {
+			// only by name
+			$stmt = $conn->prepare("SELECT * FROM Conference WHERE time_to >= ? AND name LIKE ?");
+			$name =  "%".$name."%";
+			$stmt->bind_param('is', $current_time, $name);
+		} else {
+			$stmt = $conn->prepare("SELECT * FROM Conference WHERE time_to >= ? AND name LIKE ? "
+								  ."AND id IN (SELECT conference_id FROM cross_conf_tag WHERE tag_id = ?)");
+			$name =  "%".$name."%";
+			$stmt->bind_param('isi', $current_time, $name, $tag_id);
+		}
+
 		if (!$stmt->execute()) {
 			self::$error_message = 'Chyba pri načítaní údajov.';
 			$db->close();

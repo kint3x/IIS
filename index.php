@@ -38,8 +38,8 @@ if(isset($_GET["logout"])){
           }
         ?>
         <div>
-          <form role='search'>
-          <div class='input-group'>
+          <form role='search'>              
+            <div class='input-group'>
               <select class="form-control mr-2" name="tag">
                 <?php
                   if (isset($_GET['tag'])) {
@@ -58,27 +58,38 @@ if(isset($_GET["logout"])){
                 ?>
               </select>
               <input type='text' class='form-control' placeholder='Názov' name='name'
-                value=<?php echo isset($_GET['name']) ? $_GET['name'] : ""; ?>>
-              <div class='input-group-btn d-inline-flex align-items-center'>
-                  <button class='btn btn-default' type='submit'><i class='fa fa-search'></i></button>
+                  value=<?php echo isset($_GET['name']) ? $_GET['name'] : ""; ?>>
+              <div class='input-group-btn d-inline-flex align-items-center pr-2'>
+                <button class='btn btn-default' type='submit'><i class='fa fa-search'></i></button>
               </div>
-          </div>
+              <div class='form-check form-check-inline pr-2'>
+                <input type='checkbox' class='form-check-input' name='old' id='oldCheck' 
+                  <?php if (isset($_GET['old'])) {echo "checked";}?>>
+                <label class='form-check-label' for='oldCheck'>Ukončené konferencie</label>
+              </div>
+              <div class='form-check form-check-inline'>
+                <input type='checkbox' class='form-check-input' name='soldOut' id='soldOutCheck' 
+                  <?php if (isset($_GET['soldOut'])) {echo "checked";}?>>
+                <label class='form-check-label' for='soldOutCheck'>Vypredané konferencie</label>
+              </div>
+            </div>
           </form>
         </div>
       </div>
     
       <?php  
         // Display conferences
-        if (isset($_GET["name"]) || isset($_GET["tag"])) {
+        if (isset($_GET["name"]) || isset($_GET["tag"]) || isset($_GET["old"])) {
           $name = isset($_GET["name"]) ? $_GET["name"] : false;
           $tag = isset($_GET["tag"]) ? $_GET["tag"] : false;
+          $old = isset($_GET["old"]) ? true : false;
 
           // Don't search by tag
           if ($tag == "") {
             $tag = false;
           }
 
-          $data = Conferences::search_by_name_tag($name, $tag);
+          $data = Conferences::search_by_name_tag($name, $tag, $old);
           
           // Create an alert message displayed if no results were found
           if ($tag === false) {
@@ -94,6 +105,8 @@ if(isset($_GET["logout"])){
           $alert_message = 'Zatiaľ ste nevytvorili žiadnu konferenciu.';
         }
       
+        $sold_out = isset($_GET["soldOut"]) ? true : false;
+
         if (count($data) === 0) {
           // No conferences found
           echo "
@@ -106,7 +119,7 @@ if(isset($_GET["logout"])){
           echo "<div class='row justify-content-between'>";
 
           foreach ($data as $row) {
-            get_conference_card($row);
+            get_conference_card($row, $sold_out);
           };
       
           echo "</div>";

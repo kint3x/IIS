@@ -30,7 +30,15 @@ function get_head($params=array()){
 	  return sprintf($head, $options["title"], $options["html"]);
 }
 
-function get_conference_card($db_entry) {
+function get_conference_card($db_entry, $sold_out) {
+	$tickets_left = Conferences::get_number_tickets_left($db_entry['id']);
+	$tickets_left = $tickets_left < 0 ? "-" : $tickets_left;
+
+  // Don't display sold out conferences
+  if ($tickets_left == 0 && !$sold_out) {
+    return;
+  }
+
 	echo '
     <div class="card mb-4" style="width: 48%;">
       	<img class="card-img-top img-top-fixed-height" src="'.$db_entry['image_url'].'" alt="">
@@ -45,10 +53,7 @@ function get_conference_card($db_entry) {
 
 	foreach ($tags as $tag) {
         echo '<div style="cursor:pointer" onclick="searchByTag('.$tag['id'].')" class="badge badge-dark">'.$tag['name'].'</div>';
-    }  	
-		  
-	$tickets_left = Conferences::get_number_tickets_left($db_entry['id']);
-	$tickets_left = $tickets_left < 0 ? "-" : $tickets_left;
+  }
 
 	echo '</div>';
 	echo  '
