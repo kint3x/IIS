@@ -29,7 +29,7 @@ start_session_if_none();
           <form role='search'>
           <div class='input-group'>
               <select class="form-control mr-2" name="tag">
-                <option selected>Výber kategórie</option>
+                <option selected value="">Výber kategórie</option>
                 <?php
                   $tags = Tag::get_tags_all();
                   foreach ($tags as $tag) {
@@ -38,7 +38,7 @@ start_session_if_none();
                 ?>
               </select>
               <input type='text' class='form-control' placeholder='Názov' name='name'
-                value=<?php isset($_GET['name']) ? echo $_GET['name'] : echo ""; ?>>
+                value=<?php echo isset($_GET['name']) ? $_GET['name'] : ""; ?>>
               <div class='input-group-btn d-inline-flex align-items-center'>
                   <button class='btn btn-default' type='submit'><i class='fa fa-search'></i></button>
               </div>
@@ -52,6 +52,12 @@ start_session_if_none();
         if (isset($_GET["name"]) || isset($_GET["tag"])) {
           $name = isset($_GET["name"]) ? $_GET["name"] : false;
           $tag = isset($_GET["tag"]) ? $_GET["tag"] : false;
+
+          // Don't search by tag
+          if ($tag == "") {
+            $tag = false;
+          }
+
           $data = Conferences::search_by_owner_name_tag($_SESSION['user']->get_user_data()['id'], $name, $tag);
           
           // Create an alert message displayed if no results were found
