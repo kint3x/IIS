@@ -108,7 +108,7 @@ start_session_if_none();
     <div class='container'>  
       <div class='row'>
         <div class='col-sm-12 align-self-center'>
-          <h1>Môj účet</h1>
+          <h2>Môj účet</h2>
         </div>
         <div class='col-sm-12 align-self-center'>
         <div id='settingsAlert'></div>

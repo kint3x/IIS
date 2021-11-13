@@ -62,7 +62,7 @@ function get_conference_card($db_entry) {
 	  	<a style="cursor:pointer;color:white;"  class="btn btn-margin btn-primary" onclick="add_to_cart('.$db_entry['id'].',this)" >Pridať do košíka</a>';
     
 	if (isset($_SESSION['user']) && $_SESSION['user']->get_user_data()['id'] == $db_entry['id_user']) {
-		echo '<a href="#" class="btn btn-outline-dark">Upraviť</a>';
+		echo '<a href="/conferences/edit.php?id='.$db_entry['id'].'" class="btn btn-outline-dark">Upraviť</a>';
 	}
     
 	echo'  </div>

@@ -77,7 +77,7 @@ start_session_if_none();
                             <!-- Logged in owner should be able to edit the conference -->
                             <?php if(isset($_SESSION['user']) && $_SESSION['user']->get_user_data()['id'] == $conference['id_user']) {
                                 ?>
-                                <a href="#" class="btn btn-outline-dark">Upraviť</a>
+                                    <a href="/conferences/edit.php?id='.$db_entry['id']." class="btn btn-outline-dark">Upraviť</a>
                                 <?php
                             }
                             ?>
