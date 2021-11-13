@@ -162,6 +162,10 @@ function get_navbar(){
 		    </div>';
             }
             else{
+            		$admin_menu = '<li>
+                        <a class="dropdown-item" href="/admin/manage_users.php">Správa uživateľov</a>
+                      </li>';
+            		$admin = is_curr_user_admin() ? $admin_menu : "";
                 $nav .= '
                 <!-- Icon dropdown -->
                   <li class="nav-item me-3 me-lg-0 dropdown">
@@ -176,6 +180,7 @@ function get_navbar(){
                       <i class="fas fa-user "></i>
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    '.$admin.'
                       <li>
                         <a class="dropdown-item" href="/user/settings.php">Môj účet</a>
                       </li>
@@ -350,6 +355,13 @@ function if_not_admin_die(){
 	$user_data = $_SESSION['user']->get_user_data();
 	if($user_data["role"] != USER_ADMIN) die("Užívateľ nie je admin");
 
+}
+
+function is_curr_user_admin(){
+	if(!isset($_SESSION['user'])) return false;
+	$user_data = $_SESSION['user']->get_user_data();
+	if($user_data["role"] == USER_ADMIN) return true;
+	return false;
 }
 
 

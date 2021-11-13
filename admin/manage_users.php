@@ -51,8 +51,8 @@
                	$users = User::get_all_users(10,$curr_page*10);
 
                	foreach( $users as $row){
-               		echo "<tr>";
-               		echo '<td><input type="checkbox" class="checkthis"/></td>';  
+               		echo "<tr id='row".$row['id']."'>";
+               		echo '<td><input type="checkbox" value="'.$row['id'].'" class="checkthis"/></td>';  
                		echo "<td>".$row['id']."</td>";
                		echo "<td>".$row['name']."</td>";
                		echo "<td>".$row['surname']."</td>";
@@ -60,8 +60,8 @@
                		echo "<td>".$row['email']."</td>";
                		$role = ($row['role']) ? "Admin" : "Užívateľ";
                		echo "<td>".$role."</td>";
-               		echo '<td><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" ><span class="glyphicon glyphicon-pencil"></span></button></td>';
-               		echo '<td><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" ><span class="glyphicon glyphicon-trash"></span></button></td>';
+               		echo '<td><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" >Upraviť</span></button></td>';
+               		echo '<td><button class="btn btn-danger btn-xs" onclick="delete_user('.$row['id'].')" >Vymazať</button></td>';
                		echo "</tr>";
                	}
 
@@ -70,6 +70,7 @@
                </tbody>
             </table>
             <div class="clearfix"></div>
+            <button class="btn btn-danger btn-xs" onclick="delete_checked()" style="margin-bottom: 15px;float:right;" >Vymazať označené</button>
             <?php
             echo getPaginationString($curr_page+1,$last_page);
              ?>
@@ -109,7 +110,50 @@
 			});
 
 		});
+     	function delete_user(id,ask=true){
+     		if(ask){
+     			var confirm = window.confirm("Naozaj chcete zmazať usera s ID "+id+" ?");
+     			if(!confirm) return;
+     		}
+     		
+     		var formData={
+     			"action" : "delete",
+     			"user_id" : id 
+     		};
 
+	     	$.ajax({
+	            type: "POST",
+	            url: "/ajax/admin_user_action.php",
+	            data: formData,
+	            dataType: "json",
+	            encode: true,
+	          }).done(function (data) {
+	            if(data.success){
+	              $("#row"+id).hide();
+	            }
+	            else{
+	              var alert = "<div class='alert alert-warning alert-dismissible' role='alert'>" 
+	              + "<a href='#' class='close font-weight-light' data-dismiss='alert' aria-label='close'>&times;</a>"
+	              + data.error + "</div>";
+	            }
+
+	          });
+     	}
+
+     	function delete_checked(){
+     		var ids = new Array();
+     		$('input[type=checkbox].checkthis').each(function () {
+     			if(this.checked){
+			    	ids.push($(this).val());
+			    }
+			});
+			var confirm = window.confirm("Naozaj chcete zmazať všetky označené riadky ?");
+     		if(!confirm) return;
+
+     		ids.forEach(function(el,index,ids){
+     			delete_user(el,false);
+     		});
+     	}
 
      </script>
 	</body>
