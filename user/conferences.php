@@ -29,11 +29,19 @@ start_session_if_none();
           <form role='search'>
           <div class='input-group'>
               <select class="form-control mr-2" name="tag">
-                <option selected value="">Výber kategórie</option>
                 <?php
+                  if (isset($_GET['tag'])) {
+                    $selected_tag = $_GET['tag'];
+                    echo '<option value="">Výber kategórie</option>';
+                  } else {
+                    $selected_tag = -1;
+                    echo '<option selected value="">Výber kategórie</option>';
+                  }
+                  
                   $tags = Tag::get_tags_all();
                   foreach ($tags as $tag) {
-                      echo "<option value={$tag['id']}>{$tag['name']}</option>";
+                      $selected = $selected_tag == $tag['id'] ? "selected" : "";
+                      echo "<option {$selected} value={$tag['id']}>{$tag['name']}</option>";
                   }
                 ?>
               </select>
