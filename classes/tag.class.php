@@ -33,9 +33,53 @@ class Tag {
 		return true;
     }
 
-    // public static function add_tag_to_conference($conferrence_id, $tag_id) {
+	/**
+	 * Add a tag to the given conference.
+	 */
+    public static function add_tag_to_conference($conferrence_id, $tag_id) {
+		$db = new Database();
+
+		if ($db->error) {
+			self::$error_message = 'Problém s pripojením k databáze.';
+			return false;
+		}
+
+		$conn = $db->handle;
 		
-    // }
+		$stmt = $conn->prepare('INSERT INTO cross_conf_tag (conference_id, tag_id) VALUES (?, ?)');
+		$stmt->bind_param('ii', $conferrence_id, $tag_id);
+
+		if (!$stmt->execute()) {
+			self::$error_message = 'Chyba pri načítaní údajov.';
+			$db->close();
+			return false;
+		};
+		
+		$db->close();
+
+		return true;
+    }
+
+	/**
+	 * Return a list of all tags.
+	 */
+	public static function get_tags_all() {
+		$db = new Database();
+
+		if($db->error) {
+			self::$error_message = 'Problém s pripojením k databáze.';
+			return False;
+		}
+
+		$conn = $db->handle;
+		
+		$stmt = $conn->query('SELECT * FROM Tag ORDER BY name ASC');
+		$tags = $stmt->fetch_all(MYSQLI_ASSOC);
+		
+		$db->close();
+
+		return $tags;
+	}
 
     public static function get_conference_tags($conferrence_id) {
 		$db = new Database();

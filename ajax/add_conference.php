@@ -8,6 +8,7 @@ start_session_if_none();
 
 if (isset($_POST['name'])
     && isset($_POST['description'])
+    && isset($_POST['tags'])
     && isset($_POST['fromTime'])
     && isset($_POST['fromDate'])
     && isset($_POST['toTime'])
@@ -23,6 +24,7 @@ if (isset($_POST['name'])
     $from_ts = DateTime::createFromFormat($format, $_POST['fromDate']." ".$_POST['fromTime'])->getTimestamp();
     $to_ts = DateTime::createFromFormat($format, $_POST['toDate']." ".$_POST['toTime'])->getTimestamp();
     
+    // Create new conference
     $res = Conferences::create_conference(
         $owner_id,
         $_POST['name'],
@@ -32,8 +34,25 @@ if (isset($_POST['name'])
         $_POST['price'],
         $_POST['capacity']
     );
+    
+    // Conference wasn't created
+    if ($res === false) {
+        echo_json_response($res, Conferences::$error_message);
+        return;
+    }
 
-    echo_json_response($res, Conferences::$error_message);
+    // Add tags to the crated conference
+    $conference_id = $res[0][0];
+    
+    foreach ($_POST['tags'] as $tag_id) {
+        $res = Tag::add_tag_to_conference($conference_id, $tag_id);
+        
+        if (!$res) {
+            break;
+        }
+    }
+
+    echo_json_response($res, Tag::$error_message);
     return;
 }
 ?>

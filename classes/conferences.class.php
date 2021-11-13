@@ -134,9 +134,12 @@ Class Conferences{
 			return false;
 		};
 		
+		$stmt = $conn->query('SELECT LAST_INSERT_ID()');
+		$new_id = $stmt->fetch_all();
+
 		$db->close();
 
-		return true;
+		return $new_id;
 	}
 
 	/**

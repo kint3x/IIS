@@ -3,6 +3,7 @@
 require_once "defines.php";
 require_once ROOT."/classes/user.class.php";
 require_once ROOT."/classes/conferences.class.php";
+require_once ROOT."/classes/tag.class.php";
 
 function get_head($params=array()){
 
@@ -32,26 +33,36 @@ function get_head($params=array()){
 function get_conference_card($db_entry) {
 	echo '
     <div class="card mb-4" style="width: 48%;">
-      <img class="card-img-top img-top-fixed-height" src="'.$db_entry['image_url'].'" alt="">
-      <div class="card-body">
-        <h5 class="card-title">
-			<a href="/conferences/show.php?id='.$db_entry['id'].'" class="text-decoration-none")">'.$db_entry['name'].'</a>
-		</h5>
-        <p class="card-text text-truncate">'.$db_entry['description'].'</p>
-      </div>
-      <ul class="list-group list-group-flush d-flex flex-row flex-wrap">
-        <li class="list-group-item col-sm-6 pl-list-item"><b>Od: </b>'.date(DATE_FORMAT, $db_entry['time_from']).'</li>
+      	<img class="card-img-top img-top-fixed-height" src="'.$db_entry['image_url'].'" alt="">
+      	<div class="card-body">
+      	  	<h5 class="card-title">
+				<a href="/conferences/show.php?id='.$db_entry['id'].'" class="text-decoration-none")">'.$db_entry['name'].'</a>
+			</h5>
+      	  	<p class="card-text text-truncate">'.$db_entry['description'].'</p>
+	';
+    
+	$tags = Tag::get_conference_tags($db_entry['id']);
 
-		<li class="list-group-item col-sm-6"><b>Do: </b>'.date(DATE_FORMAT, $db_entry['time_from']).'</li>
-        <li class="list-group-item col-sm-6 pl-list-item"><b>Cena: </b>'.$db_entry['price'].' &euro;</li>
-        <li class="list-group-item col-sm-6"><b>Voľné miesta: </b>'.Conferences::get_number_tickets_left($db_entry['id']).'</li>
-      </ul>
-      <div class="card-footer">
+	foreach ($tags as $tag) {
+        echo '<a href="#" class="badge badge-dark">'.$tag['name'].'</a>';
+    }  	
+		  
+	echo '</div>';
+	echo  '
+		<ul class="list-group list-group-flush d-flex flex-row flex-wrap">
+      	  	<li class="list-group-item col-sm-6 pl-list-item"><b>Od: </b>'.date(DATE_FORMAT, $db_entry['time_from']).'</li>
+				<li class="list-group-item col-sm-6"><b>Do: </b>'.date(DATE_FORMAT, $db_entry['time_from']).'</li>
+      	  	<li class="list-group-item col-sm-6 pl-list-item"><b>Cena: </b>'.$db_entry['price'].' &euro;</li>
+      	  	<li class="list-group-item col-sm-6"><b>Voľné miesta: </b>'.Conferences::get_number_tickets_left($db_entry['id']).'</li>
+      	</ul>
+	';
+    
+    
+	echo '<div class="card-footer">
 	  	<a style="cursor:pointer;color:white;"  class="btn btn-margin btn-primary" onclick="add_to_cart('.$db_entry['id'].',this)" >Pridať do košíka</a>
         <a href="#" class="btn btn-outline-dark">Upraviť</a>
       </div>
-    </div>
-    ';
+    </div>';
 }
 
 function get_navbar(){

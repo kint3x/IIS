@@ -52,7 +52,7 @@ start_session_if_none();
                             
                             <?php
                             foreach ($tags as $tag) {
-                                echo '<a href="#" class="col-sm-1 badge badge-dark">'.$tag['name'].'</a>';
+                                echo '<a href="#" class="badge badge-dark">'.$tag['name'].'</a>';
                             }
                             ?>
                         </div>
