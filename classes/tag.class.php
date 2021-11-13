@@ -1,7 +1,5 @@
 <?php
 
-include_once "../defines.php";
-
 class Tag {
 
     public static $error_message = "";

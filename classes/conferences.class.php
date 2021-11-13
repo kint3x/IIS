@@ -1,5 +1,4 @@
 <?php
-require_once ROOT."/defines.php";
 require_once ROOT."/classes/database.class.php";
 
 Class Conferences{
@@ -18,7 +17,7 @@ Class Conferences{
 
 		$conn = $db->handle;
 		
-		$stmt = $conn->query('SELECT * FROM Conference');
+		$stmt = $conn->query('SELECT * FROM Conference ORDER BY time_from ASC');
 		$conferences = $stmt->fetch_all(MYSQLI_ASSOC);
 		
 		$db->close();
@@ -69,7 +68,7 @@ Class Conferences{
 
 		$conn = $db->handle;
 		
-		$stmt = $conn->prepare('SELECT * FROM Conference WHERE id_user = ?');
+		$stmt = $conn->prepare('SELECT * FROM Conference WHERE id_user = ? ORDER BY time_from ASC');
 		$stmt->bind_param('i', $owner_id);
 		
 		if (!$stmt->execute()) {

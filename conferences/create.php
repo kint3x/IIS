@@ -42,7 +42,6 @@ start_session_if_none();
                         $("#createFormAlert").css('display','block');
                         $("#createFormAlert").html(alert);
                     } else {
-                        // TODO redirect to conference detail
                         alert("TODO redirect to new conference detail.");
                     }
                 });
