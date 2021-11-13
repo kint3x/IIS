@@ -196,7 +196,6 @@ start_session_if_none();
                         dataType: "json",
                         encode: true
                     }).done(function (data) {
-                        console.log(data);
                         if (!data.success) {
                             var alert = "<div class='alert alert-warning'>"
                             + data.error

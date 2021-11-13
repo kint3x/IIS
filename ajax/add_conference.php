@@ -8,7 +8,6 @@ start_session_if_none();
 
 if (isset($_POST['name'])
     && isset($_POST['description'])
-    && isset($_POST['tags'])
     && isset($_POST['fromTime'])
     && isset($_POST['fromDate'])
     && isset($_POST['toTime'])
@@ -43,6 +42,12 @@ if (isset($_POST['name'])
         return;
     }
 
+    // No tags
+    if (!isset($_POST['tags'])) {
+        echo_json_response($res, Conferences::$error_message);
+        return;
+    }
+
     // Add tags to the crated conference
     $conference_id = $res[0][0];
     
@@ -65,4 +70,3 @@ if (isset($_POST['name'])
     );
     return;
 }
-?>

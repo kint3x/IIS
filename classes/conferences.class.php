@@ -186,7 +186,7 @@ Class Conferences{
 
 		$conn = $db->handle;
 		
-		$stmt = $conn->prepare("UPDATE Conference SET"
+		$stmt = $conn->prepare("UPDATE Conference SET "
 				."name = ?, "
 				."description = ?, "
 				."time_from = ?, "
@@ -304,8 +304,9 @@ Class Conferences{
 
 	/**
 	 * Returns the conferences matching the given name and id.
+	 * $old - include conferences that have alreade ended
 	 */
-	public static function search_by_name_tag($name, $tag_id) {
+	public static function search_by_name_tag($name, $tag_id, $old) {
 		$db = new Database();
 
 		if($db->error) {

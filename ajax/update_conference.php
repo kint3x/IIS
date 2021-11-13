@@ -6,11 +6,9 @@ require_once ROOT."/classes/user.class.php";
 
 start_session_if_none();
 
-
 if (isset($_POST['id'])
     && isset($_POST['name'])
     && isset($_POST['description'])
-    && isset($_POST['tags'])
     && isset($_POST['fromTime'])
     && isset($_POST['fromDate'])
     && isset($_POST['toTime'])
@@ -30,7 +28,7 @@ if (isset($_POST['id'])
     $to_ts = DateTime::createFromFormat($format, $_POST['toDate']." ".$_POST['toTime'])->getTimestamp();
     
     // Create new conference
-    $res = Conferences::create_conference(
+    $res = Conferences::update_conference(
         $_POST['id'],
         $_POST['name'],
         $_POST['description'],
@@ -46,9 +44,15 @@ if (isset($_POST['id'])
         echo_json_response($res, Conferences::$error_message);
         return;
     }
-
+    
     // Update tags
     Tag::remove_tags_from_conference($_POST['id']);
+
+    // No tags were set
+    if (!isset($_POST['tags'])) {
+        echo_json_response($res, Conferences::$error_message);
+        return;
+    }
 
     foreach ($_POST['tags'] as $tag_id) {
         $res = Tag::add_tag_to_conference($_POST['id'], $tag_id);
@@ -63,4 +67,3 @@ if (isset($_POST['id'])
     echo_json_response($res, Tag::$error_message);
     return;
 }
-?>
