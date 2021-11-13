@@ -1,5 +1,5 @@
 <?php
-include_once "../defines.php";
+
 include_once ROOT."/classes/user.class.php";
 
 Class FileUpload{

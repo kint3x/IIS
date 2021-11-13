@@ -17,7 +17,7 @@ start_session_if_none();
 
         <div class="container">
             <div class="row">
-                <div class="col-sm-12 align-self-center pb-2">
+                <div class="col-sm-12 align-self-center pb-1">
                     <h1>
                         Pridať konferenciu
                     </h1>
@@ -56,9 +56,6 @@ start_session_if_none();
                         </select>
                     </div>
                 </div>
-                <!-- <div class="pb-1">
-                    <button data-toggle="modal" type="button" data-target="#newTagModal" class="btn btn-outline-dark" id="tagBtn">Pridať kategóriu</button>
-                </div> -->
                 <label for="from">Začiatok konania</label>    
                 <div class="form-group row" id="from">
                     <div class="col-sm-2">

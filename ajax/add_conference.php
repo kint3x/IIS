@@ -48,11 +48,19 @@ if (isset($_POST['name'])
         $res = Tag::add_tag_to_conference($conference_id, $tag_id);
         
         if (!$res) {
-            break;
+            echo_json_response($res, Tag::$error_message);
+            return;
         }
     }
-
-    echo_json_response($res, Tag::$error_message);
+    
+    // Success
+    echo json_encode(
+        array(
+            "success" => true,
+            "error" => "",
+            "conference_id" => $conference_id,
+        )
+    );
     return;
 }
 ?>

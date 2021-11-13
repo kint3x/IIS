@@ -1,5 +1,4 @@
 <?php
-require_once ROOT."/defines.php";
 require_once ROOT."/classes/database.class.php";
 
 Class Conferences{
@@ -18,7 +17,7 @@ Class Conferences{
 
 		$conn = $db->handle;
 		
-		$stmt = $conn->query('SELECT * FROM Conference');
+		$stmt = $conn->query('SELECT * FROM Conference ORDER BY time_from ASC');
 		$conferences = $stmt->fetch_all(MYSQLI_ASSOC);
 		
 		$db->close();
@@ -69,7 +68,7 @@ Class Conferences{
 
 		$conn = $db->handle;
 		
-		$stmt = $conn->prepare('SELECT * FROM Conference WHERE id_user = ?');
+		$stmt = $conn->prepare('SELECT * FROM Conference WHERE id_user = ? ORDER BY time_from ASC');
 		$stmt->bind_param('i', $owner_id);
 		
 		if (!$stmt->execute()) {
@@ -184,7 +183,7 @@ Class Conferences{
 		/**
 	 * Returns the conferences matching the given name and id.
 	 */
-	public static function search_owner_by_name($id, $name) {
+	public static function search_by_owner_name_tag($user_id, $name, $tag_id) {
 		$db = new Database();
 
 		if($db->error) {
@@ -194,9 +193,23 @@ Class Conferences{
 
 		$conn = $db->handle;
 		
-		$stmt = $conn->prepare("SELECT * FROM Conference WHERE id_user = ? AND name LIKE ?");
-		$name =  "%".$name."%";
-		$stmt->bind_param('is', $id, $name);
+		if ($name === false) {
+			// only by tag
+			$stmt = $conn->prepare("SELECT * FROM Conference WHERE id_user = ? "
+								  ."AND id IN (SELECT conference_id FROM cross_conf_tag WHERE tag_id = ?)");
+			$stmt->bind_param('ii', $user_id, $tag_id);
+		} else if ($tag_id === false) {
+			// only by name
+			$stmt = $conn->prepare("SELECT * FROM Conference WHERE id_user = ? AND name LIKE ?");
+			$name =  "%".$name."%";
+			$stmt->bind_param('is', $user_id, $name);
+		} else {
+			$stmt = $conn->prepare("SELECT * FROM Conference WHERE id_user = ? AND name LIKE ? "
+								  ."AND id IN (SELECT conference_id FROM cross_conf_tag WHERE tag_id = ?)");
+			$name =  "%".$name."%";
+			$stmt->bind_param('isi', $user_id, $name, $tag_id);
+		}
+
 		
 		if (!$stmt->execute()) {
 			self::$error_message = 'Chyba pri načítaní údajov.';

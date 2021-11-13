@@ -1,4 +1,5 @@
 <?php
+
 require_once ROOT."/classes/database.class.php";
 
 Class User {
