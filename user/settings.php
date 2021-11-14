@@ -52,15 +52,11 @@ start_session_if_none();
             }
             else{
               var alert = "<div class='alert alert-warning alert-dismissible' role='alert'>" 
-              + "<a href='#' class='close font-weight-light' data-dismiss='alert' aria-label='close'>&times;</a>"
-              + data.error + "</div>";
-              $("#passwordAlert").css('display','block');
-              $("#passwordAlert").html(alert);
-              
-              $("#passwordSet").val("");
-              $("#passwordSetAgain").val("");
-            }
-            
+                + "<a href='#' class='close font-weight-light' data-dismiss='alert' aria-label='close'>&times;</a>"
+                + data.error + "</div>";
+                $("#passwordAlert").css('display','block');
+                $("#passwordAlert").html(alert);
+              }          
           });
           
           event.preventDefault();

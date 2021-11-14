@@ -85,24 +85,23 @@ function get_head($params=array()){
  * Show an error message and exit if the user isn't logged in.
  */
 function check_login($message) {
-          if (!isset($_SESSION['user'])) {
-            echo "
-            <div class='container'>
-              <div class='row'>
-                <div class='col-sm-12 align-self-center pb-2'>
-                  <div class='alert alert-secondary' role='alert'>
-                    {$message}
-                  </div>
-                </div>
-              </div>
-            </div>";
-
-            exit();
-        }
+  if (!isset($_SESSION['user'])) {
+    echo "
+    <div class='container'>
+      <div class='row'>
+        <div class='col-sm-12 align-self-center pb-2'>
+          <div class='alert alert-secondary' role='alert'>
+            {$message}
+          </div>
+        </div>
+      </div>
+    </div>";
+    exit();
+  }
 }
 
-function get_conference_card($db_entry, $sold_out) {
-	$tickets_left = Conferences::get_number_tickets_left($db_entry['id']);
+function get_conference_card($conference, $sold_out) {
+	$tickets_left = Conferences::get_number_tickets_left($conference['id']);
 	$tickets_left = $tickets_left < 0 ? "-" : $tickets_left;
 
   // Don't display sold out conferences
@@ -112,16 +111,16 @@ function get_conference_card($db_entry, $sold_out) {
 
 	echo '
     <div class="card mb-4" style="width: 48%;">
-      	<img class="card-img-top img-top-fixed-height" src="'.$db_entry['image_url'].'" alt="">
+      	<img class="card-img-top img-top-fixed-height" src="'.$conference['image_url'].'" alt="">
       	<div class="card-body">
       	  <h5 class="card-title">
-				    <a href="/conferences/show.php?id='.$db_entry['id'].'" class="text-decoration-none")">'.$db_entry['name'].'</a>
+				    <a href="/conferences/show.php?id='.$conference['id'].'" class="text-decoration-none")">'.$conference['name'].'</a>
 			    </h5>
-          <p class="card-text text-truncate">'.$db_entry['description'].'</p>
-          <p class="card-text"><small class="text-muted">'.$db_entry['city'].'</small></p>
+          <p class="card-text text-truncate">'.$conference['description'].'</p>
+          <p class="card-text"><small class="text-muted">'.$conference['city'].'</small></p>
 	';
     
-	$tags = Tag::get_conference_tags($db_entry['id']);
+	$tags = Tag::get_conference_tags($conference['id']);
 
 	foreach ($tags as $tag) {
         echo '<div style="cursor:pointer" onclick="searchByTag('.$tag['id'].')" class="badge badge-dark">'.$tag['name'].'</div>';
@@ -130,10 +129,10 @@ function get_conference_card($db_entry, $sold_out) {
 	echo '</div>';    
     
 	echo '<div class="card-footer">
-	  	<a style="cursor:pointer;color:white;"  class="btn btn-margin btn-primary" onclick="add_to_cart('.$db_entry['id'].',this)" >Pridať do košíka</a>';
+	  	<a style="cursor:pointer;color:white;"  class="btn btn-margin btn-primary" onclick="add_to_cart('.$conference['id'].',this)" >Pridať do košíka</a>';
     
-	if (isset($_SESSION['user']) && $_SESSION['user']->get_user_data()['id'] == $db_entry['id_user']) {
-		echo '<a href="/conferences/edit.php?id='.$db_entry['id'].'" class="btn btn-outline-dark">Upraviť</a>';
+	if (user_owns_conference($conference['id_user'])) {
+		echo '<a href="/conferences/edit.php?id='.$conference['id'].'" class="btn btn-outline-dark">Upraviť</a>';
 	}
     
 	echo'  </div>
