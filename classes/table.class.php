@@ -32,7 +32,7 @@ class SimpleTable{
 		$this->options['ajax_url'] = "";
 		$this->options['pagination'] = true;
 		$this->options['perpage'] = 10;
-		$this->options['table_id'] = "myTable";
+		$this->options['table_id'] = "myTable"; //default tablename
 
 	}
 
@@ -60,13 +60,13 @@ class SimpleTable{
 			if($row['Key'] == "PRI") $this->db_table_pk = $row['Field'];
 
 			$this->table_structure[$row['Field']] = array(
-				"name" => $row['Field'],
-				"type" => $type,
+				"name" => $row['Field'], //name that shows up in form and table
+				"type" => $type, // type (better not to edit)
 				"editable" => $editable, //can be edited
 				"form_edit_show" => true, //will be shown in edit form
-				"form_edit_prefill" => true,
-				"show_column" => true,
-				"override" => array(),
+				"form_edit_prefill" => true, //should be value prefilled when opening form?
+				"show_column" => true, // will column show up ?
+				"override" => array(), // override ints to string for example: "1" => "Admin", in table, value will be 1 but text will be Admin
 			);
 			
 		}
