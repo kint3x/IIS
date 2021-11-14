@@ -7,14 +7,12 @@ include_once ROOT."/classes/fileUpload.class.php";
 
 session_start();
 
-
 /**
  * 
  *  Ajax zachytí uploadovaný obrázok a nahrá ho do uploads podla mesiaca
  *  a vráti 'error' = true | false  'message' = error_mesage | cesta k súboru
  * 
 */
-
 
 if(!isset($_SESSION['user'])){
      echo  json_encode(array(

@@ -6,6 +6,11 @@ require_once ROOT."/classes/database.class.php";
 
 start_session_if_none();
 
+if (!isset($_SESSION['user'])) {
+    echo_json_response(false, 'Pre zmenu hesla je potrebné sa prihlásiť.');
+    return;
+}
+
 if(isset($_POST['passwordCurrent']) && isset($_POST['passwordNew']) && isset($_POST['passwordNewAgain'])){
 	if(!isset($_SESSION['user'])){
 		echo_json_response(false, 'Neprihlásený užívateľ.');

@@ -6,6 +6,11 @@ require_once ROOT."/classes/user.class.php";
 
 start_session_if_none();
 
+if (!isset($_SESSION['user'])) {
+    echo_json_response(false, 'Pre zmenu údajov je potrebné sa prihlásiť.');
+    return;
+}
+
 if(isset($_POST['email']) && isset($_POST['name']) && isset($_POST['surname']) && isset($_POST['address'])){
 	if(!isset($_SESSION['user'])){
 		echo_json_response(false, 'Neprihlásený užívateľ.'); return;
