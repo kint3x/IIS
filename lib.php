@@ -30,6 +30,26 @@ function get_head($params=array()){
 	  return sprintf($head, $options["title"], $options["html"]);
 }
 
+/**
+ * Show an error message and exit if the user isn't logged in.
+ */
+function check_login($message) {
+          if (!isset($_SESSION['user'])) {
+            echo "
+            <div class='container'>
+              <div class='row'>
+                <div class='col-sm-12 align-self-center pb-2'>
+                  <div class='alert alert-secondary' role='alert'>
+                    {$message}
+                  </div>
+                </div>
+              </div>
+            </div>";
+
+            exit();
+        }
+}
+
 function get_conference_card($db_entry, $sold_out) {
 	$tickets_left = Conferences::get_number_tickets_left($db_entry['id']);
 	$tickets_left = $tickets_left < 0 ? "-" : $tickets_left;

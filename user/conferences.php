@@ -12,7 +12,10 @@ start_session_if_none();
     <?php echo get_head(); ?>
     
     <body>
-      <?php echo get_navbar(); ?>
+      <?php 
+      echo get_navbar();
+      check_login("Pre zobrazenie tejto stránky musíte byť prihlásený.");
+      ?>
       
       <div class='container'>  
         <div class='row'>

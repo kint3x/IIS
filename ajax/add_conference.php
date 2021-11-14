@@ -7,7 +7,7 @@ require_once ROOT."/classes/user.class.php";
 start_session_if_none();
 
 if (!isset($_SESSION['user'])) {
-    echo_json_response(false, 'Pre pridanie konferencie sa musíte prihlásiť.');
+    echo_json_response(false, 'Pre pridanie konferencie je potrebné sa prihlásiť.');
     return;
 }
 
