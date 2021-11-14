@@ -63,10 +63,11 @@ function get_conference_card($db_entry, $sold_out) {
     <div class="card mb-4" style="width: 48%;">
       	<img class="card-img-top img-top-fixed-height" src="'.$db_entry['image_url'].'" alt="">
       	<div class="card-body">
-      	  	<h5 class="card-title">
-				<a href="/conferences/show.php?id='.$db_entry['id'].'" class="text-decoration-none")">'.$db_entry['name'].'</a>
-			</h5>
-      	  	<p class="card-text text-truncate">'.$db_entry['description'].'</p>
+      	  <h5 class="card-title">
+				    <a href="/conferences/show.php?id='.$db_entry['id'].'" class="text-decoration-none")">'.$db_entry['name'].'</a>
+			    </h5>
+          <p class="card-text text-truncate">'.$db_entry['description'].'</p>
+          <p class="card-text"><small class="text-muted">'.$db_entry['city'].'</small></p>
 	';
     
 	$tags = Tag::get_conference_tags($db_entry['id']);
@@ -75,16 +76,7 @@ function get_conference_card($db_entry, $sold_out) {
         echo '<div style="cursor:pointer" onclick="searchByTag('.$tag['id'].')" class="badge badge-dark">'.$tag['name'].'</div>';
   }
 
-	echo '</div>';
-	echo  '
-		<ul class="list-group list-group-flush d-flex flex-row flex-wrap">
-      	  	<li class="list-group-item col-sm-6 pl-list-item"><b>Od: </b>'.date(DATE_FORMAT_CARD, $db_entry['time_from']).'</li>
-				<li class="list-group-item col-sm-6"><b>Do: </b>'.date(DATE_FORMAT_CARD, $db_entry['time_from']).'</li>
-      	  	<li class="list-group-item col-sm-6 pl-list-item"><b>Cena: </b>'.$db_entry['price'].' &euro;</li>
-      	  	<li class="list-group-item col-sm-6"><b>Voľné miesta: </b>'.$tickets_left.'</li>
-      	</ul>
-	';
-    
+	echo '</div>';    
     
 	echo '<div class="card-footer">
 	  	<a style="cursor:pointer;color:white;"  class="btn btn-margin btn-primary" onclick="add_to_cart('.$db_entry['id'].',this)" >Pridať do košíka</a>';

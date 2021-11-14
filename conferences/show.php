@@ -55,20 +55,29 @@ start_session_if_none();
                                 echo '<div onclick="searchByTag('.$tag['id'].')" style="cursor:pointer" class="badge badge-dark">'.$tag['name'].'</div>';
                             }
                             ?>
-                        </div>
+                            
+                        </div>                            
 
                         <ul class="list-group list-group-flush d-flex flex-row flex-wrap">
+                            <li class="list-group-item col-sm-12 pl-list-item">
+                                <h6>Miesto konania</h6>
+                                <span><?php echo $conference['street']; ?></span>
+                                <br>
+                                <span><?php echo $conference['zip'].' '.$conference['city']; ?></span>
+                                <br>
+                                <span><?php echo $conference['state']; ?></span>
+                            </li>
                             <li class="list-group-item col-sm-6 pl-list-item">
-                                <b>Od: </b><?php echo date(DATE_FORMAT_CARD, $conference['time_from']);?>
+                                <h6>Od</h6><?php echo date(DATE_FORMAT_CARD, $conference['time_from']);?>
                             </li>
                             <li class="list-group-item col-sm-6">
-                                <b>Do: </b><?php echo date(DATE_FORMAT_CARD, $conference['time_to']);?>
+                                <h6>Do</h6><?php echo date(DATE_FORMAT_CARD, $conference['time_to']);?>
                             </li>
                             <li class="list-group-item col-sm-6 pl-list-item">
-                                <b>Cena: </b><?php echo date(DATE_FORMAT_CARD, $conference['price']);?> &euro;
+                                <h6>Cena</h6><?php echo $conference['price'];?> &euro;
                             </li>
                             <li class="list-group-item col-sm-6">
-                                <b>Voľné miesta: </b><?php echo Conferences::get_number_tickets_left($conference['id']);?>
+                                <h6>Voľné miesta</h6><?php echo Conferences::get_number_tickets_left($conference['id']);?>
                             </li>
                         </ul>
                         <div class="card-footer">

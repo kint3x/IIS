@@ -54,7 +54,7 @@ start_session_if_none();
             <div class="row">
                 <div class="col-sm-12 align-self-center pb-1">
                     <h2>
-                        Pridať konferenciu
+                        Upraviť konferenciu
                     </h2>
                 </div>
             </div>
@@ -73,29 +73,32 @@ start_session_if_none();
                     <label for="description">Popis konferencie</label>
                     <textarea class="form-control" id="description" placeholder="Detailný popis..."><?php echo $conference['description'];?></textarea>
                 </div>
-                <div class="form-group">
-                    <label for="description">Obrázok konferencie</label>
-                    <br>
-                    <input type="file" id="poster"/>
-                    <img id="img_loader" src="<?php echo $conference['image_url'];?>" style="height: 50px" />
-                    <input type="hidden" name="image" id="img_url" value="<?php echo $conference['image_url'];?>">
-                </div>
-                <label for="tags">Kategórie</label>
-                <div class="form-group row" name="tags">
-                    <div class="col-sm-3">
-                        <select class="form-control" multiple id="tags">
-                        <?php
-                            $tags_selected = Tag::get_conference_tags($conference['id']);
-                            $tags = Tag::get_tags_all();
 
-                            foreach ($tags as $tag) {
-                                $select = in_array($tag, $tags_selected) ? "selected" : "";
-                                echo "<option {$select} value={$tag['id']}>{$tag['name']}</option>";
-                            }
-                        ?>
-                        </select>
+                <h4>Adresa</h4>
+                <div class="form-group row">
+                    <div class="col-sm-6">
+                        <label for="street">Ulica</label>
+                        <input type="text" class="form-control" id="street" value="<?php echo $conference['street'];?>" autocomplete="street-address" required>
                     </div>
                 </div>
+                <div class="form-group row">
+                    <div class="col-sm-6">
+                        <label for="city">Mesto</label>
+                        <input type="text" class="form-control" id="city" value="<?php echo $conference['city'];?>" autocomplete="address-level2" required>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-3">
+                        <label for="state">Štát</label>
+                        <input type="text" class="form-control" id="state" value="<?php echo $conference['state'];?>" autocomplete="country-name" required>
+                    </div>
+                    <div class="col-sm-3">
+                        <label for="zip">PSČ</label>
+                        <input type="number" class="form-control" id="zip" value="<?php echo $conference['zip'];?>" autocomplete="postal-code" required>
+                    </div>
+                </div>
+
+                <h4>Čas</h4>
                 <label for="from">Začiatok konania</label>
                 <?php
                     // Convert dates from timestamps to date strings
@@ -109,7 +112,7 @@ start_session_if_none();
                     $to_date = substr($to, 0, strpos($to, ' '));
                 ?>
                 <div class="form-group row" id="from">
-                    <div class="col-sm-2">
+                    <div class="col-sm-3">
                         <input type="time" class="form-control timepicker" id="fromTime" value="<?php echo $from_time;?>">
                     </div>
                     <div class="col-sm-3">
@@ -118,25 +121,54 @@ start_session_if_none();
                 </div>
                 <label for="to">Koniec konania</label>    
                 <div class="form-group row" id="to">
-                    <div class="col-sm-2">
+                    <div class="col-sm-3">
                         <input type="time" class="form-control" id="toTime" value="<?php echo $to_time;?>">
                     </div>
                     <div class="col-sm-3">
                         <input type="date" class="form-control" id="toDate" value="<?php echo $to_date;?>">
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="price">Cena lístku v &euro;</label>
-                    <input type=number class="form-control" min=0 step="0.01" pattern="\d+\.\d\d" id="price" value="<?php echo $conference['price'];?>">
-                </div>
-                
-                <?php
-                    $tickets_reserved = Reservation::num_reservation_for_conference($conference['id']);
-                ?>
 
+                <h4>Cena a kapacita</h4>
+                <div class="form-group row">    
+                    <div class="form-group col-sm-3">
+                        <label for="price">Cena lístku v &euro;</label>
+                        <input type=number class="form-control" min=0 step="0.01" pattern="\d+\.\d\d" id="price" value="<?php echo $conference['price'];?>">
+                    </div>
+                    
+                    <?php
+                    $tickets_reserved = Reservation::num_reservation_for_conference($conference['id']);
+                    ?>
+
+                    <div class="form-group col-sm-3">
+                        <label for="capacity">Počet voľných miest</label>
+                        <input type=number class="form-control" min="<?php echo $tickets_reserved;?>" pattern="\d+" id="capacity" step="1" value="<?php echo $conference['capacity'];?>">
+                    </div>
+                </div>
+
+                <h4>Doplňujúce informácie</h4>
                 <div class="form-group">
-                    <label for="capacity">Počet voľných miest</label>
-                    <input type=number class="form-control" min="<?php echo $tickets_reserved;?>" pattern="\d+" id="capacity" step="1" value="<?php echo $conference['capacity'];?>">
+                    <label for="description">Obrázok konferencie</label>
+                    <br>
+                    <input type="file" id="poster"/>
+                    <img id="img_loader" src="<?php echo $conference['image_url'];?>" style="height: 50px" />
+                    <input type="hidden" name="image" id="img_url" value="<?php echo $conference['image_url'];?>">
+                </div>
+                <label for="tags">Kategórie</label>
+                <div class="form-group row" name="tags">
+                    <div class="col-sm-4">
+                        <select class="form-control" multiple id="tags">
+                        <?php
+                            $tags_selected = Tag::get_conference_tags($conference['id']);
+                            $tags = Tag::get_tags_all();
+
+                            foreach ($tags as $tag) {
+                                $select = in_array($tag, $tags_selected) ? "selected" : "";
+                                echo "<option {$select} value={$tag['id']}>{$tag['name']}</option>";
+                            }
+                        ?>
+                        </select>
+                    </div>
                 </div>
                 <button type="submit" class="btn btn-primary">Uložiť zmeny</button>
             </form>
@@ -179,6 +211,10 @@ start_session_if_none();
                         id: $("#id").val(),
                         name: $("#name").val(),
                         description: $("#description").val(),
+                        street: $("#street").val(),
+                        city: $("#city").val(),
+                        zip:  $("#zip").val(),
+                        state: $("#state").val(),
                         tags: $("#tags").val(),
                         fromTime: $("#fromTime").val(),
                         fromDate: $("#fromDate").val(),
@@ -211,6 +247,8 @@ start_session_if_none();
                             $("#updateFormAlert").css('display','block');
                             $("#updateFormAlert").html(succ);
                         }
+
+                        $('body').scrollTop(0);
                     });
 
                     event.preventDefault();

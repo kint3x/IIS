@@ -9,6 +9,10 @@ start_session_if_none();
 if (isset($_POST['id'])
     && isset($_POST['name'])
     && isset($_POST['description'])
+    && isset($_POST['street'])
+    && isset($_POST['city'])
+    && isset($_POST['zip'])
+    && isset($_POST['state'])
     && isset($_POST['fromTime'])
     && isset($_POST['fromDate'])
     && isset($_POST['toTime'])
@@ -32,6 +36,10 @@ if (isset($_POST['id'])
         $_POST['id'],
         $_POST['name'],
         $_POST['description'],
+        $_POST['street'],
+        $_POST['city'],
+        $_POST['zip'],
+        $_POST['state'],
         $from_ts,
         $to_ts,
         $_POST['price'],

@@ -141,14 +141,14 @@ Class Conferences{
 			.'(id_user, name, description, street, city, zip, state, time_from, time_to, price, capacity, image_url)'
 			.'VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
 		$stmt->bind_param(
-			'issssisiiiis',
+			'issssisiidis',
 			$owner_id,
 			$name,
+			$description,
 			$street,
 			$city,
 			$zip,
 			$state,
-			$description,
 			$time_from,
 			$time_to,
 			$price,
@@ -174,6 +174,10 @@ Class Conferences{
 		$id,			
 		$name,
 		$description,
+		$street,
+		$city,
+		$zip,
+		$state,
 		$time_from,
 		$time_to,
 		$price,
@@ -197,6 +201,10 @@ Class Conferences{
 		$stmt = $conn->prepare("UPDATE Conference SET "
 				."name = ?, "
 				."description = ?, "
+				."street = ?, "
+				."city = ?, "
+				."zip = ?, "
+				."state = ?, "
 				."time_from = ?, "
 				."time_to = ?, "
 				."price = ?, "
@@ -205,9 +213,13 @@ Class Conferences{
 				."WHERE id = ?"
 			);
 		$stmt->bind_param(
-			'ssiiiisi',
+			'ssssisiidisi',
 			$name,
 			$description,
+			$street,
+			$city,
+			$zip,
+			$state,
 			$time_from,
 			$time_to,
 			$price,
