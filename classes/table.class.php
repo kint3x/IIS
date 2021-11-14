@@ -62,7 +62,9 @@ class SimpleTable{
 			$this->table_structure[$row['Field']] = array(
 				"name" => $row['Field'],
 				"type" => $type,
-				"editable" => $editable,
+				"editable" => $editable, //can be edited
+				"form_edit_show" => true, //will be shown in edit form
+				"form_edit_prefill" => true,
 				"show_column" => true,
 				"override" => array(),
 			);
@@ -112,16 +114,16 @@ class SimpleTable{
        		$html .= "<tr id='{$this->options['table_id']}_row_".$row[$this->db_table_pk]."'>";
        		$html .= '<td><input type="checkbox" value="'.$row[$this->db_table_pk].'" class="checkthis"/></td>';
        		foreach($row as $ckey => $column){
-       			if($this->table_structure[$ckey]['show_column'] == false) continue;
+       			$visible = $this->table_structure[$ckey]['show_column'] ? "":"style='display:none;'";
        			
        			if(array_key_exists($column,$this->table_structure[$ckey]['override'])){
        				$column = $this->table_structure[$ckey]['override'][$column];
        			}
 
-       			$html .= "<td>{$column}</td>";
+       			$html .= "<td col-name='$ckey' {$visible}>{$column}</td>";
        		}
        		//controls
-       		if($this->options['edit']) $html .= '<td><button class="btn btn-primary btn-xs" edit-row="'.$row[$this->db_table_pk].'" data-title="Edit" data-toggle="modal" data-target="#edit'.$this->options['table_id'].'Modal" >Upraviť</span></button></td>';
+       		if($this->options['edit']) $html .= '<td><button class="btn btn-primary btn-xs" edit-row="'.$row[$this->db_table_pk].'" data-title="Edit" data-toggle="modal" data-target="#edit'.$this->options['table_id'].'Modal" onclick="load_form_'.$this->options['table_id'].'(this)">Upraviť</span></button></td>';
        		if($this->options['delete']) $html .= '<td><button class="btn btn-danger btn-xs" onclick="delete_row_'.$this->options['table_id'].'('.$row[$this->db_table_pk].')" >Vymazať</button></td>';
        		$html .= "</tr>";
        	}
@@ -131,6 +133,7 @@ class SimpleTable{
        	$html .= '</tbody></table><div class="clearfix"></div>';
 
        	if($this->options['delete']) $html.= '<button class="btn btn-danger btn-xs" onclick="delete_checked_'.$this->options['table_id'].'()" style="margin-bottom: 15px;float:right;" >Vymazať označené</button>';
+       	if($this->options['edit']) $html.= self::get_table_edit_modal();
 
        	if($this->options['pagination']){
        		$html .= getPaginationString($curr_page+1,$last_page);
@@ -215,7 +218,7 @@ class SimpleTable{
 
 		          });
 	     	}
-	     	/**
+	     	/*
 	     	 * 	Deletes all checked rows.
 	     	 *	
 	     	*/
@@ -234,7 +237,20 @@ class SimpleTable{
 	     		});
 	     	}
 
-			    ';
+	     	function load_form_'.$this->options['table_id'].'(btn){
+	     		console.log($(btn).parent().parent().find("td").attr("col-name"));
+	     		';
+ 			//foreach($)
+
+	     	$scripts.='
+	     	}
+
+	     	function save_form_'.$this->options['table_id'].'(){
+
+	     		return 0;
+	     	}
+
+			';
 			
 
 		$scripts.= "</script>";
@@ -243,8 +259,72 @@ class SimpleTable{
 	}
 
 
+	private function get_table_edit_modal(){
+		$modal = '
+		<!-- Modal na upravu tabuľky '.$this->options['table_id'].'-->
+		<div class="modal fade" id="edit'.$this->options['table_id'].'Modal" tabindex="-1" role="dialog" aria-labelledby="edit'.$this->options['table_id'].'Modal" aria-hidden="true">
+		  <div class="modal-dialog modal-dialog-centered" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title">Úprava záznamu</h5>
+		        <button type="button" class="close font-weight-light" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		        <form id="edit_row_'.$this->options['table_id'].'">
+		        	';
 
+		        foreach($this->table_structure as $key => $column){
+		        	
+		        	$modal.=self::generate_form_column($column,$key);
 
+		        }
+
+		        	$modal .='
+		        </form>
+		        <img src="/img/loading-buffering.gif" style="display:none;"/>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		        <button type="button" class="btn btn-primary" onclick="save_form_
+		        '.$this->options['table_id'].'">Save changes</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>';
+
+		return $modal;
+	}
+
+	private function generate_form_column($column,$key){
+		$prefill= $column['form_edit_prefill'] ? "true" : "false";
+		$editable = $column['editable'] ? "" : "readonly";
+		$visible = $column['form_edit_show'] ? "" : "style='display:none;'"; 
+		$is_number = count($column['override']) == 0;
+
+		$html = "<div class='form-group' {$visible}>";
+		if($column['type'] == "varchar" || ($column['type'] == "int" && $is_number) ){
+			$html.="<label>{$column['name']}</label>";
+			$html.="<input type='text' js-prefill='{$prefill}' class='form-control' id='form_{$this->options['table_id']}_{$key}' {$editable}>";
+		}
+		else if($column['type'] == "int"){
+			$html.="<label>{$column['name']}</label>";
+			$html.="<select class='form-control' id='form_{$this->options['table_id']}_{$key}' {$editable}>";
+			foreach($column['override'] as $okey => $show) {
+				$html.="<option value='{$okey}'>{$show}</option>";
+			}
+		
+			$html.="</select>";
+		}
+		else if($column['type'] == "text"){
+			$html.="<label>{$column['name']}</label>";
+			$html.="<textarea class='form-control' id='form_{$this->options['table_id']}_{$key}' {$editable}></textarea>";
+		}
+
+		$html.="</div>";
+		return $html;
+	}
 
 
 	private function get_all_rows_count(){

@@ -35,6 +35,10 @@
 
 				    //schovat zobrazovanie password column
 				    $table->table_structure['password']['show_column'] = false;
+
+				    //nechcem aby ho vo formulari prefillovalo
+				    $table->table_structure['password']['form_edit_prefill'] = false;
+
 				    // nahradit role 1 a 0 s vyznamom
 				    $table->table_structure['role']['override'] = array(
 				    	USER_ADMIN => "Admin",

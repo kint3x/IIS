@@ -6,7 +6,8 @@ Class Database {
 	public $error;
 
 	public function __construct(){
-		$mysqli = new mysqli("aurelius.aurelserver.eu","iis","iis","iis");
+		//$mysqli = new mysqli("aurelius.aurelserver.eu","iis","iis","iis");
+		$mysqli = new mysqli("localhost","root","","iis");
 
 		// Check connection
 		if ($mysqli -> connect_errno) {
