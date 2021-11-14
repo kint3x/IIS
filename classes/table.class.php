@@ -285,7 +285,7 @@ class SimpleTable{
 		          	$("#edit'.$this->options['table_id'].'Modal_MSG").show();
 		            if(data.success){
 		              $("#edit'.$this->options['table_id'].'Modal_MSG").html(\'<div class="alert alert-success" role="alert">Úspešne zmenené<button class="close font-weight-light" data-dismiss="alert" aria-label="close">×</button></div>\');
-		            //location.reload(); 
+		            location.reload(); 
 		            }
 		            else{
 		             	$("#edit'.$this->options['table_id'].'Modal_MSG").html(\'<div class="alert alert-warning" role="alert">\'+data.error+\'<button class="close font-weight-light" data-dismiss="alert" aria-label="close">×</button></div>\');
