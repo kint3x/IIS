@@ -27,8 +27,36 @@ function verify_conference() {
 }
 
 /**
- * Print the html for the sidebar used when displaying a conference.
- * $active = either 'show', 'lectures' or 'rooms' representing the active p
+ * Get the HTML for the sidebar used when viewing user details.
+ * $active - either 'settings', 'conferences', 'lectures' or 'schedule' representing the active page
+ */
+function get_user_sidebar($active) {
+  ?>
+  <div class="col-sm-2 align-self-top">    
+    <ul class="nav nav-pills flex-column">
+        <li class="nav-item">
+            <a class="nav-link <?php if ($active == "settings") {echo "active";} else {echo "text-dark";}?>" 
+              href="/user/settings.php">Nastavenia</a>
+        </li>                        
+        <li class="nav-item">
+            <a class="nav-link <?php if ($active == "conferences") {echo "active";} else {echo "text-dark";}?>" 
+              href="/user/conferences.php">Konferencie</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link <?php if ($active == "lectures") {echo "active";} else {echo "text-dark";}?>" 
+              href="/user/lectures.php">Prednášky</a>
+        </li>
+            <a class="nav-link <?php if ($active == "schedule") {echo "active";} else {echo "text-dark";}?>" 
+              href="/user/schedule.php">Rozvrh</a>
+        </li>
+    </ul>
+  </div>
+  <?php
+}
+
+/**
+ * Get the HTML for the sidebar used when displaying a conference.
+ * $active = either 'show', 'lectures' or 'rooms' representing the active page
  */
 function get_conference_sidebar($active, $conference_id, $owner_id) {
   ?> 
@@ -251,10 +279,13 @@ function get_navbar(){
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                       <li>
-                        <a class="dropdown-item" href="/user/settings.php">Môj účet</a>
+                        <a class="dropdown-item" href="/user/settings.php">Nastavenia</a>
                       </li>
 					            <li>
-                        <a class="dropdown-item" href="/user/conferences.php">Moje konferencie</a>
+                        <a class="dropdown-item" href="/user/conferences.php">Konferencie</a>
+                      </li>
+					            <li>
+                        <a class="dropdown-item" href="/user/lectures.php">Prednášky</a>
                       </li>
                       <li>
                         <a class="dropdown-item" href="#">Rozvrh</a>

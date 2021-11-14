@@ -103,38 +103,45 @@ start_session_if_none();
     <?php
 	  $user_data = $_SESSION['user']->get_user_data();
 
-    echo "
-    <div class='container'>  
+    ?>
+    <div class='container-fluid'>
       <div class='row'>
-        <div class='col-sm-12 align-self-center'>
-          <h2>Môj účet</h2>
-        </div>
-        <div class='col-sm-12 align-self-center'>
-        <div id='settingsAlert'></div>
-        </div>
-      </div>
-      <div class='row'>
-        <div class='col-sm-12 align-self-center'>
+
+        <?php get_user_sidebar("settings");?>
+      
+        <div class='col-sm-8 align-self-top'>
+
+          
+          <div class='row'>
+            <div class='col-sm-12 align-self-center'>
+              <h2>Môj účet</h2>
+            </div>
+            <div class='col-sm-12 align-self-center'>
+              <div id='settingsAlert'></div>
+            </div>
+          </div>
+          <div class='row'>
+            <div class='col-sm-12 align-self-center'>
           <form id='settingsForm'>
 		      <div class='form-group'>
-		        <label>Meno</label>
-		        <input type='text' class='form-control' id='nameSet' value='".$user_data['name']."'>
+            <label>Meno</label>
+		        <input type='text' class='form-control' id='nameSet' value='<?php echo $user_data['name'];?>'>
 		      </div>
-
+          
           <div class='form-group'>
-		        <label>Priezvisko</label>
-		        <input type='text' class='form-control' id='surnameSet' value='".$user_data['surname']."'>
+            <label>Priezvisko</label>
+		        <input type='text' class='form-control' id='surnameSet' value='<?php echo $user_data['surname'];?>'>
 		      </div>
-
+          
           <div class='form-group'>
-		        <label>Email</label>
+            <label>Email</label>
 		        <input type='email' class='form-control' id='emailSet' aria-describedby='emailHelp'
-			        value='".$user_data['email']."'>
+            value='<?php echo $user_data['email'];?>'>
 		      </div>
-
+          
           <div class='form-group'>
-			      <label>Adresa</label>
-			      <textarea class='form-control' id='addressSet' rows='3'>".$user_data['address']."</textarea>
+            <label>Adresa</label>
+			      <textarea class='form-control' id='addressSet' rows='3'><?php echo $user_data['address'];?></textarea>
 		      </div>
         </div>
       </div>
@@ -143,16 +150,16 @@ start_session_if_none();
           <button type='submit' class='btn btn-primary btn-block'>Uložiť</button>
         </div>
       </div>
-      </form>
+    </form>
       <div class='row pb-1' >
         <div class='col-sm-2 align-self-start'>
           <button type='button' class='btn btn-outline-dark btn-block'
-            aria-hidden='true' data-toggle='modal' data-target='#changePasswordModal'>Zmeniť heslo</button>
+          aria-hidden='true' data-toggle='modal' data-target='#changePasswordModal'>Zmeniť heslo</button>
         </div>
       </div>
-    ";
+    </div>
+  </div>
 
-    ?>
     <div id='changePasswordModal' class='modal fade' role='dialog'>
       <div class='modal-dialog'>
         <div class='modal-content'>
