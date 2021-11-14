@@ -29,7 +29,8 @@
 				    		"table_id" => "users",
 				    		"ajax_url" => "/ajax/admin_user_action.php",
 				    		"delete" => true,
-				    		"edit" => true
+				    		"edit" => true,
+				    		"add" => true
 						)
 				    );
 

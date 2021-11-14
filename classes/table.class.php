@@ -95,8 +95,10 @@ class SimpleTable{
        	}
        	
        	//generate head
+       	
 
        	$html = '<div class="table-responsive table-'.$this->options['table_id'].'"><table '.$table_id_attr.' class="table table-bordred table-striped">';
+       	if($this->options['add']) $html .= '<button class="btn btn-success btn-xs" style="margin-bottom: 15px;float:right;" data-toggle="modal" data-target="#add'.$this->options['table_id'].'Modal">Pridať záznam</button>';
        	$html .= '<thead>';
        	$html .= '<th><input type="checkbox" id="'.$this->options['table_id'].'_checkall"/></th>';
        	foreach($this->table_structure as $column){
@@ -115,12 +117,13 @@ class SimpleTable{
        		$html .= '<td><input type="checkbox" value="'.$row[$this->db_table_pk].'" class="checkthis"/></td>';
        		foreach($row as $ckey => $column){
        			$visible = $this->table_structure[$ckey]['show_column'] ? "":"style='display:none;'";
-       			
+       			$col_val = $column;
        			if(array_key_exists($column,$this->table_structure[$ckey]['override'])){
        				$column = $this->table_structure[$ckey]['override'][$column];
        			}
 
-       			$html .= "<td col-name='$ckey' {$visible}>{$column}</td>";
+ 
+       			$html .= "<td col-name='$ckey' col-val='$col_val' {$visible}>{$column}</td>";
        		}
        		//controls
        		if($this->options['edit']) $html .= '<td><button class="btn btn-primary btn-xs" edit-row="'.$row[$this->db_table_pk].'" data-title="Edit" data-toggle="modal" data-target="#edit'.$this->options['table_id'].'Modal" onclick="load_form_'.$this->options['table_id'].'(this)">Upraviť</span></button></td>';
@@ -134,6 +137,7 @@ class SimpleTable{
 
        	if($this->options['delete']) $html.= '<button class="btn btn-danger btn-xs" onclick="delete_checked_'.$this->options['table_id'].'()" style="margin-bottom: 15px;float:right;" >Vymazať označené</button>';
        	if($this->options['edit']) $html.= self::get_table_edit_modal();
+       	if($this->options['add']) $html.= self::get_table_add_modal();
 
        	if($this->options['pagination']){
        		$html .= getPaginationString($curr_page+1,$last_page);
@@ -199,7 +203,7 @@ class SimpleTable{
 	     		
 	     		var formData={
 	     			"action" : "delete",
-	     			"user_id" : id 
+	     			"'.$this->db_table_pk.'" : id 
 	     		};
 
 		     	$.ajax({
@@ -238,16 +242,93 @@ class SimpleTable{
 	     	}
 
 	     	function load_form_'.$this->options['table_id'].'(btn){
-	     		console.log($(btn).parent().parent().find("td").attr("col-name"));
-	     		';
- 			//foreach($)
+	     		$("#edit'.$this->options['table_id'].'Modal_MSG").hide();
+	     		$(btn).parent().parent().find("td").each(function(){
+	     			var name=$(this).attr("col-name");
+	     			var val = $(this).attr("col-val");
 
-	     	$scripts.='
+	     			if(name === \'undefined\') return true;
+	     			var element = $("#form_'.$this->options['table_id'].'_"+name);
+	     			if(element.length < 1 ) return true;
+
+	     			if($(element).attr("js-prefill") == "true"){
+	     				$(element).val(val);
+
+	     			}
+	     		});
+
 	     	}
 
 	     	function save_form_'.$this->options['table_id'].'(){
 
-	     		return 0;
+	     		var formData={
+	     			"action" : "edit",
+	     		';
+	     		foreach($this->table_structure as $key => $column){
+
+	     			$scripts .= "'{$key}' : $('#form_{$this->options['table_id']}_{$key}').val() , \n";
+	     		}
+
+	     		$scripts .= '
+
+	     		};
+
+		     	$.ajax({
+		            type: "POST",
+		            url: "'.$this->options['ajax_url'].'",
+		            data: formData,
+		            dataType: "json",
+		            encode: true,
+		          }).done(function (data) {
+		          	$("#edit'.$this->options['table_id'].'Modal_MSG").show();
+		            if(data.success){
+		              $("#edit'.$this->options['table_id'].'Modal_MSG").html(\'<div class="alert alert-success" role="alert">Úspešne zmenené<button class="close font-weight-light" data-dismiss="alert" aria-label="close">×</button></div>\');
+		            location.reload(); 
+		            }
+		            else{
+		             	$("#edit'.$this->options['table_id'].'Modal_MSG").html(\'<div class="alert alert-warning" role="alert">\'+data.error+\'<button class="close font-weight-light" data-dismiss="alert" aria-label="close">×</button></div>\');
+		            }
+
+		          });
+	     	}
+
+	     	function add_form_'.$this->options['table_id'].'(){
+
+	     		var formData={
+	     			"action" : "add",
+	     		';
+	     		foreach($this->table_structure as $key => $column){
+
+	     			$scripts .= "'{$key}' : $('#add_form_{$this->options['table_id']}_{$key}').val() , \n";
+	     		}
+
+	     		$scripts .= '
+
+	     		};
+
+		     	$.ajax({
+		            type: "POST",
+		            url: "'.$this->options['ajax_url'].'",
+		            data: formData,
+		            dataType: "json",
+		            encode: true,
+		          }).done(function (data) {
+		          	$("#add'.$this->options['table_id'].'Modal_MSG").show();
+		            if(data.success){
+		              $("#add'.$this->options['table_id'].'Modal_MSG").html(\'<div class="alert alert-success" role="alert">Úspešne pridané<button class="close font-weight-light" data-dismiss="alert" aria-label="close">×</button></div>\');
+		              ';
+		              	foreach($this->table_structure as $key => $column){
+	     					 $scripts.= "$('#add_form_{$this->options['table_id']}_{$key}').val(''); \n";
+	     				}
+
+	     			$scripts .='
+	     			location.reload(); 	
+		            }
+		            else{
+		             	$("#add'.$this->options['table_id'].'Modal_MSG").html(\'<div class="alert alert-warning" role="alert">\'+data.error+\'<button class="close font-weight-light" data-dismiss="alert" aria-label="close">×</button></div>\');
+		            }
+
+		          });
 	     	}
 
 			';
@@ -272,6 +353,7 @@ class SimpleTable{
 		        </button>
 		      </div>
 		      <div class="modal-body">
+		      	<div id="edit'.$this->options['table_id'].'Modal_MSG"></div>
 		        <form id="edit_row_'.$this->options['table_id'].'">
 		        	';
 
@@ -287,8 +369,7 @@ class SimpleTable{
 		      </div>
 		      <div class="modal-footer">
 		        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-		        <button type="button" class="btn btn-primary" onclick="save_form_
-		        '.$this->options['table_id'].'">Save changes</button>
+		        <button type="button" class="btn btn-primary" onclick="save_form_'.$this->options['table_id'].'()">Save changes</button>
 		      </div>
 		    </div>
 		  </div>
@@ -297,7 +378,45 @@ class SimpleTable{
 		return $modal;
 	}
 
-	private function generate_form_column($column,$key){
+	private function get_table_add_modal(){
+		$modal = '
+		<!-- Modal na pridanie zaznamu tabuľky '.$this->options['table_id'].'-->
+		<div class="modal fade" id="add'.$this->options['table_id'].'Modal" tabindex="-1" role="dialog" aria-labelledby="add'.$this->options['table_id'].'Modal" aria-hidden="true">
+		  <div class="modal-dialog modal-dialog-centered" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title">Úprava záznamu</h5>
+		        <button type="button" class="close font-weight-light" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		      	<div id="add'.$this->options['table_id'].'Modal_MSG"></div>
+		        <form id="add_row_'.$this->options['table_id'].'">
+		        	';
+
+		        foreach($this->table_structure as $key => $column){
+		        	if($key == $this->db_table_pk) continue;
+		        	$modal.=self::generate_form_column($column,$key,"add_");
+
+		        }
+
+		        	$modal .='
+		        </form>
+		        <img src="/img/loading-buffering.gif" style="display:none;"/>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		        <button type="button" class="btn btn-primary" onclick="add_form_'.$this->options['table_id'].'()">Pridať</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>';
+
+		return $modal;
+	}
+
+	private function generate_form_column($column,$key,$idprefix=""){
 		$prefill= $column['form_edit_prefill'] ? "true" : "false";
 		$editable = $column['editable'] ? "" : "readonly";
 		$visible = $column['form_edit_show'] ? "" : "style='display:none;'"; 
@@ -306,11 +425,11 @@ class SimpleTable{
 		$html = "<div class='form-group' {$visible}>";
 		if($column['type'] == "varchar" || ($column['type'] == "int" && $is_number) ){
 			$html.="<label>{$column['name']}</label>";
-			$html.="<input type='text' js-prefill='{$prefill}' class='form-control' id='form_{$this->options['table_id']}_{$key}' {$editable}>";
+			$html.="<input type='text' js-prefill='{$prefill}' class='form-control' id='{$idprefix}form_{$this->options['table_id']}_{$key}' {$editable}>";
 		}
 		else if($column['type'] == "int"){
 			$html.="<label>{$column['name']}</label>";
-			$html.="<select class='form-control' id='form_{$this->options['table_id']}_{$key}' {$editable}>";
+			$html.="<select class='form-control' id='{$idprefix}form_{$this->options['table_id']}_{$key}' {$editable}  js-prefill='{$prefill}'>";
 			foreach($column['override'] as $okey => $show) {
 				$html.="<option value='{$okey}'>{$show}</option>";
 			}
@@ -319,7 +438,7 @@ class SimpleTable{
 		}
 		else if($column['type'] == "text"){
 			$html.="<label>{$column['name']}</label>";
-			$html.="<textarea class='form-control' id='form_{$this->options['table_id']}_{$key}' {$editable}></textarea>";
+			$html.="<textarea class='form-control' id='{$idprefix}form_{$this->options['table_id']}_{$key}' {$editable}  js-prefill='{$prefill}'></textarea>";
 		}
 
 		$html.="</div>";

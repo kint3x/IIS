@@ -19,4 +19,10 @@ if(isset($_POST['action'])){
 			}
 		}
 	}
+	if($_POST['action'] == "add"){
+		echo_json_response(false,"Nemožno vymazať samého seba");
+	}
+	if($_POST['action'] == "edit"){
+		echo_json_response(true,"Nemožno vymazať samého seba");
+	}
 }
