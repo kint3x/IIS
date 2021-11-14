@@ -5,6 +5,57 @@ require_once ROOT."/classes/user.class.php";
 require_once ROOT."/classes/conferences.class.php";
 require_once ROOT."/classes/tag.class.php";
 
+/**
+ * Check if and id was passed and if so check if a conference with a given id exists.
+ */
+function verify_conference() {
+  if (!isset($_GET['id']) || !Conferences::get_conference_by_id($_GET['id'])) {
+    ?>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 align-self-center pb-2">
+                <div class='alert alert-secondary' role='alert'>
+                    Je nám to ľúto, ale daná konferencia neexistuje.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <?php
+    exit();
+  }
+}
+
+/**
+ * Print the html for the sidebar used when displaying a conference.
+ * $active = either 'show', 'lectures' or 'rooms' representing the active p
+ */
+function get_conference_sidebar($active, $conference_id, $owner_id) {
+  ?> 
+  <div class="col-sm-2 align-self-top">    
+    <ul class="nav nav-pills flex-column">
+        <li class="nav-item">
+            <a class="nav-link <?php if ($active == "show") {echo "active";} else {echo "text-dark";}?>" 
+              href="/conferences/show.php?id=<?php echo $conference_id;?>">Informácie</a>
+        </li>                        
+        <li class="nav-item">
+            <a class="nav-link <?php if ($active == "lectures") {echo "active";} else {echo "text-dark";}?>" 
+              href="/conferences/lectures.php?id=<?php echo $conference_id;?>">Prednášky</a>
+        </li>
+        <?php if (user_owns_conference($owner_id)) {
+            ?>
+            <li class="nav-item">
+                <a class="nav-link <?php if ($active == "rooms") {echo "active";} else {echo "text-dark";}?>" 
+                  href="/conferences/rooms.php?id=<?php echo $conference_id;?>">Miestnosti</a>
+            </li>
+            <?php
+        }
+        ?>
+    </ul>
+  </div>
+  <?php
+}
+
 function get_head($params=array()){
 
 	$options["html"] = "";

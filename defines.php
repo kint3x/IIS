@@ -24,6 +24,13 @@ function echo_json_response($success, $error) {
 }
 
 /**
+ * Checks if the user is logged in and if so checks if he owns the conference.
+ */
+function user_owns_conference($owner_id) {
+    return (isset($_SESSION['user']) && $_SESSION['user']->get_user_data()['id'] == $owner_id);
+}
+
+/**
  * Start session if it hasn't been started yet.
  */
 function start_session_if_none() {
