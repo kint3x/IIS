@@ -318,4 +318,53 @@ Class User {
 
 		return true;
 	}
+
+
+	public static function get_all_users($perpage = 0, $offset = 0){
+		$db = new Database();
+        $conn = $db->handle;
+
+        $query = "SELECT * FROM User" ;
+
+        if($perpage > 0 ){
+        	$query.= " LIMIT ".$perpage." OFFSET ".$offset;
+        }
+
+        $req = $conn->query($query);
+
+        $users = array();
+        while ($row = $req->fetch_assoc()){
+        	$users[] = $row;
+        }
+        $db->close();
+        return $users;
+	}
+
+	public static function get_all_users_count(){
+		$db = new Database();
+        $conn = $db->handle;
+        $cnt_req = $conn->query("SELECT COUNT(*) FROM User");
+        $cnt_res = $cnt_req->fetch_all()[0][0];
+        $db->close();
+        return $cnt_res;
+	}
+
+	public static function delete_user_by_id($id){
+		$db = new Database();
+		$conn = $db->handle;
+
+		$stmt = $conn->prepare("DELETE FROM User WHERE id=?");
+		$stmt->bind_param("d",$id);
+
+		if (!$stmt->execute()) {
+			$db->close();
+			$stmt->close();
+			self::$error_message = 'Nastala chyba pri zmene údajov.';
+			return false;
+		};
+		
+		$db->close();
+		return true;
+	}
+
 }

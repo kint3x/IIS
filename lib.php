@@ -264,6 +264,10 @@ function get_navbar(){
 		    </div>';
             }
             else{
+            		$admin_menu = '<li>
+                        <a class="dropdown-item" href="/admin/manage_users.php">Správa uživateľov</a>
+                      </li>';
+            		$admin = is_curr_user_admin() ? $admin_menu : "";
                 $nav .= '
                 <!-- Icon dropdown -->
                   <li class="nav-item me-3 me-lg-0 dropdown">
@@ -278,6 +282,7 @@ function get_navbar(){
                       <i class="fas fa-user "></i>
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    '.$admin.'
                       <li>
                         <a class="dropdown-item" href="/user/settings.php">Nastavenia</a>
                       </li>
@@ -448,4 +453,94 @@ function get_navbar(){
 
 
     return $nav;
+}
+
+function if_not_admin_die(){
+	if(!isset($_SESSION['user'])) die("Neprihlásený");
+	$user_data = $_SESSION['user']->get_user_data();
+	if($user_data["role"] != USER_ADMIN) die("Užívateľ nie je admin");
+
+}
+
+function is_curr_user_admin(){
+	if(!isset($_SESSION['user'])) return false;
+	$user_data = $_SESSION['user']->get_user_data();
+	if($user_data["role"] == USER_ADMIN) return true;
+	return false;
+}
+
+
+function getPaginationString($page, $lastpage, $adjacents = 2)
+{
+    $pagination = "";
+    $lpm1 = $lastpage - 1;
+
+    if ($lastpage > 1) {
+        $pagination .= '<div class="w-100"></div><nav aria-label="Strana" class="strankovanie"><ul class="pagination justify - content - center">';
+
+        if ($page > 1) {
+            $pagination .= '<li class="page-item"><a class="page-link" style="border-top-left-radius: 25px; border-bottom-left-radius: 25px;" id="' . ($page-1) . '"><</a></li>';
+        }
+
+        if ($lastpage < 7 + ($adjacents * 2)) {
+            for ($counter = 1; $counter <= $lastpage; $counter++) {
+                if ($counter == $page)
+                    $pagination .= '<li class="page-item"><a class="pg-selected page-link" id="' . $counter . '">' . $counter . '</a></li>';
+                else
+                    $pagination .= '<li class="page-item"><a class="page-link" id="' . $counter . '">' . $counter . '</a></li>';
+            }
+        }
+        elseif($lastpage >= 7 + ($adjacents * 2)){
+            if($page < 1 + ($adjacents * 3))
+            {
+                for ($counter = 1; $counter < 4 + ($adjacents * 2); $counter++)
+                {
+                    if ($counter == $page)
+                        $pagination .= '<li class="page-item"><a class="pg-selected page-link" id="' . $counter . '">' . $counter . '</a></li>';
+                    else
+                        $pagination .= '<li class="page-item"><a class="page-link" id="' . $counter . '">' . $counter . '</a></li>';
+                }
+
+                $pagination .= '<li class="page-item"><a class="page-link" id="' . $lpm1 . '">' . $lpm1 . '</a></li>';
+                $pagination .= '<li class="page-item"><a class="page-link" id="' . $lastpage . '">' . $lastpage . '</a></li>';
+            }
+            //in middle; hide some front and some back
+            elseif($lastpage - ($adjacents * 2) > $page && $page > ($adjacents * 2))
+            {
+                $pagination .= '<li class="page-item"><a class="page-link" id="1">1</a></li>';
+                $pagination .= '<li class="page-item"><a class="page-link" id="2">2</a></li>';
+                $pagination .= "<span class=\"elipses\">...</span>";
+                for ($counter = $page - $adjacents; $counter <= $page + $adjacents; $counter++)
+                {
+                    if ($counter == $page)
+                        $pagination .= '<li class="page-item"><a class="pg-selected page-link" id="' . $counter . '">' . $counter . '</a></li>';
+                    else
+                        $pagination .= '<li class="page-item"><a class="page-link" id="' . $counter . '">' . $counter . '</a></li>';
+                }
+                $pagination .= "...";
+                $pagination .= '<li class="page-item"><a class="page-link" id="' . $lpm1 . '">' . $lpm1 . '</a></li>';
+                $pagination .= '<li class="page-item"><a class="page-link" id="' . $lastpage . '">' . $lastpage . '</a></li>';
+            }
+            //close to end; only hide early pages
+            else
+            {
+                $pagination .= '<li class="page-item"><a class="page-link" id="1">1</a></li>';
+                $pagination .= '<li class="page-item"><a class="page-link" id="2">2</a></li>';
+                $pagination .= "<span class=\"elipses\">...</span>";
+                for ($counter = $lastpage - (1 + ($adjacents * 3)); $counter <= $lastpage; $counter++)
+                {
+                    if ($counter == $page)
+                        $pagination .= '<li class="page-item"><a class="pg-selected page-link" id="' . $counter . '">' . $counter . '</a></li>';
+                    else
+                        $pagination .= '<li class="page-item"><a class="page-link" id="' . $counter . '">' . $counter . '</a></li>';
+                }
+            }
+        }
+       //next button
+		if ($page < $counter - 1)
+            $pagination .= '<li class="page-item"><a class="page-link" style="border-top-right-radius: 25px; border-bottom-right-radius: 25px;" id="'. ++$page .'">></a></li>';
+
+		$pagination .= '</ul></nav>';
+    }
+    return $pagination;
 }
