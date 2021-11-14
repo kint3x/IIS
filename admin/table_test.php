@@ -28,7 +28,7 @@
 				    	array(
 				    		"table_id" => "users",
 				    		"ajax_url" => "/ajax/admin_user_action.php",
-				    		"delete" => true,
+				    		"delete" => false,
 				    		"edit" => true,
 				    		"add" => true
 						)
@@ -55,10 +55,10 @@
 		      </div>
 		   </div>
 		</div>
-		<?php 
-		// generovanie skriptov pre konkretnu tabulku
-		echo $table->generate_table_scripts();
+			<?php 
+			// generovanie skriptov pre konkretnu tabulku
+			echo $table->generate_table_scripts();
 
-		?>
+			?>
 	</body>
 </html>

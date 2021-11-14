@@ -100,6 +100,7 @@ class SimpleTable{
        	$html = '<div class="table-responsive table-'.$this->options['table_id'].'"><table '.$table_id_attr.' class="table table-bordred table-striped">';
        	if($this->options['add']) $html .= '<button class="btn btn-success btn-xs" style="margin-bottom: 15px;float:right;" data-toggle="modal" data-target="#add'.$this->options['table_id'].'Modal">Pridať záznam</button>';
        	$html .= '<thead>';
+       	if($this->options['delete'] == true)
        	$html .= '<th><input type="checkbox" id="'.$this->options['table_id'].'_checkall"/></th>';
        	foreach($this->table_structure as $column){
        		if(!$column['show_column']) continue;
@@ -114,6 +115,7 @@ class SimpleTable{
        	$html .= '<tbody>';
        	foreach($rows as $row){
        		$html .= "<tr id='{$this->options['table_id']}_row_".$row[$this->db_table_pk]."'>";
+       		if($this->options['delete'] == true)
        		$html .= '<td><input type="checkbox" value="'.$row[$this->db_table_pk].'" class="checkthis"/></td>';
        		foreach($row as $ckey => $column){
        			$visible = $this->table_structure[$ckey]['show_column'] ? "":"style='display:none;'";
@@ -283,7 +285,7 @@ class SimpleTable{
 		          	$("#edit'.$this->options['table_id'].'Modal_MSG").show();
 		            if(data.success){
 		              $("#edit'.$this->options['table_id'].'Modal_MSG").html(\'<div class="alert alert-success" role="alert">Úspešne zmenené<button class="close font-weight-light" data-dismiss="alert" aria-label="close">×</button></div>\');
-		            location.reload(); 
+		            //location.reload(); 
 		            }
 		            else{
 		             	$("#edit'.$this->options['table_id'].'Modal_MSG").html(\'<div class="alert alert-warning" role="alert">\'+data.error+\'<button class="close font-weight-light" data-dismiss="alert" aria-label="close">×</button></div>\');
