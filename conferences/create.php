@@ -32,12 +32,66 @@ start_session_if_none();
             <form id="createConference">
                 <div class="form-group">
                     <label for="name">Názov konferencie</label>
-                    <input type="text" class="form-control" id="name" placeholder="Názov" required>
+                    <input type="text" class="form-control" id="name" placeholder="Názov" autocomplete="off" required>
                 </div>
                 <div class="form-group">
                     <label for="description">Popis konferencie</label>
-                    <textarea class="form-control" id="description" placeholder="Detailný popis..."></textarea>
+                    <textarea class="form-control" id="description" placeholder="Detailný popis..." autocomplete="off"></textarea>
                 </div>
+                <h4>Adresa</h4>
+                <div class="form-group row">
+                    <div class="col-sm-6">
+                        <label for="street">Ulica</label>
+                        <input type="text" class="form-control" id="street" placeholder="Zadajte adresu..." autocomplete="street-address" required>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-6">
+                        <label for="city">Mesto</label>
+                        <input type="text" class="form-control" id="city" placeholder="" autocomplete="address-level2" required>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-3">
+                        <label for="state">Štát</label>
+                        <input type="text" class="form-control" id="state" placeholder="" autocomplete="country-name" required>
+                    </div>
+                    <div class="col-sm-3">
+                        <label for="zip">PSČ</label>
+                        <input type="number" class="form-control" id="zip" placeholder="" autocomplete="postal-code" required>
+                    </div>
+                </div>
+                <h4>Čas</h4>
+                <label for="from">Začiatok konania</label>    
+                <div class="form-group row" id="from">
+                    <div class="col-sm-3">
+                        <input type="time" class="form-control timepicker" id="fromTime" autocomplete="off">
+                    </div>
+                    <div class="col-sm-3">
+                        <input type="date" class="form-control" id="fromDate" autocomplete="off">
+                    </div>
+                </div>
+                <label for="to">Koniec konania</label>    
+                <div class="form-group row" id="to">
+                    <div class="col-sm-3">
+                        <input type="time" class="form-control" id="toTime" autocomplete="off">
+                    </div>
+                    <div class="col-sm-3">
+                        <input type="date" class="form-control" id="toDate" autocomplete="off">
+                    </div>
+                </div>
+                <h4>Cena a kapacita</h4>
+                <div class="form-group row">
+                    <div class="form-group col-sm-3">
+                        <label for="price">Cena lístku v &euro;</label>
+                        <input type=number class="form-control" min=0 step="0.01" pattern="\d+\.\d\d" id="price" value="0.00" autocomplete="off">
+                    </div>
+                    <div class="form-group col-sm-3">
+                        <label for="capacity">Počet voľných miest</label>
+                        <input type=number class="form-control" min=0 pattern="\d+" id="capacity" value="0" step="1" autocomplete="off">
+                    </div>
+                </div>
+                <h4>Doplňujúce informácie</h4>
                 <div class="form-group">
                     <label for="description">Obrázok konferencie</label>
                     <br>
@@ -47,7 +101,7 @@ start_session_if_none();
                 </div>
                 <label for="tags">Kategórie</label>
                 <div class="form-group row" name="tags">
-                    <div class="col-sm-3">
+                    <div class="col-sm-4">
                         <select class="form-control" multiple id="tags">
                         <?php
                             $tags = Tag::get_tags_all();
@@ -58,32 +112,6 @@ start_session_if_none();
                         ?>
                         </select>
                     </div>
-                </div>
-                <label for="from">Začiatok konania</label>    
-                <div class="form-group row" id="from">
-                    <div class="col-sm-2">
-                        <input type="time" class="form-control timepicker" id="fromTime">
-                    </div>
-                    <div class="col-sm-3">
-                        <input type="date" class="form-control" id="fromDate">
-                    </div>
-                </div>
-                <label for="to">Koniec konania</label>    
-                <div class="form-group row" id="to">
-                    <div class="col-sm-2">
-                        <input type="time" class="form-control" id="toTime">
-                    </div>
-                    <div class="col-sm-3">
-                        <input type="date" class="form-control" id="toDate">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="price">Cena lístku v &euro;</label>
-                    <input type=number class="form-control" min=0 step="0.01" pattern="\d+\.\d\d" id="price" value="0.00">
-                </div>
-                <div class="form-group">
-                    <label for="capacity">Počet voľných miest</label>
-                    <input type=number class="form-control" min=0 pattern="\d+" id="capacity" value="0" step="1">
                 </div>
                 <button type="submit" class="btn btn-primary">Pridať</button>
             </form>
@@ -125,6 +153,10 @@ start_session_if_none();
                     var formData = {
                         name: $("#name").val(),
                         description: $("#description").val(),
+                        street: $("#street").val(),
+                        city: $("#city").val(),
+                        zip:  $("#zip").val(),
+                        state: $("#state").val(),
                         tags: $("#tags").val(),
                         fromTime: $("#fromTime").val(),
                         fromDate: $("#fromDate").val(),

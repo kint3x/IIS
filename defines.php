@@ -5,6 +5,7 @@ define('USER_REGULAR',0);
 define('ROOT',__DIR__);
 define('DATE_FORMAT_CARD', 'd.m.y - h:i');
 define('DATE_FORMAT_HTML', 'Y-m-d h:i');
+define('IMG_DEFAULT', '/img/placeholder.jpg');
 
 include_once(ROOT."/lib.php");
 

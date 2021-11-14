@@ -111,6 +111,10 @@ Class Conferences{
 			$owner_id, 
 			$name,
 			$description,
+			$street,
+			$city,
+			$zip,
+			$state,
 			$time_from,
 			$time_to,
 			$price,
@@ -134,12 +138,16 @@ Class Conferences{
 		
 		$stmt = $conn->prepare(
 			'INSERT INTO Conference'
-			.'(id_user, name, description, time_from, time_to, price, capacity, image_url)'
-			.'VALUES (?, ?, ?, ?, ?, ?, ?, ?)');
+			.'(id_user, name, description, street, city, zip, state, time_from, time_to, price, capacity, image_url)'
+			.'VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
 		$stmt->bind_param(
-			'issiiiis',
+			'issssisiiiis',
 			$owner_id,
 			$name,
+			$street,
+			$city,
+			$zip,
+			$state,
 			$description,
 			$time_from,
 			$time_to,
