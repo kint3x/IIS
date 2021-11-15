@@ -68,7 +68,10 @@ start_session_if_none();
             email: $("#emailSet").val(),
             name: $("#nameSet").val(),
             surname: $("#surnameSet").val(),
-            address: $("#addressSet").val()
+            street: $("#street").val(),
+            city: $("#city").val(),
+            zip:  $("#zip").val(),
+            state: $("#state").val(),
           };
           
           $.ajax({
@@ -139,18 +142,37 @@ start_session_if_none();
             value='<?php echo $user_data['email'];?>'>
 		      </div>
           
-          <div class='form-group'>
-            <label>Adresa</label>
-			      <textarea class='form-control' id='addressSet' rows='3'><?php echo $user_data['address'];?></textarea>
-		      </div>
+          <h4>Adresa</h4>
+          <div class="form-group row">
+            <div class="col-sm-6">
+              <label for="street">Ulica</label>
+                <input type="text" class="form-control" id="street" value="<?php echo $user_data['street'];?>" autocomplete="street-address" required>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-sm-6">
+              <label for="city">Mesto</label>
+              <input type="text" class="form-control" id="city" value="<?php echo $user_data['city'];?>" autocomplete="address-level2" required>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-sm-3">
+              <label for="state">Štát</label>
+              <input type="text" class="form-control" id="state" value="<?php echo $user_data['state'];?>" autocomplete="country-name" required>
+            </div>
+            <div class="col-sm-3 mb-3">
+              <label for="zip">PSČ</label>
+              <input type="number" class="form-control" id="zip" value="<?php echo $user_data['zip'];?>" autocomplete="postal-code" required>
+            </div>
+          </div>
         </div>
       </div>
       <div class='row pb-1'>
         <div class='col-sm-2 align-self-center'>
           <button type='submit' class='btn btn-primary btn-block'>Uložiť</button>
-        </div>
       </div>
-    </form>
+      </form>
+    </div>
       <div class='row pb-1' >
         <div class='col-sm-2 align-self-start'>
           <button type='button' class='btn btn-outline-dark btn-block'
@@ -160,7 +182,7 @@ start_session_if_none();
     </div>
   </div>
 
-    <div id='changePasswordModal' class='modal fade' role='dialog'>
+<div id='changePasswordModal' class='modal fade' role='dialog'>
       <div class='modal-dialog'>
         <div class='modal-content'>
           <div class='modal-header'>

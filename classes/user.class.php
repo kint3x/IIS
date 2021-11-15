@@ -239,8 +239,8 @@ Class User {
 	/**
 	 * Change this user's data.
 	 */
-	public function change_user_data($email, $name, $surname, $address) {
-		$res = self::change_user_data_by_id($this->user_data['id'], $email, $name, $surname, $address);
+	public function change_user_data($email, $name, $surname, $street, $city, $zip, $state) {
+		$res = self::change_user_data_by_id($this->user_data['id'], $email, $name, $surname, $street, $city, $zip, $state);
 		$res = $res && $this->update_user();
 
 		return $res;
@@ -249,7 +249,7 @@ Class User {
 	/**
 	 * Change user data for the given user.
 	 */
-	public static function change_user_data_by_id($id, $email, $name, $surname, $address) {
+	public static function change_user_data_by_id($id, $email, $name, $surname, $street, $city, $zip, $state) {
 		// Check if user wants to also change his email
 		if ($email != self::get_email_by_id($id)) {
 			if (!self::verify_email($email)) {
@@ -265,13 +265,16 @@ Class User {
 		}
 		
 		$conn = $db->handle;
-		$stmt = $conn->prepare("UPDATE User SET email = ?, name = ?, surname = ?, address = ? WHERE id = ?");
+		$stmt = $conn->prepare("UPDATE User SET email = ?, name = ?, surname = ?, street = ?, city = ?, zip = ?, state = ? WHERE id = ?");
 		$stmt->bind_param(
-			"ssssi",
+			"sssssisi",
 			$email,
 			$name,
 			$surname,
-			$address,
+			$street,
+			$city,
+			$zip,
+			$state,
 			$id
 		);
 		
