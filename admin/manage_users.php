@@ -41,8 +41,11 @@
 				    $table->table_structure['name']['name'] = "Meno";
 				    $table->table_structure['role']['name'] = "Rola";
 				    $table->table_structure['email']['name'] = "E-mail";
-				    $table->table_structure['address']['name'] = "Adresa";
 				    $table->table_structure['password']['name'] = "Heslo";
+				    $table->table_structure['street']['name'] = "Ulica";
+				    $table->table_structure['city']['name'] = "Mesto";
+				    $table->table_structure['state']['name'] = "Štát";
+				    $table->table_structure['zip']['name'] = "PSČ";
 
 				     // nahradit role 1 a 0 s vyznamom
 				    $table->table_structure['role']['override'] = array(
@@ -52,6 +55,9 @@
 
 				    //schovat zobrazovanie password column
 				    $table->table_structure['password']['show_column'] = false;
+				    $table->table_structure['street']['show_column'] = false;
+				    $table->table_structure['state']['show_column'] = false;
+				    $table->table_structure['zip']['show_column'] = false;
 
 				    //nechcem aby ho vo formulari prefillovalo
 				    $table->table_structure['password']['form_edit_prefill'] = false;
