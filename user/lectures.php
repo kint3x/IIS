@@ -20,7 +20,8 @@ start_session_if_none();
         <div class='container-fluid'>  
         <div class='row'>
 
-            <?php get_user_sidebar("lectures");?>
+            
+            <?php get_user_sidebar(); ?>
 
             <div class='col-sm-8 align-self-top'>
                 <div class='row'>
@@ -34,7 +35,6 @@ start_session_if_none();
                         <p>#TODO</p>
                     </div>
                 </div>
-
             </div>
         </div>
     </body>

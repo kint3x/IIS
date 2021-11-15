@@ -27,61 +27,68 @@ function verify_conference() {
 }
 
 /**
- * Get the HTML for the sidebar used when viewing user details.
- * $active - either 'settings', 'conferences', 'lectures' or 'schedule' representing the active page
+ * Removes the get parameters from the url
  */
-function get_user_sidebar($active) {
+function without_params($url) {
+  $index = strpos($url, '?');
+
+  if ($index !== false) {
+    $url = substr($url, 0, $index);
+  }
+
+  return $url;
+}
+
+/**
+ * Get the HTML for the sidebar.
+ */
+function get_sidebar($page_array) {
   ?>
   <div class="col-sm-2 align-self-top">    
     <ul class="nav nav-pills flex-column">
-        <li class="nav-item">
-            <a class="nav-link <?php if ($active == "settings") {echo "active";} else {echo "text-dark";}?>" 
-              href="/user/settings.php">Nastavenia</a>
-        </li>                        
-        <li class="nav-item">
-            <a class="nav-link <?php if ($active == "conferences") {echo "active";} else {echo "text-dark";}?>" 
-              href="/user/conferences.php">Konferencie</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link <?php if ($active == "lectures") {echo "active";} else {echo "text-dark";}?>" 
-              href="/user/lectures.php">Prednášky</a>
-        </li>
-            <a class="nav-link <?php if ($active == "schedule") {echo "active";} else {echo "text-dark";}?>" 
-              href="/user/schedule.php">Rozvrh</a>
-        </li>
+      <?php
+        foreach ($page_array as $name => $url) {
+          ?>
+          <li class="nav-item">
+            <a class="nav-link <?php if ($_SERVER['PHP_SELF'] == without_params($url)) {echo "active";} else {echo "text-dark";}?>" 
+              href="<?php echo $url;?>"><?php echo $name;?></a>
+          </li>
+          <?php
+        }
+      ?>
     </ul>
   </div>
   <?php
 }
 
 /**
- * Get the HTML for the sidebar used when displaying a conference.
- * $active = either 'show', 'lectures' or 'rooms' representing the active page
+ * Get the HTML sidebar for the pages in /conference.
  */
-function get_conference_sidebar($active, $conference_id, $owner_id) {
-  ?> 
-  <div class="col-sm-2 align-self-top">    
-    <ul class="nav nav-pills flex-column">
-        <li class="nav-item">
-            <a class="nav-link <?php if ($active == "show") {echo "active";} else {echo "text-dark";}?>" 
-              href="/conferences/show.php?id=<?php echo $conference_id;?>">Informácie</a>
-        </li>                        
-        <li class="nav-item">
-            <a class="nav-link <?php if ($active == "lectures") {echo "active";} else {echo "text-dark";}?>" 
-              href="/conferences/lectures.php?id=<?php echo $conference_id;?>">Prednášky</a>
-        </li>
-        <?php if (user_owns_conference($owner_id)) {
-            ?>
-            <li class="nav-item">
-                <a class="nav-link <?php if ($active == "rooms") {echo "active";} else {echo "text-dark";}?>" 
-                  href="/conferences/rooms.php?id=<?php echo $conference_id;?>">Miestnosti</a>
-            </li>
-            <?php
-        }
-        ?>
-    </ul>
-  </div>
-  <?php
+function get_conference_sidebar($owner_id, $conference_id) {
+  $menu_array = [
+      "Informácie" => "/conferences/show.php?id={$conference_id}",
+      "Prednášky" => "/conferences/lectures.php?id={$conference_id}"
+  ];
+  
+  if (user_owns_conference($owner_id)) {
+      $menu_array["Miestnosti"] = "/conferences/rooms.php?id={$conference_id}";
+  }
+  
+  get_sidebar($menu_array); 
+}
+
+/**
+ * Get the HTML sidebar for the pages in /user.
+ */
+function get_user_sidebar() {
+  $menu_array = [
+      "Nastavenia" => "/user/settings.php",
+      "Konferencie" => "/user/conferences.php",
+      "Prednášky" => "/user/lectures.php",
+      "Rozvrh" => "/user/schedule.php"
+  ];
+
+  get_sidebar($menu_array);
 }
 
 function get_head($params=array()){

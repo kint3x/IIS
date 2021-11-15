@@ -29,7 +29,9 @@ start_session_if_none();
 
         <div class="container-fluid">
             <div class="row">
-               <?php get_conference_sidebar("show", $conference['id'], $conference['id_user']); ?>
+                
+                <?php get_conference_sidebar($conference['id_user'], $conference['id']); ?>
+                
                 <div class="col-sm-8 align-self-center">
                     <div class="card mb-12">
                         <img class="card-img-top img-top-fixed-height" src="<?php echo $conference['image_url']; ?>" alt="Card image cap">

@@ -106,9 +106,9 @@ start_session_if_none();
     ?>
     <div class='container-fluid'>
       <div class='row'>
+            
+        <?php get_user_sidebar(); ?>
 
-        <?php get_user_sidebar("settings");?>
-      
         <div class='col-sm-8 align-self-top'>
 
           

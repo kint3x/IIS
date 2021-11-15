@@ -28,7 +28,9 @@ start_session_if_none();
 
         <div class="container-fluid">
             <div class="row">
-                <?php get_conference_sidebar("rooms", $conference['id'], $conference['id_user']); ?>
+                
+                <?php get_conference_sidebar($conference['id_user'], $conference['id']); ?>
+                
                 <div class="col-sm-8 align-self-center">
                     #TODO vypisat tabulku miestnosti + majitel konferencie moze upravovat
                 </div>

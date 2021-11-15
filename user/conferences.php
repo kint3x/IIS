@@ -22,7 +22,7 @@ start_session_if_none();
       <div class='container-fluid'>  
         <div class='row'>
 
-          <?php get_user_sidebar("conferences");?>
+          <?php get_user_sidebar(); ?>
 
           <div class='col-sm-8 align-self=top'>
             <div class='row'>
