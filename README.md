@@ -5,8 +5,7 @@
 - ajax call -> if (data.success) -> obsluhu vynať do funkcíí
 - miesto konania konferencie odvodit z miestnosti kde sa kona
 - sprava miestostnosti uzivatelmi
-- spojenie konferencie s miestnostami -> odvodenie adresy? (este sa dohodnut)
-- prihlasenie funguje len z hlavnej stranky (ajax vsade)
+- spojenie konferencie s miestnostami
 
 ## NICE TO HAVE
 - Autocomplete adressy od googlu https://developers.google.com/maps/documentation/javascript/examples/places-autocomplete-addressform
