@@ -33,7 +33,7 @@ start_session_if_none();
             
             <div class='d-flex flex-row pb-2 justify-content-left'>
               <div class='pr-2'>
-                <a href='/conferences/create.php' class='btn btn-primary'>Nová konferencia</a>
+                <a href='/conferences/create.php' class='btn btn-primary'>Pridať</a>
               </div>
             <div>
               <form role='search'>
@@ -42,10 +42,10 @@ start_session_if_none();
                     <?php
                   if (isset($_GET['tag'])) {
                     $selected_tag = $_GET['tag'];
-                    echo '<option value="">Výber kategórie</option>';
+                    echo '<option value="">Kategória</option>';
                   } else {
                     $selected_tag = -1;
-                    echo '<option selected value="">Výber kategórie</option>';
+                    echo '<option selected value="">Kategória</option>';
                   }
                   
                   $tags = Tag::get_tags_all();

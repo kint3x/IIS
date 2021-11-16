@@ -31,7 +31,7 @@ if(isset($_GET["logout"])){
           if (isset($_SESSION['user'])) {
             ?>
             <div class='pr-2'>
-              <a href='/conferences/create.php' class='btn btn-primary'>Nová konferencia</a>
+              <a href='/conferences/create.php' class='btn btn-primary'>Pridať</a>
             </div>
             <?php
           }
@@ -43,10 +43,10 @@ if(isset($_GET["logout"])){
                 <?php
                   if (isset($_GET['tag'])) {
                     $selected_tag = $_GET['tag'];
-                    echo '<option value="">Výber kategórie</option>';
+                    echo '<option value="">Kategória</option>';
                   } else {
                     $selected_tag = -1;
-                    echo '<option selected value="">Výber kategórie</option>';
+                    echo '<option selected value="">Kategória</option>';
                   }
                   
                   $tags = Tag::get_tags_all();

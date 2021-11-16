@@ -272,7 +272,7 @@ function get_navbar(){
             }
             else{
             		$admin_menu = '<li>
-                        <a class="dropdown-item" href="/admin/manage_users.php">Správa uživateľov</a>
+                        <a class="dropdown-item" href="/admin/manage_users.php">Správa užívateľov</a>
                       </li>';
             		$admin = is_curr_user_admin() ? $admin_menu : "";
                 $nav .= '
@@ -289,11 +289,10 @@ function get_navbar(){
                       <i class="fas fa-user "></i>
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    '.$admin.'
                       <li>
                         <a class="dropdown-item" href="/user/settings.php">Nastavenia</a>
                       </li>
-					            <li>
+                      <li>
                         <a class="dropdown-item" href="/user/conferences.php">Konferencie</a>
                       </li>
 					            <li>
@@ -304,6 +303,8 @@ function get_navbar(){
                       </li>
                       <li><hr class="dropdown-divider" /></li>
                       <li>
+                      '.$admin.'
+                      <li><hr class="dropdown-divider" /></li>
                         <a class="dropdown-item" href="/?logout=true">Odhlásiť sa</a>
                       </li>
                     </ul>
