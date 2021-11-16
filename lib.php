@@ -117,6 +117,19 @@ function get_user_sidebar() {
   get_sidebar("Účet", $menu_array);
 }
 
+/**
+ * Get the ADMIN sidebar for the pages in /user.
+ */
+function get_admin_sidebar() {
+  $menu_array = [
+      "Správa uživateľov" => "/admin/manage_users.php",
+      "Správa konferencií" => "/admin/manage_conferences.php",
+  ];
+
+  get_sidebar($menu_array);
+}
+
+
 function get_head($params=array()){
 
 	$options["html"] = "";
