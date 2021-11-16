@@ -221,6 +221,40 @@ Class User {
 	}
 
 	/**
+	 * Change user password by id.
+	 */
+	public static function change_password_by_id($newPassword,$id) {		
+		
+		// Check if new password matches the criteria
+		if (!self::verify_password($newPassword)) {
+			return false;
+		};
+
+		$password = password_hash($newPassword, PASSWORD_DEFAULT);
+
+		$db = new Database();
+
+		if($db->error) {
+			self::$error_message = 'Problém s pripojením k databáze.';
+			return false;
+		}
+
+		$conn = $db->handle;
+		$stmt = $conn->prepare('UPDATE User SET password = ? WHERE id = ?');
+		$stmt->bind_param("si", $password, $id);
+		
+		if (!($stmt->execute())) {
+			$db->close();
+			self::$error_message = 'Nastala chyba pri zmene hesla.';
+			return false;
+		}
+
+		$db->close();
+
+		return true;
+	}
+
+	/**
 	 * Get the email registered to the given id.
 	 */
 	public static function get_email_by_id($id) {
