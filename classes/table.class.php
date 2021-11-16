@@ -12,7 +12,14 @@ class SimpleTable{
 	public $error_message;
 	public $table_structure;
 
-
+	public $custom_actions; 
+	/*
+	 array( 
+	 	array( "action" => "approve", 
+	 	       "send_vars" = array("id","name","...")
+	 	       )
+	 	)
+	*/
 
 
 	public function __construct($db_table_name,$options = array()){
@@ -33,6 +40,7 @@ class SimpleTable{
 		$this->options['pagination'] = true;
 		$this->options['perpage'] = 10;
 		$this->options['table_id'] = "myTable"; //default tablename
+		$this->options['custom_SQL'] = ""; //e.g. WHERE user = 5 ...
 
 	}
 
@@ -57,6 +65,8 @@ class SimpleTable{
 			// if column is unicate or not any key, it can be editable
 			$editable = false;
 			if(($row['Key'] == "UNI") || ($row['Key'] == "")) $editable = true;
+			if($row['Key'] == "MUL") $editable = true;
+
 			if($row['Key'] == "PRI") $this->db_table_pk = $row['Field'];
 
 			$this->table_structure[$row['Field']] = array(
@@ -67,10 +77,23 @@ class SimpleTable{
 				"form_edit_prefill" => true, //should be value prefilled when opening form?
 				"show_column" => true, // will column show up ?
 				"override" => array(), // override ints to string for example: "1" => "Admin", in table, value will be 1 but text will be Admin
+				"foreign_key" => array(), // if is FK , give me
+				/*
+				*	array("table" => "name",
+					"fk_key_name" => "id", name in Foreign table
+				 "table_vars" => array("id" => "ID","name" => "MENO"..), which vars show in table
+					
+					"form_var" => "name" // var that will be loaded to form to choose, FK will be sent in ajax
+					"custom_where" => "WHERE room = 4" // custom where when loading FK table
+
+					)
+				*
+				*/
 			);
 			
 		}
 	}
+
 
 
 	public function generate_table_html(){
@@ -104,7 +127,15 @@ class SimpleTable{
        	$html .= '<th><input type="checkbox" id="'.$this->options['table_id'].'_checkall"/></th>';
        	foreach($this->table_structure as $column){
        		if(!$column['show_column']) continue;
-       		$html .= '<th>'.$column['name'].'</th>';
+       		if(count($column['foreign_key']) > 0 ){
+       			foreach($column['foreign_key']['table_vars'] as $meno => $var){
+       				$html .= '<th>'.$var.'</th>'; //jeden stlpec
+       			}
+       		}
+       		else{
+       			$html .= '<th>'.$column['name'].'</th>'; //jeden stlpec
+       		}
+       		
 
        	}
        	//controls
@@ -123,9 +154,20 @@ class SimpleTable{
        			if(array_key_exists($column,$this->table_structure[$ckey]['override'])){
        				$column = $this->table_structure[$ckey]['override'][$column];
        			}
+       			
+ 				if(count($this->table_structure[$ckey]['foreign_key']) > 0 ){
+ 					$row=self::get_FK_row_values($this->table_structure[$ckey]['foreign_key'],$column);
+ 					$html .= "<td col-name='$ckey' col-val='$col_val' style='display:none;'>{$column}</td>";
 
- 
-       			$html .= "<td col-name='$ckey' col-val='$col_val' {$visible}>{$column}</td>";
+       				foreach($this->table_structure[$ckey]['foreign_key']['table_vars'] as $meno => $var){
+       			 			
+       			 			$html .= "<td col-name='$meno' col-val='$row[$meno]'>{$row[$meno]}</td>";
+       			 			
+       			 	}
+       			}else{
+       				$html .= "<td col-name='$ckey' col-val='$col_val' {$visible}>{$column}</td>";
+       			}
+       			
        		}
        		//controls
        		if($this->options['edit']) $html .= '<td><button class="btn btn-primary btn-xs" edit-row="'.$row[$this->db_table_pk].'" data-title="Edit" data-toggle="modal" data-target="#edit'.$this->options['table_id'].'Modal" onclick="load_form_'.$this->options['table_id'].'(this)">Upraviť</span></button></td>';
@@ -149,6 +191,183 @@ class SimpleTable{
 
 	}
 
+
+
+	private function get_table_edit_modal(){
+		$modal = '
+		<!-- Modal na upravu tabuľky '.$this->options['table_id'].'-->
+		<div class="modal fade" id="edit'.$this->options['table_id'].'Modal" tabindex="-1" role="dialog" aria-labelledby="edit'.$this->options['table_id'].'Modal" aria-hidden="true">
+		  <div class="modal-dialog modal-dialog-centered" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title">Úprava záznamu</h5>
+		        <button type="button" class="close font-weight-light" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		      	<div id="edit'.$this->options['table_id'].'Modal_MSG"></div>
+		        <form id="edit_row_'.$this->options['table_id'].'">
+		        	';
+
+		        foreach($this->table_structure as $key => $column){
+		        	
+		        	$modal.=self::generate_form_column($column,$key);
+
+		        }
+
+		        	$modal .='
+		        </form>
+		        <img src="/img/loading-buffering.gif" style="display:none;"/>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		        <button type="button" class="btn btn-primary" onclick="save_form_'.$this->options['table_id'].'()">Save changes</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>';
+
+		return $modal;
+	}
+
+	private function get_table_add_modal(){
+		$modal = '
+		<!-- Modal na pridanie zaznamu tabuľky '.$this->options['table_id'].'-->
+		<div class="modal fade" id="add'.$this->options['table_id'].'Modal" tabindex="-1" role="dialog" aria-labelledby="add'.$this->options['table_id'].'Modal" aria-hidden="true">
+		  <div class="modal-dialog modal-dialog-centered" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title">Úprava záznamu</h5>
+		        <button type="button" class="close font-weight-light" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		      	<div id="add'.$this->options['table_id'].'Modal_MSG"></div>
+		        <form id="add_row_'.$this->options['table_id'].'">
+		        	';
+
+		        foreach($this->table_structure as $key => $column){
+		        	if($key == $this->db_table_pk) continue;
+		        	$modal.=self::generate_form_column($column,$key,"add_");
+
+		        }
+
+		        	$modal .='
+		        </form>
+		        <img src="/img/loading-buffering.gif" style="display:none;"/>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		        <button type="button" class="btn btn-primary" onclick="add_form_'.$this->options['table_id'].'()">Pridať</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>';
+
+		return $modal;
+	}
+
+	private function generate_form_column($column,$key,$idprefix=""){
+		$prefill= $column['form_edit_prefill'] ? "true" : "false";
+		$editable = $column['editable'] ? "" : "readonly";
+		$visible = $column['form_edit_show'] ? "" : "style='display:none;'"; 
+		$is_number = count($column['override']) + count($column['foreign_key']) == 0;
+
+		$html = "<div class='form-group' {$visible}>";
+		if($column['type'] == "varchar" || ($column['type'] == "int" && $is_number) ){
+			$html.="<label>{$column['name']}</label>";
+			$html.="<input type='text' js-prefill='{$prefill}' class='form-control' id='{$idprefix}form_{$this->options['table_id']}_{$key}' {$editable}>";
+		}
+		else if($column['type'] == "int"){
+			$html.="<label>{$column['name']}</label>";
+			$html.="<select class='form-control' id='{$idprefix}form_{$this->options['table_id']}_{$key}' {$editable}  js-prefill='{$prefill}'>";
+			foreach($column['override'] as $okey => $show) {
+				$html.="<option value='{$okey}'>{$show}</option>";
+			}
+
+			if(count($column['foreign_key']) > 0){
+				$rows = self::get_FK_all_rows($column['foreign_key']);
+				foreach($rows as $row){
+					$html.="<option value='{$row[$column['foreign_key']['fk_key_name']]}'>{$row[$column['foreign_key']['form_var']]}</option>";
+				}
+			}
+		
+			$html.="</select>";
+		}
+		else if($column['type'] == "text"){
+			$html.="<label>{$column['name']}</label>";
+			$html.="<textarea class='form-control' id='{$idprefix}form_{$this->options['table_id']}_{$key}' {$editable}  js-prefill='{$prefill}'></textarea>";
+		}
+
+		$html.="</div>";
+		return $html;
+	}
+
+
+	private function get_all_rows_count(){
+		$db = new Database();
+        $conn = $db->handle;
+        $cnt_req = $conn->query("SELECT COUNT(*) FROM ".$this->db_table_name);
+        $cnt_res = $cnt_req->fetch_all()[0][0];
+        $db->close();
+        return $cnt_res;
+	}
+
+	private function get_all_rows($curr_page=0){
+		$db = new Database();
+        $conn = $db->handle;
+
+        $query = "SELECT * FROM ".$this->db_table_name." ".$this->options['custom_SQL'] ;
+
+        if($this->options['pagination'] ){
+        	$query.= " LIMIT ".$this->options['perpage']." OFFSET ".$curr_page*$this->options['perpage'];
+        }
+
+        $req = $conn->query($query);
+
+        $rows = array();
+        while ($row = $req->fetch_assoc()){
+        	$rows[] = $row;
+        }
+        $db->close();
+        return $rows;
+	}
+
+
+	private function get_FK_all_rows($fk = array()){
+
+		$db = new Database();
+        $conn = $db->handle;
+
+        $query = "SELECT * FROM ".$fk['table']." ".$fk['custom_where'] ;
+
+        $req = $conn->query($query);
+
+        $rows = array();
+        while ($row = $req->fetch_assoc()){
+        	$rows[] = $row;
+        }
+        $db->close();
+        return $rows;
+	}
+
+
+	private function get_FK_row_values($fk,$val){
+		$db = new Database();
+        $conn = $db->handle;
+
+        $query = "SELECT * FROM ".$fk['table']." WHERE {$fk['fk_key_name']} = '{$val}' LIMIT 1";
+        $req = $conn->query($query);
+
+        $rows = array();
+
+        $row = $req->fetch_assoc();
+
+        $db->close();
+        return $row;
+	}
 
 	public function generate_table_scripts(){
 		$scripts = "<script>";
@@ -339,142 +558,6 @@ class SimpleTable{
 		$scripts.= "</script>";
 
 		return $scripts;
-	}
-
-
-	private function get_table_edit_modal(){
-		$modal = '
-		<!-- Modal na upravu tabuľky '.$this->options['table_id'].'-->
-		<div class="modal fade" id="edit'.$this->options['table_id'].'Modal" tabindex="-1" role="dialog" aria-labelledby="edit'.$this->options['table_id'].'Modal" aria-hidden="true">
-		  <div class="modal-dialog modal-dialog-centered" role="document">
-		    <div class="modal-content">
-		      <div class="modal-header">
-		        <h5 class="modal-title">Úprava záznamu</h5>
-		        <button type="button" class="close font-weight-light" data-dismiss="modal" aria-label="Close">
-		          <span aria-hidden="true">&times;</span>
-		        </button>
-		      </div>
-		      <div class="modal-body">
-		      	<div id="edit'.$this->options['table_id'].'Modal_MSG"></div>
-		        <form id="edit_row_'.$this->options['table_id'].'">
-		        	';
-
-		        foreach($this->table_structure as $key => $column){
-		        	
-		        	$modal.=self::generate_form_column($column,$key);
-
-		        }
-
-		        	$modal .='
-		        </form>
-		        <img src="/img/loading-buffering.gif" style="display:none;"/>
-		      </div>
-		      <div class="modal-footer">
-		        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-		        <button type="button" class="btn btn-primary" onclick="save_form_'.$this->options['table_id'].'()">Save changes</button>
-		      </div>
-		    </div>
-		  </div>
-		</div>';
-
-		return $modal;
-	}
-
-	private function get_table_add_modal(){
-		$modal = '
-		<!-- Modal na pridanie zaznamu tabuľky '.$this->options['table_id'].'-->
-		<div class="modal fade" id="add'.$this->options['table_id'].'Modal" tabindex="-1" role="dialog" aria-labelledby="add'.$this->options['table_id'].'Modal" aria-hidden="true">
-		  <div class="modal-dialog modal-dialog-centered" role="document">
-		    <div class="modal-content">
-		      <div class="modal-header">
-		        <h5 class="modal-title">Úprava záznamu</h5>
-		        <button type="button" class="close font-weight-light" data-dismiss="modal" aria-label="Close">
-		          <span aria-hidden="true">&times;</span>
-		        </button>
-		      </div>
-		      <div class="modal-body">
-		      	<div id="add'.$this->options['table_id'].'Modal_MSG"></div>
-		        <form id="add_row_'.$this->options['table_id'].'">
-		        	';
-
-		        foreach($this->table_structure as $key => $column){
-		        	if($key == $this->db_table_pk) continue;
-		        	$modal.=self::generate_form_column($column,$key,"add_");
-
-		        }
-
-		        	$modal .='
-		        </form>
-		        <img src="/img/loading-buffering.gif" style="display:none;"/>
-		      </div>
-		      <div class="modal-footer">
-		        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-		        <button type="button" class="btn btn-primary" onclick="add_form_'.$this->options['table_id'].'()">Pridať</button>
-		      </div>
-		    </div>
-		  </div>
-		</div>';
-
-		return $modal;
-	}
-
-	private function generate_form_column($column,$key,$idprefix=""){
-		$prefill= $column['form_edit_prefill'] ? "true" : "false";
-		$editable = $column['editable'] ? "" : "readonly";
-		$visible = $column['form_edit_show'] ? "" : "style='display:none;'"; 
-		$is_number = count($column['override']) == 0;
-
-		$html = "<div class='form-group' {$visible}>";
-		if($column['type'] == "varchar" || ($column['type'] == "int" && $is_number) ){
-			$html.="<label>{$column['name']}</label>";
-			$html.="<input type='text' js-prefill='{$prefill}' class='form-control' id='{$idprefix}form_{$this->options['table_id']}_{$key}' {$editable}>";
-		}
-		else if($column['type'] == "int"){
-			$html.="<label>{$column['name']}</label>";
-			$html.="<select class='form-control' id='{$idprefix}form_{$this->options['table_id']}_{$key}' {$editable}  js-prefill='{$prefill}'>";
-			foreach($column['override'] as $okey => $show) {
-				$html.="<option value='{$okey}'>{$show}</option>";
-			}
-		
-			$html.="</select>";
-		}
-		else if($column['type'] == "text"){
-			$html.="<label>{$column['name']}</label>";
-			$html.="<textarea class='form-control' id='{$idprefix}form_{$this->options['table_id']}_{$key}' {$editable}  js-prefill='{$prefill}'></textarea>";
-		}
-
-		$html.="</div>";
-		return $html;
-	}
-
-
-	private function get_all_rows_count(){
-		$db = new Database();
-        $conn = $db->handle;
-        $cnt_req = $conn->query("SELECT COUNT(*) FROM ".$this->db_table_name);
-        $cnt_res = $cnt_req->fetch_all()[0][0];
-        $db->close();
-        return $cnt_res;
-	}
-
-	private function get_all_rows($curr_page=0){
-		$db = new Database();
-        $conn = $db->handle;
-
-        $query = "SELECT * FROM ".$this->db_table_name ;
-
-        if($this->options['pagination'] ){
-        	$query.= " LIMIT ".$this->options['perpage']." OFFSET ".$curr_page*$this->options['perpage'];
-        }
-
-        $req = $conn->query($query);
-
-        $rows = array();
-        while ($row = $req->fetch_assoc()){
-        	$rows[] = $row;
-        }
-        $db->close();
-        return $rows;
 	}
 
 }
