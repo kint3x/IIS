@@ -39,6 +39,7 @@ Class Reservation{
 
 		$db->close();
 
+		self::$error_message = 'Počet rezervovaných lístkov bol úspešne zistený.';
 		return $reserved_tickets;
 	}
 }

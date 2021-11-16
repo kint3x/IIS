@@ -28,6 +28,7 @@ class Tag {
 		
 		$db->close();
 
+		self::$error_message = 'Kategória bola úspešne vytvorená.';
 		return true;
     }
 
@@ -55,6 +56,7 @@ class Tag {
 		
 		$db->close();
 
+		self::$error_message = 'Konferencia bola úspešne odstránená zo všetkých kategórii.';
 		return true;
 	}
 
@@ -82,6 +84,7 @@ class Tag {
 		
 		$db->close();
 
+		self::$error_message = 'Konferencia bola úspešne zaradená do danej kategórie.';
 		return true;
     }
 
@@ -102,7 +105,8 @@ class Tag {
 		$tags = $stmt->fetch_all(MYSQLI_ASSOC);
 		
 		$db->close();
-
+		
+		self::$error_message = 'Výpis všetkých kategórií bol úspešne získaný.';
 		return $tags;
 	}
 
@@ -133,6 +137,7 @@ class Tag {
 		
 		$db->close();
 
+		self::$error_message = 'Názov kategórie bol úspešne zistený.';
 		return $tag['name'];
 	}
 
@@ -162,6 +167,7 @@ class Tag {
 		
 		$db->close();
 
+		self::$error_message = 'Kategórie v ktorých sa nachádza daná konferencia boli úspešne zistené.';
 		return $tags;
     }
 

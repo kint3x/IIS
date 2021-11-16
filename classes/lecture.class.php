@@ -29,6 +29,7 @@ Class Lecture{
 		
 		$db->close();
 
+		self::$error_message = 'Prednáška bola úspešne zaregistrovaná.';
 		return true;
     }
 }

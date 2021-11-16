@@ -30,6 +30,7 @@ Class User {
 
 		$db->close();
 		
+		self::$error_message = 'Užívateľ bol úspešne zmazaný.';
 		return true;
 	}
 
@@ -64,6 +65,7 @@ Class User {
 		$id = $conn->insert_id;
 		$db->close();
 		
+		self::$error_message = 'Užívateľ bol úspešne zaregistrovaný.';
 		return $id;
 	}
 
@@ -77,6 +79,7 @@ Class User {
 			return false; 
 		}
 
+		self::$error_message = 'Heslo bolo úspešne overené.';
 		return true;
 	}
 
@@ -114,6 +117,7 @@ Class User {
 		
 		$db->close();
 
+		self::$error_message = 'Email bol úspešne overený.';
 		return true;
 	}
 
@@ -158,6 +162,7 @@ Class User {
 		$this->user_data = $rows;
 		
 		$db->close();
+		self::$error_message = 'Užívateľ bol úspešne prihlásený.';
 	}
 
 	/**
@@ -211,6 +216,7 @@ Class User {
 
 		$this->update_user();
 
+		self::$error_message = 'Heslo bolo úspešne zmenené.';
 		return true;
 	}
 
@@ -234,6 +240,7 @@ Class User {
 
 		$db->close();
 		
+		self::$error_message = 'Email bol úspešne získaný.';
 		return $rows['email'];
 	}
 
@@ -244,6 +251,7 @@ Class User {
 		$res = self::change_user_data_by_id($this->user_data['id'], $email, $name, $surname, $street, $city, $zip, $state);
 		$res = $res && $this->update_user();
 
+		self::$error_message = 'Údaje boli úspešne zmenené.';
 		return $res;
 	}
 
@@ -288,6 +296,7 @@ Class User {
 		
 		$db->close();
 
+		self::$error_message = 'Údaje boli úspešne zmenené.';
 		return true;
 	}
 
@@ -320,42 +329,18 @@ Class User {
 		
 		$db->close();
 
+		self::$error_message = 'Údaje boli úspešne aktualizované.';
 		return true;
-	}
-
-
-	public static function get_all_users($perpage = 0, $offset = 0){
-		$db = new Database();
-        $conn = $db->handle;
-
-        $query = "SELECT * FROM User" ;
-
-        if($perpage > 0 ){
-        	$query.= " LIMIT ".$perpage." OFFSET ".$offset;
-        }
-
-        $req = $conn->query($query);
-
-        $users = array();
-        while ($row = $req->fetch_assoc()){
-        	$users[] = $row;
-        }
-        $db->close();
-        return $users;
-	}
-
-	public static function get_all_users_count(){
-		$db = new Database();
-        $conn = $db->handle;
-        $cnt_req = $conn->query("SELECT COUNT(*) FROM User");
-        $cnt_res = $cnt_req->fetch_all()[0][0];
-        $db->close();
-        return $cnt_res;
 	}
 
 	public static function delete_user_by_id($id){
 		$db = new Database();
 		$conn = $db->handle;
+
+		if($db->error) {
+			self::$error_message = 'Problém s pripojením k databáze.';
+			return false;
+		}
 
 		$stmt = $conn->prepare("DELETE FROM User WHERE id=?");
 		$stmt->bind_param("d",$id);
@@ -363,11 +348,13 @@ Class User {
 		if (!$stmt->execute()) {
 			$db->close();
 			$stmt->close();
-			self::$error_message = 'Nastala chyba pri zmene údajov.';
+			self::$error_message = 'Nastala chyba pri odstraňovaní užívateľa.';
 			return false;
 		};
 		
 		$db->close();
+
+		self::$error_message = 'Užívateľ bol úspešne odstránený.';
 		return true;
 	}
 

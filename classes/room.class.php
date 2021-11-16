@@ -194,6 +194,7 @@ class Room {
 		
 		$db->close();
 
+		self::$error_message = 'Pre danú konferenciu boli úspešne nájdené miestnosti.';
 		return $rooms;
 	}
 }
