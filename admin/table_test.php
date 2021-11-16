@@ -51,6 +51,21 @@
 
 
 				    echo $table->generate_table_html();
+
+
+				     $table2 = new SimpleTable("Lecture", array("edit" => true,"add" => true));
+				    
+				    $table2->table_structure['id_user']['foreign_key'] = 
+				    array(
+				    	"table" => "User",
+				    	"fk_key_name" => "id",
+				    	"table_vars" => array("id" => "ID užívateľa", "email" => "Užívateľ"),
+				    	"form_var" => "email",
+				    	"custom_where" => "", // ked to je napriklad v uzivatelovi a chces obmedzit co mu da do selectu
+				    );
+
+
+				    echo $table2->generate_table_html();
 				?>
 		      </div>
 		   </div>
@@ -58,6 +73,7 @@
 			<?php 
 			// generovanie skriptov pre konkretnu tabulku
 			echo $table->generate_table_scripts();
+			echo $table2->generate_table_scripts();
 
 			?>
 	</body>
