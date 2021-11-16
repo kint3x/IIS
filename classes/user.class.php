@@ -37,7 +37,7 @@ Class User {
 	 * Registers a new user. Returns 'false' in case of any problems and sets
 	 * saves the error description in 'error_message'.
 	 */
-	public static function register_user($email,  $password) {
+	public static function register_user($email,  $password , $role = USER_REGULAR) {
 		if (!(self::verify_email($email) && self::verify_password($password))) {
 			return false;
 		}
@@ -52,8 +52,8 @@ Class User {
 		$password = password_hash($password, PASSWORD_DEFAULT);
 
 		$conn = $db->handle;
-		$stmt = $conn->prepare('INSERT INTO User (email, password, role) VALUES (?, ?, '.USER_REGULAR.')');
-		$stmt->bind_param('ss', $email, $password);
+		$stmt = $conn->prepare('INSERT INTO User (email, password, role) VALUES (?, ?, ?)');
+		$stmt->bind_param('ssd', $email, $password, $role);
 
 		if (!($stmt->execute())) {
 			self::$error_message = 'Problém pri registrácii užívateľa.';
@@ -61,9 +61,10 @@ Class User {
 			return false;
 		}
 
+		$id = $conn->insert_id;
 		$db->close();
 		
-		return true;
+		return $id;
 	}
 
 	/**
