@@ -121,7 +121,6 @@ class SimpleTable{
        	
 
        	$html = '<div class="table-responsive table-'.$this->options['table_id'].'"><table '.$table_id_attr.' class="table table-bordred table-striped">';
-       	if($this->options['add']) $html .= '<button class="btn btn-success btn-xs" style="margin-bottom: 15px;float:right;" data-toggle="modal" data-target="#add'.$this->options['table_id'].'Modal">Pridať záznam</button>';
        	$html .= '<thead>';
        	if($this->options['delete'] == true)
        	$html .= '<th><input type="checkbox" id="'.$this->options['table_id'].'_checkall"/></th>';
@@ -179,7 +178,8 @@ class SimpleTable{
 
        	$html .= '</tbody></table><div class="clearfix"></div>';
 
-       	if($this->options['delete']) $html.= '<button class="btn btn-danger btn-xs" onclick="delete_checked_'.$this->options['table_id'].'()" style="margin-bottom: 15px;float:right;" >Vymazať označené</button>';
+       	if($this->options['delete']) $html.= '<button class="ml-2 mb-10 btn btn-danger btn-xs" onclick="delete_checked_'.$this->options['table_id'].'()" style="float:right;" >Vymazať označené</button>';
+       	if($this->options['add']) $html .= '<button class="ml-2 mb-10 btn btn-success btn-xs" style="margin-bottom: 15px;float:right;" data-toggle="modal" data-target="#add'.$this->options['table_id'].'Modal">Pridať záznam</button>';
        	if($this->options['edit']) $html.= self::get_table_edit_modal();
        	if($this->options['add']) $html.= self::get_table_add_modal();
 
