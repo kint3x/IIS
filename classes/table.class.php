@@ -78,6 +78,7 @@ class SimpleTable{
 				"show_column" => true, // will column show up ?
 				"override" => array(), // override ints to string for example: "1" => "Admin", in table, value will be 1 but text will be Admin
 				"foreign_key" => array(), // if is FK , give me
+				"static_value" => NULL,
 				/*
 				*	array("table" => "name",
 					"fk_key_name" => "id", name in Foreign table
@@ -197,7 +198,7 @@ class SimpleTable{
 		$modal = '
 		<!-- Modal na upravu tabuľky '.$this->options['table_id'].'-->
 		<div class="modal fade" id="edit'.$this->options['table_id'].'Modal" tabindex="-1" role="dialog" aria-labelledby="edit'.$this->options['table_id'].'Modal" aria-hidden="true">
-		  <div class="modal-dialog modal-dialog-centered" role="document">
+		  <div class="modal-dialog modal-dialog-centered col-sm-6" role="document">
 		    <div class="modal-content">
 		      <div class="modal-header">
 		        <h5 class="modal-title">Úprava záznamu</h5>
@@ -235,7 +236,7 @@ class SimpleTable{
 		$modal = '
 		<!-- Modal na pridanie zaznamu tabuľky '.$this->options['table_id'].'-->
 		<div class="modal fade" id="add'.$this->options['table_id'].'Modal" tabindex="-1" role="dialog" aria-labelledby="add'.$this->options['table_id'].'Modal" aria-hidden="true">
-		  <div class="modal-dialog modal-dialog-centered" role="document">
+		  <div class="modal-dialog modal-dialog-centered col-sm-6" role="document">
 		    <div class="modal-content">
 		      <div class="modal-header">
 		        <h5 class="modal-title">Úprava záznamu</h5>
@@ -278,14 +279,28 @@ class SimpleTable{
 		$html = "<div class='form-group' {$visible}>";
 		if($column['type'] == "varchar" || ($column['type'] == "int" && $is_number) ){
 			$html.="<label>{$column['name']}</label>";
-			$html.="<input type='text' js-prefill='{$prefill}' class='form-control' id='{$idprefix}form_{$this->options['table_id']}_{$key}' {$editable}>";
+			
+			if($column['static_value'] != NULL && $idprefix=="add_"){
+				$html.="<input type='text' js-prefill='false' class='form-control' id='{$idprefix}form_{$this->options['table_id']}_{$key}' {$editable} value='{$column['static_value']}'>";
+			}
+			else{
+				$html.="<input type='text' js-prefill='{$prefill}' class='form-control' id='{$idprefix}form_{$this->options['table_id']}_{$key}' {$editable}>";
+			}
+			
+
 		}
 		else if($column['type'] == "int"){
 			$html.="<label>{$column['name']}</label>";
-			$html.="<select class='form-control' id='{$idprefix}form_{$this->options['table_id']}_{$key}' {$editable}  js-prefill='{$prefill}'>";
-			foreach($column['override'] as $okey => $show) {
-				$html.="<option value='{$okey}'>{$show}</option>";
+			if($column['static_value'] != NULL && $idprefix=="add_"){
+				$html.="<input type='text' js-prefill='false' class='form-control' id='{$idprefix}form_{$this->options['table_id']}_{$key}' {$editable} value='{$column['static_value']}'>";
 			}
+			else{
+				$html.="<select class='form-control' id='{$idprefix}form_{$this->options['table_id']}_{$key}' {$editable}  js-prefill='{$prefill}'>";
+				foreach($column['override'] as $okey => $show) {
+					$html.="<option value='{$okey}'>{$show}</option>";
+				}
+			}
+			
 
 			if(count($column['foreign_key']) > 0){
 				$rows = self::get_FK_all_rows($column['foreign_key']);
