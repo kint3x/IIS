@@ -27,6 +27,26 @@ function verify_conference() {
 }
 
 /**
+ * Check if the signed in user owns the conference. Must be called only after verify_conference() has been called.
+ */
+function verify_conference_owner() {
+  if (!isset($_SESSION['user']) || !Conferences::is_owner($_SESSION['user']->get_user_data()['id'], $_GET['id'])) {
+    ?>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 align-self-center pb-2">
+                <div class='alert alert-secondary' role='alert'>
+                    Danú konferenciu nemôžte upravovať.
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php
+    exit();
+  }
+}
+
+/**
  * Removes the get parameters from the url
  */
 function without_params($url) {

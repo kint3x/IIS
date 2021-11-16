@@ -17,35 +17,9 @@ start_session_if_none();
         <?php 
             echo get_navbar(); 
 
-            if (!isset($_GET['id']) || !Conferences::get_conference_by_id($_GET['id'])) {
-                ?>
-                <div class="container">
-                    <div class="row">
-                        <div class="col-sm-12 align-self-center pb-2">
-                            <div class='alert alert-secondary' role='alert'>
-                                Je nám to ľúto, ale daná konferencia neexistuje.
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <?php
-                exit();
-            }
-
-            if (!isset($_SESSION['user']) || !Conferences::is_owner($_SESSION['user']->get_user_data()['id'], $_GET['id'])) {
-                ?>
-                <div class="container">
-                    <div class="row">
-                        <div class="col-sm-12 align-self-center pb-2">
-                            <div class='alert alert-secondary' role='alert'>
-                                Danú konferenciu nemôžte upravovať.
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <?php
-                exit();
-            }
+            verify_conference();
+            check_login('Pre upravovanie konferencie musíte byť prihlásený.');
+            verify_conference_owner();
 
             $conference = Conferences::get_conference_by_id($_GET['id']);
         ?>

@@ -18,7 +18,7 @@ class Room {
 		$conn = $db->handle;
 		
 		$stmt = $conn->prepare('SELECT * FROM Room WHERE conference_id = ?');
-		$stmt->bind_param('i', $conferrence_id);
+		$stmt->bind_param('i', $conference_id);
 
 		if (!$stmt->execute()) {
 			self::$error_message = 'Chyba pri načítaní údajov.';
@@ -29,8 +29,8 @@ class Room {
 		$res = $stmt->get_result();
 		
 		if ($res->num_rows < 1) {
-			self::$error_message = 'Pre danú konferencie ešte neboli vytvorené žiadne miestnosti.';
-			return false;
+			self::$error_message = 'Pre danú konferencie ešte neboli určené žiadne miestnosti.';
+			return -1;
 		}
 
 		$rooms = $res->fetch_all(MYSQLI_ASSOC);
