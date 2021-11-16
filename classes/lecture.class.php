@@ -6,7 +6,7 @@ require_once ROOT."/classes/reservation.class.php";
 Class Lecture{
     public static $error_message = "";
 
-	public static function get_conference_lecture()
+	// public static function get_conference_lecture()
 
     public static function register_lecture($name, $description, $id_user) {
         $db = new Database();

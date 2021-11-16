@@ -74,6 +74,7 @@ start_session_if_none();
                             $table->table_structure['id']['form_edit_show'] = false;
                             $table->table_structure['conference_id']['show_column'] = false;
                             $table->table_structure['conference_id']['form_edit_show'] = false;
+                            $table->table_structure['conference_id']['static_value'] = $conference['id'];
 
                             echo $table->generate_table_html();
                         }

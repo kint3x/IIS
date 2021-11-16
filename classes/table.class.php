@@ -222,7 +222,7 @@ class SimpleTable{
 		        <img src="/img/loading-buffering.gif" style="display:none;"/>
 		      </div>
 		      <div class="modal-footer">
-		        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		        <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Zrušiť</button>
 		        <button type="button" class="btn btn-primary" onclick="save_form_'.$this->options['table_id'].'()">Save changes</button>
 		      </div>
 		    </div>
@@ -260,7 +260,7 @@ class SimpleTable{
 		        <img src="/img/loading-buffering.gif" style="display:none;"/>
 		      </div>
 		      <div class="modal-footer">
-		        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		        <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Zrušiť</button>
 		        <button type="button" class="btn btn-primary" onclick="add_form_'.$this->options['table_id'].'()">Pridať</button>
 		      </div>
 		    </div>
@@ -433,7 +433,7 @@ class SimpleTable{
 	     	*/
 	     	function delete_row_'.$this->options['table_id'].'(id,ask=true){
 	     		if(ask){
-	     			var confirm = window.confirm("Naozaj chcete riadok s ID "+id+" ?");
+	     			var confirm = window.confirm("Naozaj chcete vymazať daný záznam?");
 	     			if(!confirm) return;
 	     		}
 	     		
@@ -469,7 +469,7 @@ class SimpleTable{
 				    	ids.push($(this).val());
 				    }
 				});
-				var confirm = window.confirm("Naozaj chcete zmazať všetky označené riadky ?");
+				var confirm = window.confirm("Naozaj chcete zmazať všetky označené záznamy?");
 	     		if(!confirm) return;
 
 	     		ids.forEach(function(el,index,ids){

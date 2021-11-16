@@ -61,13 +61,6 @@
 				    //nechcem aby ho vo formulari prefillovalo
 				    $table->table_structure['password']['form_edit_prefill'] = false;
 
-
-
-				  
-				    
-
-
-
 				    echo $table->generate_table_html();
 
       	?>

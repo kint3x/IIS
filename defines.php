@@ -8,6 +8,8 @@ define('DATE_FORMAT_HTML', 'Y-m-d h:i');
 define('IMG_DEFAULT', '/img/placeholder.jpg');
 
 include_once(ROOT."/lib.php");
+require_once(ROOT."/classes/conferences.class.php");
+require_once(ROOT."/classes/room.class.php");
 
 /**
  * Echo an encoded json array representing the response from ajax calls.

@@ -48,8 +48,6 @@
 				    //premenovanie stlpca v hlavicke
 				    $table->table_structure['surname']['name'] = "Priezvisko";
 
-
-
 				    echo $table->generate_table_html();
 
 
