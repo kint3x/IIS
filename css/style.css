@@ -92,3 +92,6 @@ body {
 .pg-selected{
     background-color: #AAA;
 }
+.page-link{
+    color: #000 !important;
+}
