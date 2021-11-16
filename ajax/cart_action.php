@@ -10,6 +10,20 @@ session_start();
 
 Cart::setup_cart_if_not();
 
+if(isset($_POST['item_id'])){
+	if(!is_numeric($_POST['item_id'])){
+		echo_json_response(false,"Nie je platné číslo");
+		return;
+	} 
+}
+if(isset($_POST['id'])){
+	if(!is_numeric($_POST['id'])){
+		echo_json_response(false,"Nie je platné číslo");
+		return;
+	} 
+}
+
+
 if(isset($_POST['cart_action'])){
 	if($_POST['cart_action']=="add_to_cart"){
 		if(!isset($_POST['item_id'])){
@@ -19,25 +33,51 @@ if(isset($_POST['cart_action'])){
 			));
 			return;
 		}
-		if(is_numeric($_POST['item_id'])){
-			if(Conferences::get_number_tickets_left($_POST['item_id'])>0){
-				$_SESSION['cart']->add_item($_POST['item_id'],1);
-				echo json_encode(array(
-				"error" => false,
-				"message" => ""
-				));
-				return;
-			}
-		}
-		else{
-			echo json_encode(array(
-				"error" => true,
-				"message" => "ID nie je číslo"
-			));
+		
+		$ret = $_SESSION['cart']->add_item($_POST['item_id'],1);
+		if($ret !== true) {
+			echo_json_response(false,$ret);
 			return;
 		}
+			echo_json_response(true,"");
+
+		return;
+
 	}
 	else if($_POST['cart_action']=="get_cart"){
-		
+		echo json_encode($_SESSION['cart']->get_items_structured());
+	}
+	else if($_POST['cart_action']=="remove_from_cart"){
+		if(isset($_POST['id'])){
+			 $_SESSION['cart']->remove_item($_POST['id']);
+			echo_json_response(true,"");
+			return;
+		}
+
+		echo_json_response(true,"Chýba ID");
+		return;
+	}
+	else if($_POST['cart_action']=="decrease_item"){
+		if(isset($_POST['id'])){
+			$_SESSION['cart']->decrease_item($_POST['id'],1);
+			echo_json_response(true,"");
+			return;
+		}
+
+		echo_json_response(true,"Chýba ID");
+	}
+	else if($_POST['cart_action']=="increase_item"){
+		if(isset($_POST['id'])){
+			$ret = $_SESSION['cart']->increase_item($_POST['id'],1);
+			if($ret !== true){
+				echo_json_response(false,$ret);
+				return;
+			}
+			echo_json_response(true,"");
+			return;
+		}
+
+		echo_json_response(true,"Chýba ID");
+		return;
 	}
 }
