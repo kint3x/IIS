@@ -239,7 +239,7 @@ class SimpleTable{
 		  <div class="modal-dialog modal-dialog-centered col-sm-6" role="document">
 		    <div class="modal-content">
 		      <div class="modal-header">
-		        <h5 class="modal-title">Úprava záznamu</h5>
+		        <h5 class="modal-title">Pridať záznam</h5>
 		        <button type="button" class="close font-weight-light" data-dismiss="modal" aria-label="Close">
 		          <span aria-hidden="true">&times;</span>
 		        </button>
@@ -473,7 +473,7 @@ class SimpleTable{
 	     		if(!confirm) return;
 
 	     		ids.forEach(function(el,index,ids){
-	     			delete_user(el,false);
+	     			delete_row_'.$this->options['table_id'].'(el,false);
 	     		});
 	     	}
 
@@ -518,7 +518,7 @@ class SimpleTable{
 		          }).done(function (data) {
 		          	$("#edit'.$this->options['table_id'].'Modal_MSG").show();
 		            if(data.success){
-		              $("#edit'.$this->options['table_id'].'Modal_MSG").html(\'<div class="alert alert-success" role="alert">Úspešne zmenené<button class="close font-weight-light" data-dismiss="alert" aria-label="close">×</button></div>\');
+		              $("#edit'.$this->options['table_id'].'Modal_MSG").html(\'<div class="alert alert-success" role="alert">\'+data.error+\'<button class="close font-weight-light" data-dismiss="alert" aria-label="close">×</button></div>\');
 		            location.reload(); 
 		            }
 		            else{
@@ -551,7 +551,7 @@ class SimpleTable{
 		          }).done(function (data) {
 		          	$("#add'.$this->options['table_id'].'Modal_MSG").show();
 		            if(data.success){
-		              $("#add'.$this->options['table_id'].'Modal_MSG").html(\'<div class="alert alert-success" role="alert">Úspešne pridané<button class="close font-weight-light" data-dismiss="alert" aria-label="close">×</button></div>\');
+		              $("#add'.$this->options['table_id'].'Modal_MSG").html(\'<div class="alert alert-success" role="alert">\'+data.error+\'<button class="close font-weight-light" data-dismiss="alert" aria-label="close">×</button></div>\');
 		              ';
 		              	foreach($this->table_structure as $key => $column){
 	     					 $scripts.= "$('#add_form_{$this->options['table_id']}_{$key}').val(''); \n";
