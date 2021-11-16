@@ -558,7 +558,9 @@ class SimpleTable{
 	     				}
 
 	     			$scripts .='
-	     			location.reload(); 	
+	     			$("#add'.$this->options['table_id'].'Modal").find("input").each(function(){
+	     					$(this).val("");
+	     				});
 		            }
 		            else{
 		             	$("#add'.$this->options['table_id'].'Modal_MSG").html(\'<div class="alert alert-warning" role="alert">\'+data.error+\'<button class="close font-weight-light" data-dismiss="alert" aria-label="close">×</button></div>\');
