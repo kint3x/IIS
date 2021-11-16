@@ -107,11 +107,7 @@ start_session_if_none();
         
         if (count($data) === 0) {
           // No conferences found
-          echo "
-          <div class='alert alert-secondary' role='alert'>
-          {$alert_message}
-          </div>
-          ";        
+          display_alert($alert_message);
         } else {
           // Show cards for each of the conferences
           echo "<div class='row justify-content-between'>";

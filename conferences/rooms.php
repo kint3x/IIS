@@ -3,7 +3,7 @@
 require_once '../defines.php';
 require_once ROOT.'/lib.php';
 require_once ROOT.'/classes/conferences.class.php';
-require_once ROOT.'/classes/tag.class.php';
+require_once ROOT.'/classes/room.class.php';
 
 start_session_if_none();
 
@@ -32,7 +32,16 @@ start_session_if_none();
                 <?php get_conference_sidebar($conference['id_user'], $conference['id']); ?>
                 
                 <div class="col-sm-8 align-self-center">
-                    #TODO vypisat tabulku miestnosti + majitel konferencie moze upravovat
+
+                    <?php
+                        $rooms = Room::get_conference_rooms($conference['id']);
+                        
+                        if ($rooms === false) {
+                            display_alert("Zatiaľ neboli pre konferenciu určené žiadne miestnosti.");
+                        }
+
+                    ?>
+
                 </div>
             </div>
         </div>
