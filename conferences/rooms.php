@@ -32,7 +32,7 @@ start_session_if_none();
         <div class="container-fluid">
             <div class="row">
                 
-                <?php get_conference_sidebar($conference['id_user'], $conference['id']); ?>
+                <?php get_conference_sidebar($conference); ?>
                 
                 <div class="col-sm-8 align-self-center">
 
@@ -57,10 +57,24 @@ start_session_if_none();
                                 "ajax_url" => "/ajax/rooms.php",
                                 "delete" => true,
                                 "edit" => true,
-                                "add" => true
+                                "add" => true,
+                                "custom_SQL" => "WHERE conference_id = {$conference['id']}"
                             ];
     
+                            ?>
+                            <h2 class="pb-1">
+                                Miestnosti
+                            </h2>
+                            <?php
+
                             $table = new SimpleTable("Room", $options);
+
+                            $table->table_structure['name']['name'] = "Názov";
+                            $table->table_structure['id']['show_column'] = false;
+                            $table->table_structure['id']['form_edit_show'] = false;
+                            $table->table_structure['conference_id']['show_column'] = false;
+                            $table->table_structure['conference_id']['form_edit_show'] = false;
+
                             echo $table->generate_table_html();
                         }
                         

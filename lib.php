@@ -62,10 +62,16 @@ function without_params($url) {
 /**
  * Get the HTML for the sidebar.
  */
-function get_sidebar($page_array) {
+function get_sidebar($title, $page_array) {
   ?>
   <div class="col-sm-2 align-self-top">    
     <ul class="nav nav-pills flex-column">
+      <li class="nav-item">
+        <h5 class="nav-link text-wrap">
+          <?php echo $title;?>
+        </h5>
+      </li>
+      <li><hr class="dropdown-divider" /></li>
       <?php
         foreach ($page_array as $name => $url) {
           ?>
@@ -84,17 +90,17 @@ function get_sidebar($page_array) {
 /**
  * Get the HTML sidebar for the pages in /conference.
  */
-function get_conference_sidebar($owner_id, $conference_id) {
+function get_conference_sidebar($conference) {
   $menu_array = [
-      "Informácie" => "/conferences/show.php?id={$conference_id}",
-      "Prednášky" => "/conferences/lectures.php?id={$conference_id}"
+      "Informácie" => "/conferences/show.php?id={$conference['id']}",
+      "Prednášky" => "/conferences/lectures.php?id={$conference['id']}"
   ];
-  
-  if (user_owns_conference($owner_id)) {
-      $menu_array["Miestnosti"] = "/conferences/rooms.php?id={$conference_id}";
+
+  if (user_owns_conference($conference['id_user'])) {
+      $menu_array["Miestnosti"] = "/conferences/rooms.php?id={$conference['id']}";
   }
   
-  get_sidebar($menu_array); 
+  get_sidebar($conference['name'], $menu_array); 
 }
 
 /**
@@ -108,7 +114,7 @@ function get_user_sidebar() {
       "Rozvrh" => "/user/schedule.php"
   ];
 
-  get_sidebar($menu_array);
+  get_sidebar("Účet", $menu_array);
 }
 
 function get_head($params=array()){

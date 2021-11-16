@@ -34,8 +34,7 @@
 						)
 				    );
 
-      			//premenovanie stlpca v hlavicke
-
+      				//premenovanie stlpca v hlavicke
 				    $table->table_structure['id']['name'] = "ID";
 				    $table->table_structure['surname']['name'] = "Priezvisko";
 				    $table->table_structure['name']['name'] = "Meno";

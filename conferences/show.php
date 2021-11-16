@@ -30,7 +30,7 @@ start_session_if_none();
         <div class="container-fluid">
             <div class="row">
                 
-                <?php get_conference_sidebar($conference['id_user'], $conference['id']); ?>
+                <?php get_conference_sidebar($conference); ?>
                 
                 <div class="col-sm-8 align-self-center">
                     <div class="card mb-12">
