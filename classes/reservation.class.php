@@ -114,15 +114,13 @@ Class Reservation{
 			self::$error_message = 'Problém s pripojením k databáze.';
 			return false;
 		}
-		
+
 		$conn = $db->handle;
 
 		foreach($reservations as $id){
 			$res=$conn->query("UPDATE Reservation SET user_id = {$user_id} WHERE id = {$id}");
 
 		}
-
-		if($ret == false) return false;
 
 		return true;
 		$db->close();
