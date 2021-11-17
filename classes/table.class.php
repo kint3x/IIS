@@ -165,7 +165,7 @@ class SimpleTable{
 
        				foreach($this->table_structure[$ckey]['foreign_key']['table_vars'] as $meno => $var){
        			 			
-       			 			$html .= "<td col-name='$meno' col-val='$rowf[$meno]'>{$rowf[$meno]}</td>";
+       			 			$html .= "<td col-name='fk_$meno' col-val='$rowf[$meno]'>{$rowf[$meno]}</td>";
        			 			
        			 	}
        			}else{
@@ -316,7 +316,10 @@ class SimpleTable{
 				$html.="<input type='text' js-prefill='false' class='form-control' id='{$idprefix}form_{$this->options['table_id']}_{$key}' {$editable} value='{$column['static_value']}'>";
 			}
 			else{
-				$html.="<select class='form-control' id='{$idprefix}form_{$this->options['table_id']}_{$key}' {$editable}  js-prefill='{$prefill}'>";
+				$fk = "";
+				if(count($column['foreign_key']) > 0){$fk = "fk_";}
+
+				$html.="<select class='form-control' id='{$fk}{$idprefix}form_{$this->options['table_id']}_{$key}' {$editable}  js-prefill='{$prefill}'>";
 				foreach($column['override'] as $okey => $show) {
 					$html.="<option value='{$okey}'>{$show}</option>";
 				}
