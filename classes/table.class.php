@@ -165,7 +165,13 @@ class SimpleTable{
 
        				foreach($this->table_structure[$ckey]['foreign_key']['table_vars'] as $meno => $var){
        			 			
-       			 			$html .= "<td col-name='fk_$meno' col-val='$rowf[$meno]'>{$rowf[$meno]}</td>";
+       			 			if($rowf == NULL){
+       			 				$html .= "<td col-name='fk_$meno' col-val=''></td>";
+       			 			}
+       			 			else{
+       			 				$html .= "<td col-name='fk_$meno' col-val='$rowf[$meno]'>{$rowf[$meno]}</td>";
+       			 			}
+       			 			
        			 			
        			 	}
        			}else{
@@ -315,22 +321,24 @@ class SimpleTable{
 			if($column['static_value'] != NULL && $idprefix=="add_"){
 				$html.="<input type='text' js-prefill='false' class='form-control' id='{$idprefix}form_{$this->options['table_id']}_{$key}' {$editable} value='{$column['static_value']}'>";
 			}
-			else{
+			else{ 
+
 				$html.="<select class='form-control' id='{$idprefix}form_{$this->options['table_id']}_{$key}' {$editable}  js-prefill='{$prefill}'>";
 				foreach($column['override'] as $okey => $show) {
 					$html.="<option value='{$okey}'>{$show}</option>";
 				}
-			}
 			
-
-			if(count($column['foreign_key']) > 0){
-				$rows = self::get_FK_all_rows($column['foreign_key']);
-				foreach($rows as $row){
-					$html.="<option value='{$row[$column['foreign_key']['fk_key_name']]}'>{$row[$column['foreign_key']['form_var']]}</option>";
+			
+				if(count($column['foreign_key']) > 0){
+					$rows = self::get_FK_all_rows($column['foreign_key']);
+					foreach($rows as $row){
+						$html.="<option value='{$row[$column['foreign_key']['fk_key_name']]}'>{$row[$column['foreign_key']['form_var']]}</option>";
+					}
 				}
+			
+				$html.="</select>";
+
 			}
-		
-			$html.="</select>";
 		}
 		else if($column['type'] == "text"){
 			$html.="<label>{$column['name']}</label>";
