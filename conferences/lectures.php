@@ -60,7 +60,7 @@ start_session_if_none();
 
                             $options = [
                                 "table_id" => "lectures",
-                                "ajax_url" => "/ajax/conference_lecture.php",
+                                "ajax_url" => "/ajax/edit_lecture.php",
                                 "edit" => $is_owner,
                                 "add" => false,
                                 "delete" => false, // same as $is_owner ? true : false;

@@ -21,6 +21,17 @@ require_once(ROOT."/classes/room.class.php");
 require_once(ROOT."/classes/lecture.class.php");
 
 /**
+ * Converts a time string from the 'Y-m-dTh:i' format to the 'Y-m-d h:i' format.
+ */
+function convert_timestring($timestring) {
+    $t_index = strpos($timestring, 'T');
+    $time = substr($timestring, 0, $t_index);
+    $date = substr($timestring, $t_index+1);
+
+    return $time.' '.$date;
+}
+
+/**
  * Echo an encoded json array representing the response from ajax calls.
  */
 function echo_json_response($success, $error) {

@@ -33,6 +33,51 @@ class Room {
 	}
 
 	/**
+	 * Checks whether the room is free in the [time_start, time_end] time interval.
+	 */
+	public static function is_free($room_id, $time_start, $time_end) {
+		$db = new Database();
+
+		if ($db->error) {
+			self::$error_message = 'Problém s pripojením k databáze.';
+			return false;
+		}
+
+		$conn = $db->handle;
+		
+		$stmt = $conn->prepare("SELECT * FROM Lecture WHERE room_id = ? AND"
+								." (time_from <= ? AND time_to >= ?) OR"
+								." (time_from <= ? AND time_to >= ?) OR"
+								." (time_from >= ? AND time_to <= ?) OR"
+								." (time_from <= ? AND time_to >= ?)");
+		$stmt->bind_param('iiiiiiiii', 
+			$room_id, 
+			$time_start,
+			$time_start, 
+			$time_end,
+			$time_end, 
+			$time_start,
+			$time_end, 
+			$time_start, 
+			$time_end);
+
+		if (!$stmt->execute()) {
+			self::$error_message = 'Chyba pri načítaní údajov.';
+			$db->close();
+			return false;
+		};
+
+		$res = $stmt->get_result();
+
+		// Some lecture happening during the given interval.
+		if ($res->num_rows > 0) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
 	 * Update the data for the room with the given ID.
 	 */
 	public static function update($room_id, $name, $conference_id) {
