@@ -70,6 +70,7 @@ class SimpleTable{
 
 		while($row = $res->fetch_assoc()){
 
+			//SETUP TYPE OF var from described table
 			$type = "";
 			if(strpos($row['Type'],"int") !== false ) $type = "int";
 			if(strpos($row['Type'],"varchar") !== false ) $type = "varchar";
@@ -134,14 +135,14 @@ class SimpleTable{
 
        	$table_id_attr = 'id="'.$this->options['table_id'].'"';
        	
-       	//generate head
-       	
+       	/* START OF HEAD GENERATING */    	
        	$html = '<div class="table-responsive table-'.$this->options['table_id'].'"><table '.$table_id_attr.' class="table table-bordred table-striped">';
        	$html .= '<thead>';
        	if($this->options['delete'] == true)
        	$html .= '<th><input type="checkbox" id="'.$this->options['table_id'].'_checkall"/></th>';
        	foreach($this->table_structure as $column){
        		if(!$column['show_column']) continue; // if column is not shown skip in head
+       		
        		if(count($column['foreign_key']) > 0 ){ //if has foreign keys
        			foreach($column['foreign_key']['table_vars'] as $meno => $var){
        				$html .= '<th>'.$var.'</th>'; // Show defined columns when column is Foreign Key
@@ -156,23 +157,32 @@ class SimpleTable{
        	//controls
        	if($this->options['edit']) $html .= '<th>Editovať</th>';
        	if($this->options['delete']) $html .= '<th>Vymazať</th>';
-
        	$html .= "</thead>";
+       	/* END OF HEAD GENERATING */ 
+
+       	/* START OF BODY GENERATING */ 
        	$html .= '<tbody>';
        	foreach($rows as $row){
+       		/* GET EACH ROW OF TABLE */
        		$html .= "<tr id='{$this->options['table_id']}_row_".$row[$this->db_table_pk]."'>";
-       		if($this->options['delete'] == true)
-       		$html .= '<td><input type="checkbox" value="'.$row[$this->db_table_pk].'" class="checkthis"/></td>';
+
+       		// SHOW CHECKBOX ONLY IF DELETE ACTION IS TRUE
+       		if($this->options['delete'] == true){
+       			$html .= '<td><input type="checkbox" value="'.$row[$this->db_table_pk].'" class="checkthis"/></td>';
+       		}
+       		
        		foreach($row as $ckey => $column){
+       			/* GET EACH COLUMN OF ROW */
+       			//if not visible then hide it
        			$visible = $this->table_structure[$ckey]['show_column'] ? "":"style='display:none;'";
        			$col_val = $column;
-       			$a_start = "";
-       			$a_end = "";
+       			$a_start = ""; $a_end = ""; // vars for href_url 
 
-       			if(array_key_exists($column,$this->table_structure[$ckey]['override'])){
+       			// if column is defined in override columns, change value of column
+       			if(array_key_exists($column,$this->table_structure[$ckey]['override'])){ 
        				$column = $this->table_structure[$ckey]['override'][$column];
        			}
-
+       			//if link is defined, use it
        			if($this->table_structure[$ckey]['href_url'] != ""){
        				$id = (count($this->table_structure[$ckey]['foreign_key']) > 0) ? $col_val : $row[$this->db_table_pk] ;
        				$a_start= "<a href='{$this->table_structure[$ckey]['href_url']}{$id}'>";
@@ -180,7 +190,7 @@ class SimpleTable{
        			}
 
 
-       			
+       			//IF COLUMN IS FOREIGN KEY, GET ALL DEFINED COLUMNS
  				if(count($this->table_structure[$ckey]['foreign_key']) > 0 ){
  					$rowf=self::get_FK_row_values($this->table_structure[$ckey]['foreign_key'],$column);
  					$html .= "<td col-name='$ckey' col-val='$col_val' style='display:none;'>{$column}</td>";
@@ -196,10 +206,17 @@ class SimpleTable{
        			 			
        			 			
        			 	}
-       			}else{
-       				$html .= "<td col-name='$ckey' col-val='$col_val' {$visible}>
-					
-					   {$a_start}{$column}{$a_end}</td>";
+       			}
+       			//ELSE PRINT NORMAL VAL COLUMN
+       			else{
+       				// If its timestamp we need to change values
+       				if($this->table_structure[$ckey]['type'] == "TIMESTAMP"){
+       					$col_val = date(DATE_FORMAT_SIMPLE_TABLE, $col_val);
+       					$column = date(DATE_FORMAT_CARD, $column);
+       				}
+       				
+       				$html .= "<td col-name='$ckey' col-val='$col_val' {$visible}>{$a_start}{$column}{$a_end}</td>";
+       				
        			}
        			
        		}
@@ -207,7 +224,7 @@ class SimpleTable{
        		if($this->options['edit']) {
 
 	       		if($this->options['edit_redirect'] != NULL){
-	       			$html.="<td><a class='btn btn-primary btn-xs' target='_new' href='{$this->options['edit_redirect']}{$row[$this->db_table_pk]}'>Edit</a> </td>";
+	       			$html.="<td><a class='btn btn-primary btn-xs' target='_new' href='{$this->options['edit_redirect']}{$row[$this->db_table_pk]}'>Upraviť</a> </td>";
 	       		}
 	       		else{
 	       			$html .= '<td><button class="btn btn-primary btn-xs" edit-row="'.$row[$this->db_table_pk].'" data-title="Edit" data-toggle="modal" data-target="#edit'.$this->options['table_id'].'Modal" onclick="load_form_'.$this->options['table_id'].'(this)">Upraviť</span></button></td>';
@@ -221,7 +238,9 @@ class SimpleTable{
        	
 
        	$html .= '</tbody></table><div class="clearfix"></div>';
+       	/* END OF BODY GENERATING */
 
+       	// BUTTONS
        	if($this->options['delete']) $html.= '<button class="ml-2 mb-10 btn btn-danger btn-xs" onclick="delete_checked_'.$this->options['table_id'].'()" style="float:right;" >Vymazať označené</button>';
        	
        	if($this->options['add']){
@@ -232,6 +251,7 @@ class SimpleTable{
        			$html .= '<button class="ml-2 mb-10 btn btn-success btn-xs" style="margin-bottom: 15px;float:right;" data-toggle="modal" data-target="#add'.$this->options['table_id'].'Modal">Pridať záznam</button>';
        		}
        	} 
+       	//GENERATE EDIT MODALS
        	if($this->options['edit']) $html.= self::get_table_edit_modal();
        	if($this->options['add']) $html.= self::get_table_add_modal();
 
@@ -244,7 +264,9 @@ class SimpleTable{
 	}
 
 
-
+	/*
+	*	Generate table edit modal
+	*/
 	private function get_table_edit_modal(){
 		$modal = '
 		<!-- Modal na upravu tabuľky '.$this->options['table_id'].'-->
@@ -283,6 +305,9 @@ class SimpleTable{
 		return $modal;
 	}
 
+	/*
+	*	Generate table add modal
+	*/
 	private function get_table_add_modal(){
 		$modal = '
 		<!-- Modal na pridanie zaznamu tabuľky '.$this->options['table_id'].'-->
@@ -301,7 +326,7 @@ class SimpleTable{
 		        	';
 
 		        foreach($this->table_structure as $key => $column){
-		        	if($key == $this->db_table_pk) continue;
+		        	if($key == $this->db_table_pk) continue; // in add modal we dont have PK
 		        	$modal.=self::generate_form_column($column,$key,"add_");
 
 		        }
@@ -321,38 +346,48 @@ class SimpleTable{
 		return $modal;
 	}
 
+	/*
+	*	ALL CUSTOM MAGIC HAPPENS HERE, generates form columns
+	*/
 	private function generate_form_column($column,$key,$idprefix=""){
-		$prefill= $column['form_edit_prefill'] ? "true" : "false";
-		$editable = $column['editable'] ? "" : "readonly";
-		$visible = $column['form_edit_show'] ? "" : "style='display:none;'"; 
-		$is_number = count($column['override']) + count($column['foreign_key']) == 0;
+		$prefill= $column['form_edit_prefill'] ? "true" : "false"; // should be column be prefilled when opened
+		$editable = $column['editable'] ? "" : "readonly"; // is it read only
+		$visible = $column['form_edit_show'] ? "" : "style='display:none;'"; // should be visible in form
+		$is_number = count($column['override']) + count($column['foreign_key']) == 0; //is there any selection method?
 
 		$html = "<div class='form-group' {$visible}>";
+		/* IF COLUMN IS TYPE OF VARCHAR OR INT BUT HAS TO BE NUMBER NOT SELECT, THEN GENERATE INPUT */
 		if($column['type'] == "varchar" || ($column['type'] == "int" && $is_number) ){
 			$html.="<label>{$column['name']}</label>";
 			
+			// IF IS GENERATING ADD FORM and there is static value in this column, put it there
 			if($column['static_value'] != NULL && $idprefix=="add_"){
-				$html.="<input type='text' js-prefill='false' class='form-control' id='{$idprefix}form_{$this->options['table_id']}_{$key}' {$editable} value='{$column['static_value']}'>";
-			}
-			else{
-				$html.="<input type='text' js-prefill='{$prefill}' class='form-control' id='{$idprefix}form_{$this->options['table_id']}_{$key}' {$editable}>";
-			}
-			
-
-		}
-		else if($column['type'] == "int"){
-			$html.="<label>{$column['name']}</label>";
-			if($column['static_value'] != NULL && $idprefix=="add_"){
+				//turn of prefill and put static value in
 				$html.="<input type='text' js-prefill='false' class='form-control' id='{$idprefix}form_{$this->options['table_id']}_{$key}' {$editable} value='{$column['static_value']}'>";
 			}
 			else{ 
+				$html.="<input type='text' js-prefill='{$prefill}' class='form-control' id='{$idprefix}form_{$this->options['table_id']}_{$key}' {$editable}>";
+			}
+
+		}
+		/* ELSE if column is int but is ENUM type - defined or foreign key */
+		else if($column['type'] == "int"){
+			$html.="<label>{$column['name']}</label>";
+
+			// IF THERE IS STATIC VALUE PUT IT THERE
+			if($column['static_value'] != NULL && $idprefix=="add_"){
+				$html.="<input type='text' js-prefill='false' class='form-control' id='{$idprefix}form_{$this->options['table_id']}_{$key}' {$editable} value='{$column['static_value']}'>";
+			}
+			//ELSE LOOK FOR TYPE OF ENUM
+			else{ 
 
 				$html.="<select class='form-control' id='{$idprefix}form_{$this->options['table_id']}_{$key}' {$editable}  js-prefill='{$prefill}'>";
+				// IF THERE IS OVERRITE, PUT IT THERE
 				foreach($column['override'] as $okey => $show) {
 					$html.="<option value='{$okey}'>{$show}</option>";
 				}
 			
-			
+				// IF THERE IS FK, PUT defined $column['foreign_key'] vars there
 				if(count($column['foreign_key']) > 0){
 					$rows = self::get_FK_all_rows($column['foreign_key']);
 					foreach($rows as $row){
@@ -364,9 +399,15 @@ class SimpleTable{
 
 			}
 		}
+		//ELSE IF ITS TEXT THEN USE TEXTAREA
 		else if($column['type'] == "text"){
 			$html.="<label>{$column['name']}</label>";
 			$html.="<textarea class='form-control' id='{$idprefix}form_{$this->options['table_id']}_{$key}' {$editable}  js-prefill='{$prefill}'></textarea>";
+		}
+
+		else if($column['type'] == "TIMESTAMP"){
+			$html.="<label>{$column['name']}</label>";
+			$html.="<input class='form-control' type='datetime-local' id='{$idprefix}form_{$this->options['table_id']}_{$key}' {$editable}  js-prefill='{$prefill}'/>";
 		}
 
 		$html.="</div>";
