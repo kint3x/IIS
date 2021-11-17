@@ -342,7 +342,9 @@ function get_navbar(){
 		    </div>';
             }
             else{
-            		$admin_menu = '<li>
+            		$admin_menu = '
+                      <li><hr class="dropdown-divider" /></li>
+                      <li>
                         <a class="dropdown-item" href="/admin/manage_users.php">Správa užívateľov</a>
                       </li>';
             		$admin = is_curr_user_admin() ? $admin_menu : "";
@@ -372,7 +374,6 @@ function get_navbar(){
                       <li>
                         <a class="dropdown-item" href="#">Rozvrh</a>
                       </li>
-                      <li><hr class="dropdown-divider" /></li>
                       <li>
                       '.$admin.'
                       <li><hr class="dropdown-divider" /></li>

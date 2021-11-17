@@ -99,10 +99,12 @@ start_session_if_none();
                             $table->table_structure['time_from']['name'] = "Od";
                             $table->table_structure['time_from']['form_edit_show'] = $is_owner;
                             $table->table_structure['time_from']['form_edit_prefill'] = true;
+                            $table->table_structure['time_from']['type'] = "TIMESTAMP";
                             
                             $table->table_structure['time_to']['name'] = "Do";
                             $table->table_structure['time_to']['form_edit_show'] = $is_owner;
                             $table->table_structure['time_to']['form_edit_prefill'] = true;
+                            $table->table_structure['time_to']['type'] = "TIMESTAMP";
                             
                             $table->table_structure['status']['name'] = "Stav";
                             $table->table_structure['status']['show_column'] = $is_owner;
