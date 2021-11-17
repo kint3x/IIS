@@ -31,7 +31,7 @@ if(isset($_POST['email'])
 		$_POST['street'],
 		$_POST['city'],
 		$_POST['zip'],
-		$_POST['state'],
+		$_POST['state']
 	);
 	
 	echo_json_response($res, User::$error_message);
