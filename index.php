@@ -20,7 +20,7 @@ if(isset($_GET["logout"])){
 
     <div class='container'>  
         <div class='row'>
-          <div class='col-sm-12 align-self-center pb-1'>
+          <div class='col-lg-12 align-self-center pb-1'>
             <h2>Konferencie</h2>
           </div>
       </div>

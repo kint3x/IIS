@@ -52,7 +52,7 @@ start_session_if_none();
                 
                 <?php get_conference_sidebar($conference); ?>
                 
-                <div class="col-xl-8 align-self-top">
+                <div class="col-lg-8 align-self-top">
                     <h2 class="mb-1">
                         <?php echo $room['name'];?>
                         <br>

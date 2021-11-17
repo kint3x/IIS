@@ -36,7 +36,7 @@ start_session_if_none();
                 
                 <?php get_conference_sidebar($conference); ?>
                 
-                <div class="col-xl-8 align-self-center">
+                <div class="col-lg-8 align-self-center">
                     
                     <?php
                         $lectures = Lecture::get_conference_lectures($conference['id']);
@@ -209,21 +209,21 @@ start_session_if_none();
         </div>
 
         <?php
-        echo $table->generate_table_scripts();
+        if (isset($table)) {
+            echo $table->generate_table_scripts();
+        }
         ?>
 
         <script>
-        function searchByTag(tag_id) {
-            var url = window.location.href;
-
-            url =  "/?tag=" + encodeURIComponent(tag_id);
-            window.location.href = url;
-        }
 
         $(document).ready(function () {
             // Remove allerts when closing the window
             $("#registerLectureModal").on('hide.bs.modal', function(event) {
                 $("#lectureAlert").html("");
+            });
+
+            $("#registrationSuccessModal").on('hide.bs.modal', function(event) {
+                location.reload();
             });
 
             // Registering a lecture

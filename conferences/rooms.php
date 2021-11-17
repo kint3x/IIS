@@ -34,7 +34,7 @@ start_session_if_none();
                 
                 <?php get_conference_sidebar($conference); ?>
                 
-                <div class="col-xl-8 align-self-center">
+                <div class="col-lg-8 align-self-center">
 
                     <?php
                         $rooms = Room::get_conference_rooms($conference['id']);
@@ -48,7 +48,7 @@ start_session_if_none();
                             ?>
                             <div class='alert alert-secondary' role='alert'>
                                 Zatiaľ ste pre danú konferenciu neurčili žiadne miestnosti.
-                                <a href="#">Pridať?</a>
+                                <a href="" data-toggle="modal" data-target="#addRoomModal">Pridať?</a>
                             </div>
                             <?php
                         } else {
@@ -85,9 +85,80 @@ start_session_if_none();
             </div>
         </div>
         
+        <div id='addRoomModal' class='modal fade' role='dialog'>
+            <div class='modal-dialog'>
+                <div class='modal-content'>
+                    <div class='modal-header'>
+                        <h4 class='modal-title'>Pridanie miestnosti</h4>
+                        <button type='button' class='close font-weight-light' data-dismiss='modal'>&times;</button>
+                    </div>
+                    <div class='modal-body'>
+                    <form id='roomForm'>
+                        <div id='roomAlert'></div>
+                        <div class='form-group'>
+                            <input type='number' class='form-control' name='conferenceID' id='conferenceId' hidden="true" value="<?php echo $conference['id'];?>" required>
+	                	</div>
+                        <div class='form-group'>
+                            <label for='roomName'>Názov</label>
+                            <input type='text' class='form-control' name='roomName' id='roomName' placeholder='Názov' style='margin-bottom:5px;' required>
+	                	</div>
+                    </div>
+                    <div class='modal-footer' >
+                        <button type='submit' class='btn btn-primary'>Pridať miestnosť</button>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
         <?php
-        echo $table->generate_table_scripts();
+            if (isset($table)) {
+                echo $table->generate_table_scripts();
+            }
         ?>
+
+        <script>
+
+        $(document).ready(function () {
+            // Remove allerts when closing the window
+            $("#addRoomModal").on('hide.bs.modal', function(event) {
+                $("#roomAlert").html("");
+            });
+            
+            // Registering a lecture
+            $("#roomForm").submit(function (event) {
+                var formData = {
+                    action: "add",
+                    name: $("#roomName").val(),
+                    conference_id: $("#conferenceId").val()
+                }
+                
+                $.ajax({
+                    type: "POST",
+                    url: "/ajax/rooms.php",
+                    data: formData,
+                    dataType: "json",
+                    encode: true,
+                }).done(function (data) {
+                    if(data.success){
+                        console.log('asdf');
+                        location.reload();
+                    }
+                    else{             
+                        var alert = "<div class='alert alert-warning alert-dismissible' role='alert'>" 
+                            + "<a href='#' class='close font-weight-light' data-dismiss='alert' aria-label='close'>&times;</a>"
+                            + data.error 
+                            + "</div>";
+                        $("#roomAlert").css('display','block');
+                        $("#roomAlert").html(alert);
+                    }
+
+                });
+
+                event.preventDefault();
+            });
+        });
+        </script>
 
     </body>
 </html

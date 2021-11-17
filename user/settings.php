@@ -112,7 +112,7 @@ start_session_if_none();
             
         <?php get_user_sidebar(); ?>
 
-        <div class='col-xl-8 align-self-top'>
+        <div class='col-lg-8 align-self-top'>
 
           
           <div class='row'>
