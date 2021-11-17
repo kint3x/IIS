@@ -22,21 +22,29 @@ start_session_if_none();
         
         echo get_navbar();
 
-        verify_conference();
-        verify_room_in_conference();
+        verify_room();
 
-        $conference = Conferences::get_conference_by_id($_GET['id']);
-        $room = Room::get_room_by_id($_GET['room']);
+        $room = Room::get_room_by_id($_GET['id']);
         
         if ($room === false) {
             display_alert_container(Room::$error_message);
             exit();
         }
+        
+        $conference_id = Room::get_conference_id($room['id']);
+        
+        if ($conference_id === false) {
+            display_alert_container(Room::$error_message);
+            exit();
+        }
 
+        $conference = Conferences::get_conference_by_id($conference_id);
+        
         if ($conference === false) {
             display_alert_container(Conferences::$error_message);
             exit();
         }
+
         ?>
 
         <div class="container-fluid">
@@ -72,6 +80,7 @@ start_session_if_none();
                         $table->table_structure['name']['form_edit_show'] = true;
                         $table->table_structure['name']['form_edit_prefill'] = true;
                         $table->table_structure['name']['editable'] = false;
+                        $table->table_structure['name']['href_url'] = "/conferences/lecture.php?id=";
 
                         $table->table_structure['description']['name'] = "Popis";
                         $table->table_structure['description']['show_column'] = false;

@@ -8,6 +8,44 @@ Class Lecture{
     public static $error_message = "";
 
 	/**
+	 * Get the id of the conference this lecture belongs to.
+	 */
+	public static function get_conference_id($lecture_id) {
+		$db = new Database();
+		
+		if($db->error) {
+			self::$error_message = 'Problém s pripojením k databáze.';
+			return False;
+		}
+
+		$conn = $db->handle;
+		
+		$stmt = $conn->prepare('SELECT conference_id FROM Lecture WHERE id = ?');
+		$stmt->bind_param('i', $lecture_id);
+		
+		if (!$stmt->execute()) {
+			self::$error_message = 'Chyba pri načítaní údajov.';
+			$db->close();
+			return false;
+		};
+		
+		$res = $stmt->get_result();
+
+		if ($res->num_rows < 1) {
+			self::$error_message = 'Prednáška s daným id neexistuje.';
+			return false;
+		}
+		
+		$conference_id = $res->fetch_all();
+		$conference_id = $conference_id[0][0];
+
+		$db->close();
+
+		self::$error_message = 'ID konferencie bolo úspešne nájdené.';
+		return $conference_id;
+	}
+
+	/**
 	 * Return a list of lectures tied to the given conference.
 	 */
     public static function get_conference_lectures($conference_id) {

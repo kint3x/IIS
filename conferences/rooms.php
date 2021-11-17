@@ -70,6 +70,7 @@ start_session_if_none();
                             $table = new SimpleTable("Room", $options);
 
                             $table->table_structure['name']['name'] = "Názov";
+                            $table->table_structure['name']['href_url'] = "/conferences/room.php?id=";
                             $table->table_structure['id']['show_column'] = false;
                             $table->table_structure['id']['form_edit_show'] = false;
                             $table->table_structure['conference_id']['show_column'] = false;

@@ -197,7 +197,9 @@ class SimpleTable{
        			 			
        			 	}
        			}else{
-       				$html .= "<td col-name='$ckey' col-val='$col_val' {$visible}>{$column}</td>";
+       				$html .= "<td col-name='$ckey' col-val='$col_val' {$visible}>
+					
+					   {$a_start}{$column}{$a_end}</td>";
        			}
        			
        		}

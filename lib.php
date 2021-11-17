@@ -4,24 +4,14 @@ require_once "defines.php";
 require_once ROOT."/classes/user.class.php";
 require_once ROOT."/classes/conferences.class.php";
 require_once ROOT."/classes/tag.class.php";
+require_once ROOT."/classes/lecture.class.php";
 
 /**
  * Check if and id was passed and if so check if a conference with a given id exists.
  */
 function verify_conference() {
-  if (!isset($_GET['id']) || !Conferences::get_conference_by_id($_GET['id'])) {
-    ?>
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-12 align-self-center pb-2">
-                <div class='alert alert-secondary' role='alert'>
-                    Je nám to ľúto, ale daná konferencia neexistuje.
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <?php
+  if (!isset($_GET['id']) || Conferences::get_conference_by_id($_GET['id']) === false) {
+    display_alert_container('Je nám ľúto ale daná konferencia neexistuje.');
     exit();
   }
 }
@@ -31,41 +21,31 @@ function verify_conference() {
  */
 function verify_conference_owner() {
   if (!isset($_SESSION['user']) || !Conferences::is_owner($_SESSION['user']->get_user_data()['id'], $_GET['id'])) {
-    ?>
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-12 align-self-center pb-2">
-                <div class='alert alert-secondary' role='alert'>
-                    Danú konferenciu nemôžte upravovať.
-                </div>
-            </div>
-        </div>
-    </div>
-    <?php
+    display_alert_container('Danú konferenciu nemôžte upravovať.');
     exit();
   }
 }
 
-function verify_room_in_conference() {
+/** 
+ * Check whether the room belongs to the given conference.
+ */
+function verify_room() {
 
-  $conference = Conferences::get_conference_by_id($_GET['id']);
-  $conference_id = Room::get_conference_id($_GET['room']);
-
-  if ($conference === false || $conference_id === false 
-      || $conference_id != $conference['id']) {
-    ?>
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-12 align-self-center pb-2">
-                <div class='alert alert-secondary' role='alert'>
-                    Je nám to ľúto, ale daná miestnosť neexistuje.
-                </div>
-            </div>
-        </div>
-    </div>
-    <?php
+  if (!isset($_GET['id']) || Room::get_conference_id($_GET['id']) === false) {
+    display_alert_container('Je nám to ľúto, ale daná miestnosť neexistuje.');
     exit();
-  }  
+  }
+}
+
+/**
+ * Check whether the lecture belongs to the given conference.
+ */
+function verify_lecture() {
+
+  if (!isset($_GET['id']) || Lecture::get_lecture_by_id($_GET['id']) === false) {
+    display_alert_container('Je nám to ľúto, ale daná prednáška neexistuje.');
+    exit();
+  }
 }
 
 /**
@@ -195,10 +175,10 @@ function display_alert_container($message) {
   ?>
   <div class="container">
     <div class="row">
-      <div class="col-sm-12">
-        <div class='alert alert-secondary' role='alert'>
-          <?php echo $message; ?>
-        </div>
+      <div class="col-sm-12 align-self-center pb-2">
+          <div class='alert alert-secondary' role='alert'>
+            <?php echo $message;?>
+          </div>
       </div>
     </div>
   </div>
