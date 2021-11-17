@@ -127,6 +127,7 @@ start_session_if_none();
                                 "table_vars" => ["email" => "Email"],
                                 "form_var" => "email",
                                 "custom_where" => ""
+                                // "custom_where" => "WHERE id IN (SELECT id_user FROM Lecture WHERE id = %d)"
                             ];
 
                             $table->table_structure['room_id']['name'] = "Miestnosť";

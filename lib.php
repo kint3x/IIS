@@ -4,6 +4,7 @@ require_once "defines.php";
 require_once ROOT."/classes/user.class.php";
 require_once ROOT."/classes/conferences.class.php";
 require_once ROOT."/classes/tag.class.php";
+require_once ROOT."/classes/lecture.class.php";
 
 /**
  * Check if and id was passed and if so check if a conference with a given id exists.
@@ -51,22 +52,16 @@ function verify_conference_owner() {
  */
 function verify_room_in_conference() {
 
+  if (!isset($_GET['id']) || !isset($_GET['room'])) {
+    display_alert_container('Je nám to ľúto, ale daná miestnosť neexistuje.');
+  }
+
   $conference = Conferences::get_conference_by_id($_GET['id']);
   $conference_id = Room::get_conference_id($_GET['room']);
 
   if ($conference === false || $conference_id === false 
       || $conference_id != $conference['id']) {
-    ?>
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-12 align-self-center pb-2">
-                <div class='alert alert-secondary' role='alert'>
-                    Je nám to ľúto, ale daná miestnosť neexistuje.
-                </div>
-            </div>
-        </div>
-    </div>
-    <?php
+    display_alert_container('Je nám to ľúto, ale daná miestnosť neexistuje.');
     exit();
   }  
 }
@@ -76,22 +71,16 @@ function verify_room_in_conference() {
  */
 function verify_lecture_in_conference() {
 
+  if (!isset($_GET['id']) || !isset($_GET['lecture'])) {
+    display_alert_container('Je nám to ľúto, ale daná prednáška neexistuje.');
+  }
+
   $conference = Conferences::get_conference_by_id($_GET['id']);
-  $conference_id = Room::get_conference_id($_GET['room']);
+  $conference_id = Lecture::get_conference_id($_GET['lecture']);
 
   if ($conference === false || $conference_id === false 
       || $conference_id != $conference['id']) {
-    ?>
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-12 align-self-center pb-2">
-                <div class='alert alert-secondary' role='alert'>
-                    Je nám to ľúto, ale daná miestnosť neexistuje.
-                </div>
-            </div>
-        </div>
-    </div>
-    <?php
+    display_alert_container('Je nám to ľúto, ale daná prednáška neexistuje.');
     exit();
   }  
 }
@@ -223,10 +212,10 @@ function display_alert_container($message) {
   ?>
   <div class="container">
     <div class="row">
-      <div class="col-sm-12">
-        <div class='alert alert-secondary' role='alert'>
-          <?php echo $message; ?>
-        </div>
+      <div class="col-sm-12 align-self-center pb-2">
+          <div class='alert alert-secondary' role='alert'>
+            <?php echo $message;?>
+          </div>
       </div>
     </div>
   </div>
