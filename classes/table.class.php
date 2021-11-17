@@ -83,6 +83,7 @@ class SimpleTable{
 				"override" => array(), // override ints to string for example: "1" => "Admin", in table, value will be 1 but text will be Admin
 				"foreign_key" => array(), // if is FK , give me
 				"static_value" => NULL,
+				"href_url" => "" // eg /conferences/?id=  takes key
 				/*
 				*	array("table" => "name",
 					"fk_key_name" => "id", name in Foreign table
@@ -155,13 +156,23 @@ class SimpleTable{
        		foreach($row as $ckey => $column){
        			$visible = $this->table_structure[$ckey]['show_column'] ? "":"style='display:none;'";
        			$col_val = $column;
+       			$a_start = "";
+       			$a_end = "";
+
        			if(array_key_exists($column,$this->table_structure[$ckey]['override'])){
        				$column = $this->table_structure[$ckey]['override'][$column];
        			}
+
+       			if($column['href_url'] != ""){
+       				$a_start= "<a href='{$column['href_url']}{$row[$this->db_table_pk]}'>";
+       				$a_end = "</a>";
+       			}
+
+
        			
  				if(count($this->table_structure[$ckey]['foreign_key']) > 0 ){
  					$rowf=self::get_FK_row_values($this->table_structure[$ckey]['foreign_key'],$column);
- 					$html .= "<td col-name='$ckey' col-val='$col_val' style='display:none;'>{$column}</td>";
+ 					$html .= "<td col-name='$ckey' col-val='$col_val' style='display:none;'>{$a_start}{$column}{$a_end}</td>";
 
        				foreach($this->table_structure[$ckey]['foreign_key']['table_vars'] as $meno => $var){
        			 			
