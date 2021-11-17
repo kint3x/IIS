@@ -175,7 +175,7 @@ class SimpleTable{
 
        			if($this->table_structure[$ckey]['href_url'] != ""){
        				$id = (count($this->table_structure[$ckey]['foreign_key']) > 0) ? $col_val : $row[$this->db_table_pk] ;
-       				$a_start= "<a href='{$this->table_structure[$ckey]['href_url']}{$row[$this->db_table_pk]}'>";
+       				$a_start= "<a href='{$this->table_structure[$ckey]['href_url']}{$id}'>";
        				$a_end = "</a>";
        			}
 
