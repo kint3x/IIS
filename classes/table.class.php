@@ -2,6 +2,11 @@
 
 require_once ROOT."/classes/database.class.php";
 
+/*
+*
+*	Implementation of universal table ,pagination and forms
+*
+*/
 
 class SimpleTable{
 
@@ -25,13 +30,15 @@ class SimpleTable{
 	public function __construct($db_table_name,$options = array()){
 		self::initialize_var();
 		$this->db_table_name = $db_table_name;
-		// nahradí zadané options existujúcimi
+		// replace existing with new ones
 		$this->options= array_replace_recursive($this->options, $options);
-
+		//get table structure
 		self::get_table_struct();
 
 	}
-
+	/*
+	*	Initialize option vars
+	*/
 	private function initialize_var(){
 		$this->options['edit'] = false;
 		$this->options['edit_redirect'] = NULL;
@@ -45,7 +52,9 @@ class SimpleTable{
 		$this->options['custom_SQL'] = ""; //e.g. WHERE user = 5 ...
 
 	}
-
+	/*
+	*	Get table structure
+	*/
 	private function get_table_struct(){
 		$db = new Database();
 		
@@ -73,6 +82,9 @@ class SimpleTable{
 
 			if($row['Key'] == "PRI") $this->db_table_pk = $row['Field'];
 
+			/*
+			*	Initialize column option vars
+			*/
 			$this->table_structure[$row['Field']] = array(
 				"name" => $row['Field'], //name that shows up in form and table
 				"type" => $type, // type (better not to edit)
@@ -101,8 +113,12 @@ class SimpleTable{
 	}
 
 
-
+	/*
+	*	Main function that generate table html
+	*/
 	public function generate_table_html(){
+
+		// Setup pagination
 		if(!isset($_GET[$this->options['table_id'].'_page'])){
             $curr_page = 0;
        	}
@@ -116,29 +132,23 @@ class SimpleTable{
 
        	$rows = self::get_all_rows($curr_page);
 
-       	if($this->options['table_id'] != ""){
-       		$table_id_attr = 'id="'.$this->options['table_id'].'"';
-       	}
-       	else{
-       		$table_id_attr="";
-       	}
+       	$table_id_attr = 'id="'.$this->options['table_id'].'"';
        	
        	//generate head
        	
-
        	$html = '<div class="table-responsive table-'.$this->options['table_id'].'"><table '.$table_id_attr.' class="table table-bordred table-striped">';
        	$html .= '<thead>';
        	if($this->options['delete'] == true)
        	$html .= '<th><input type="checkbox" id="'.$this->options['table_id'].'_checkall"/></th>';
        	foreach($this->table_structure as $column){
-       		if(!$column['show_column']) continue;
+       		if(!$column['show_column']) continue; // if column is not shown skip in head
        		if(count($column['foreign_key']) > 0 ){
        			foreach($column['foreign_key']['table_vars'] as $meno => $var){
-       				$html .= '<th>'.$var.'</th>'; //jeden stlpec
+       				$html .= '<th>'.$var.'</th>'; // Show defined columns when column is Foreign Key
        			}
        		}
        		else{
-       			$html .= '<th>'.$column['name'].'</th>'; //jeden stlpec
+       			$html .= '<th>'.$column['name'].'</th>'; // one column
        		}
        		
 
@@ -164,6 +174,7 @@ class SimpleTable{
        			}
 
        			if($column['href_url'] != ""){
+       				$id = (count($this->table_structure[$ckey]['foreign_key']) > 0) ? $col_val : $row[$this->db_table_pk]
        				$a_start= "<a href='{$column['href_url']}{$row[$this->db_table_pk]}'>";
        				$a_end = "</a>";
        			}
@@ -172,7 +183,7 @@ class SimpleTable{
        			
  				if(count($this->table_structure[$ckey]['foreign_key']) > 0 ){
  					$rowf=self::get_FK_row_values($this->table_structure[$ckey]['foreign_key'],$column);
- 					$html .= "<td col-name='$ckey' col-val='$col_val' style='display:none;'>{$a_start}{$column}{$a_end}</td>";
+ 					$html .= "<td col-name='$ckey' col-val='$col_val' style='display:none;'>{$column}</td>";
 
        				foreach($this->table_structure[$ckey]['foreign_key']['table_vars'] as $meno => $var){
        			 			
@@ -180,7 +191,7 @@ class SimpleTable{
        			 				$html .= "<td col-name='fk_$meno' col-val=''></td>";
        			 			}
        			 			else{
-       			 				$html .= "<td col-name='fk_$meno' col-val='$rowf[$meno]'>{$rowf[$meno]}</td>";
+       			 				$html .= "<td col-name='fk_$meno' col-val='$rowf[$meno]'>{$a_start}{$rowf[$meno]}{$a_end}</td>";
        			 			}
        			 			
        			 			
