@@ -70,7 +70,21 @@ function reload_cart(){
 						console.log(val.count,val.price);
 		    		$("#cartModal").find(".cart").append(html);
 
+
 	    });
+	    if(data.length == 0){
+	    	$(".item-num").html("Váš košík je prázdny");
+	    }
+	    else if(data.length == 1){
+	    	$(".item-num").html(data.length+" položka");
+	    }
+	    else if(data.length > 1 && data.length < 5){
+	    	$(".item-num").html(data.length+" položky");
+	    }
+	    else{
+	    	$(".item-num").html(data.length+" položiek");
+	    }
+	    
 
    
 		});

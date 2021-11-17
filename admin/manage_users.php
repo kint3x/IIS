@@ -16,11 +16,6 @@
       <?php echo get_navbar(); ?>
       
 <div class='container-fluid'>
-   <div class='row'>
-      <div class='col-sm-12 align-self-center pb-1'>
-         <h1>Správa uživateľov</h1>
-      </div>
-   </div>
    <div class="row">
       
 		      	<?php 
@@ -30,6 +25,7 @@
 		      	?>
 
 		<div class="col-xl-8">
+			<h1 class="mb-1">Správa uživateľov</h1>
       	<?php 
       	$table = new SimpleTable("User",
 				    	array(

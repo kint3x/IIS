@@ -88,4 +88,8 @@ class Cart{
 		}
 		return $total;
 	}
+
+	public function remove_all_items(){
+		$this->items = array();
+	}
 }

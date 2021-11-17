@@ -408,12 +408,12 @@ function get_navbar(){
 					  <div class="modal-dialog" role="document">
 					    <div class="modal-content">
 					      <div class="modal-header">
-					        <div class="title">
+					        <div class="title col-sm-10">
 		                <div class="row">
 		                    <div class="col">
 			                    <h4><b>Košík</b></h4>
 			                  </div>
-			                  <div class="col align-self-center text-right text-muted">3 items</div>
+			                  <div class="col align-self-center text-right text-muted item-num"></div>
 		                </div>
 		            	</div>
 					        <button type="button" class="close font-weight-light" data-dismiss="modal" aria-label="Close">
@@ -471,7 +471,7 @@ function get_navbar(){
               $(\'#passwordReg\').val(""); 
             }
           });
-          
+
 
           event.preventDefault();
         });
