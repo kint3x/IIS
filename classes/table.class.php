@@ -142,7 +142,7 @@ class SimpleTable{
        	$html .= '<th><input type="checkbox" id="'.$this->options['table_id'].'_checkall"/></th>';
        	foreach($this->table_structure as $column){
        		if(!$column['show_column']) continue; // if column is not shown skip in head
-       		if(count($column['foreign_key']) > 0 ){
+       		if(count($column['foreign_key']) > 0 ){ //if has foreign keys
        			foreach($column['foreign_key']['table_vars'] as $meno => $var){
        				$html .= '<th>'.$var.'</th>'; // Show defined columns when column is Foreign Key
        			}
@@ -175,7 +175,7 @@ class SimpleTable{
 
        			if($this->table_structure[$ckey]['href_url'] != ""){
        				$id = (count($this->table_structure[$ckey]['foreign_key']) > 0) ? $col_val : $row[$this->db_table_pk] ;
-       				$a_start= "<a href='{$column['href_url']}{$row[$this->db_table_pk]}'>";
+       				$a_start= "<a href='{$this->table_structure[$ckey]['href_url']}{$row[$this->db_table_pk]}'>";
        				$a_end = "</a>";
        			}
 
