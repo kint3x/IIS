@@ -75,7 +75,7 @@ start_session_if_none();
                                 <?php                            
                                     if ($is_logged) {
                                         ?>
-                                        <button data-toggle="modal" data-target="#registerLectureModal" class="btn btn-outline-dark">Registrovať príspevok</button> 
+                                        <button data-toggle="modal" data-target="#registerLectureModal" class="btn btn-outline-dark mb-2">Registrovať príspevok</button> 
                                         <?php
                                     }
                                 ?> 
@@ -88,6 +88,7 @@ start_session_if_none();
                             $table->table_structure['name']['form_edit_show'] = true;
                             $table->table_structure['name']['form_edit_prefill'] = true;
                             $table->table_structure['name']['editable'] = false;
+                            $table->table_structure['name']['href_url'] = "/conferences/lecture.php?id=";
 
                             $table->table_structure['description']['name'] = "Popis";
                             $table->table_structure['description']['show_column'] = false;
@@ -131,6 +132,7 @@ start_session_if_none();
                             ];
 
                             $table->table_structure['room_id']['name'] = "Miestnosť";
+                            $table->table_structure['room_id']['href_url'] = "/conferences/room.php?id=";
                             $table->table_structure['room_id']['show_column'] = true;
                             $table->table_structure['room_id']['form_edit_prefill'] = true;
                             $table->table_structure['room_id']['form_edit_show'] = $is_owner;

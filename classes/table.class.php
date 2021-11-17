@@ -163,8 +163,8 @@ class SimpleTable{
        				$column = $this->table_structure[$ckey]['override'][$column];
        			}
 
-       			if($column['href_url'] != ""){
-       				$a_start= "<a href='{$column['href_url']}{$row[$this->db_table_pk]}'>";
+       			if($this->table_structure[$ckey]['href_url'] != ""){
+       				$a_start= "<a href='{$this->table_structure[$ckey]['href_url']}{$row[$this->db_table_pk]}'>";
        				$a_end = "</a>";
        			}
 
@@ -180,13 +180,15 @@ class SimpleTable{
        			 				$html .= "<td col-name='fk_$meno' col-val=''></td>";
        			 			}
        			 			else{
-       			 				$html .= "<td col-name='fk_$meno' col-val='$rowf[$meno]'>{$rowf[$meno]}</td>";
+       			 				$html .= "<td col-name='fk_$meno' col-val='$rowf[$meno]'>{$a_start}{$rowf[$meno]}{$a_end}</td>";
        			 			}
        			 			
        			 			
        			 	}
        			}else{
-       				$html .= "<td col-name='$ckey' col-val='$col_val' {$visible}>{$column}</td>";
+       				$html .= "<td col-name='$ckey' col-val='$col_val' {$visible}>
+					
+					   {$a_start}{$column}{$a_end}</td>";
        			}
        			
        		}
