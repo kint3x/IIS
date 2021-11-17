@@ -60,7 +60,7 @@ start_session_if_none();
 
                             $options = [
                                 "table_id" => "lectures",
-                                "ajax_url" => "/ajax/conference_lecture.php",
+                                "ajax_url" => "/ajax/edit_lecture.php",
                                 "edit" => $is_owner,
                                 "add" => false,
                                 "delete" => false, // same as $is_owner ? true : false;
@@ -99,10 +99,12 @@ start_session_if_none();
                             $table->table_structure['time_from']['name'] = "Od";
                             $table->table_structure['time_from']['form_edit_show'] = $is_owner;
                             $table->table_structure['time_from']['form_edit_prefill'] = true;
+                            $table->table_structure['time_from']['type'] = "TIMESTAMP";
                             
                             $table->table_structure['time_to']['name'] = "Do";
                             $table->table_structure['time_to']['form_edit_show'] = $is_owner;
                             $table->table_structure['time_to']['form_edit_prefill'] = true;
+                            $table->table_structure['time_to']['type'] = "TIMESTAMP";
                             
                             $table->table_structure['status']['name'] = "Stav";
                             $table->table_structure['status']['show_column'] = $is_owner;

@@ -1,7 +1,8 @@
 <?php
 require_once "../defines.php";
-require_once ROOT."/classes/Lecture.class.php";
-require_once ROOT."/classes/Conferences.class.php";
+require_once ROOT."/classes/lecture.class.php";
+require_once ROOT."/classes/conferences.class.php";
+require_once ROOT."/classes/room.class.php";
 
 start_session_if_none();
 
@@ -45,12 +46,39 @@ if ($action == "edit") {
             return false;
         }
 
+        // Make timestamps and check for conflicts
+        $format = "Y-m-d H:i";
+
+        if ($_POST["time_from"] != '') {
+            $start = convert_timestring($_POST["time_from"]);
+            $start = DateTime::createFromFormat($format, $start)->getTimestamp();
+        } else {
+            $start = NULL;
+        }
+
+        if ($_POST["time_to"] != '') {
+            $end = convert_timestring($_POST["time_to"]);
+            $end = DateTime::createFromFormat($format, $end)->getTimestamp();
+        } else {
+            $end = NULL;
+        }
+
+        if ($start > $end) {
+            echo_json_response(false, "Konferencia musí začať skôr ako skončí.");
+            return;
+        }
+
+        if (Room::is_free($_POST['room_id'], $start, $end) === false) {
+            echo_json_response(false, "Miestnost je v danom časovom intervale obsadená.");
+            return;
+        }
+
         $res = Lecture::update(
             $_POST["id"],
             $_POST["name"],
             $_POST["description"],
-            $_POST["time_from"],
-            $_POST["time_to"],
+            $start,
+            $end,
             $_POST["img_url"],
             $_POST["room_id"],
             $_POST["id_user"],
