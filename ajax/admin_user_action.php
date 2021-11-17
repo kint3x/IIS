@@ -49,6 +49,29 @@ if(isset($_POST['action'])){
 		echo_json_response(false,"Interná chyba, neposlali sa všetky dáta");
 	}
 	if($_POST['action'] == "edit"){
-		echo_json_response(true,"Nemožno vymazať samého seba");
+		if(
+			isset($_POST['id']) &&
+			isset($_POST['email']) &&
+			isset($_POST['password']) &&
+			isset($_POST['role']) &&
+			isset($_POST['name']) &&
+			isset($_POST['surname']) &&
+			isset($_POST['street']) &&
+			isset($_POST['city']) &&
+			isset($_POST['zip']) &&
+			isset($_POST['state'])
+		){
+			if(User::change_user_data_by_id($_POST['id'], $_POST['email'], $_POST['name'], $_POST['surname'], $_POST['street'], $_POST['city'], $_POST['zip'], $_POST['state']) == false){
+				echo_json_response(false,User::$error_message);
+				return;
+			}
+			if($_POST['password'] != ""){
+				if(User::change_password_by_id($_POST['password'],$_POST['id']) == false){
+					echo_json_response(false,User::$error_message);
+					return;
+				}
+			}
+			echo_json_response(true,"Užívateľ bol úspešne upravený");
+		}
 	}
 }

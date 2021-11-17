@@ -148,7 +148,7 @@ function get_admin_sidebar() {
       "Správa konferencií" => "/admin/manage_conferences.php",
   ];
 
-  get_sidebar($menu_array);
+  get_sidebar("Admin menu",$menu_array);
 }
 
 
@@ -442,28 +442,7 @@ function get_navbar(){
 					      <div class="modal-body" style="padding:15px;">  
 					        <div class="row justify-content-center">
 						        <div class="col-md-10 cart">
-						            <div class="row border-top border-bottom">
-						                <div class="row main align-items-center">
-						                    <div class="col-2"><img class="img-fluid" src="/img/placeholder.jpg"></div>
-						                    <div class="col">
-						                        <div class="row text-muted">Konference</div>
-						                        <div class="row">Ako být sexi</div>
-						                    </div>
-						                    <div class="col"> <a href="#">-</a><span class="h5" style="margin-left:4px;margin-right:4px;">1</a><a href="#">+</a> </div>
-						                    <div class="col">&euro; 44.00 <span class="close" style="cursor:pointer;">&#10005;</span></div>
-						                </div>
-						            </div>
-						            <div class="row">
-						                <div class="row main align-items-center">
-						                    <div class="col-2"><img class="img-fluid" src="/img/placeholder.jpg"></div>
-						                    <div class="col">
-						                        <div class="row text-muted">Shirt</div>
-						                        <div class="row">Cotton T-shirt</div>
-						                    </div>
-						                    <div class="col"> <a href="#">-</a><a href="#" class="border">1</a><a href="#">+</a> </div>
-						                    <div class="col">&euro; 44.00 <span class="close">&#10005;</span></div>
-						                </div>
-						            </div> 
+						            
 						        </div>
 						        <div class="col-md-12">
 						        	<div class="row" style="padding:10%;padding-bottom:0px;">

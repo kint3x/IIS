@@ -15,14 +15,21 @@
     <body>
       <?php echo get_navbar(); ?>
       
-<div class='container'>
+<div class='container-fluid'>
    <div class='row'>
       <div class='col-sm-12 align-self-center pb-1'>
          <h1>Správa uživateľov</h1>
       </div>
    </div>
    <div class="row">
-      <div class="col-md-12">
+      
+		      	<?php 
+
+		      	get_admin_sidebar();
+
+		      	?>
+
+		<div class="col-sm-8">
       	<?php 
       	$table = new SimpleTable("User",
 				    	array(
@@ -55,6 +62,7 @@
 				    //schovat zobrazovanie password column
 				    $table->table_structure['password']['show_column'] = false;
 				    $table->table_structure['street']['show_column'] = false;
+				    $table->table_structure['id']['form_edit_show'] = false;
 				    $table->table_structure['state']['show_column'] = false;
 				    $table->table_structure['zip']['show_column'] = false;
 

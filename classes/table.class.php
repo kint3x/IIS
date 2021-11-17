@@ -34,8 +34,10 @@ class SimpleTable{
 
 	private function initialize_var(){
 		$this->options['edit'] = false;
+		$this->options['edit_redirect'] = NULL;
 		$this->options['delete'] = false;
 		$this->options['add'] = false;
+		$this->options['add_redirect'] = NULL;
 		$this->options['ajax_url'] = "";
 		$this->options['pagination'] = true;
 		$this->options['perpage'] = 10;
@@ -46,9 +48,11 @@ class SimpleTable{
 
 	private function get_table_struct(){
 		$db = new Database();
+		
 		if($db->error) {
-			self::$error_message = 'Problém s pripojením k databáze.';
-			return False;
+			display_alert("Nepodarilo sa nadviazať spojenie s databázou.");
+			exit("Nepodarilo sa nadviazať spojenie s databázou.");
+			return false;
 		}
 
 		$conn = $db->handle;
@@ -156,12 +160,12 @@ class SimpleTable{
        			}
        			
  				if(count($this->table_structure[$ckey]['foreign_key']) > 0 ){
- 					$row=self::get_FK_row_values($this->table_structure[$ckey]['foreign_key'],$column);
+ 					$rowf=self::get_FK_row_values($this->table_structure[$ckey]['foreign_key'],$column);
  					$html .= "<td col-name='$ckey' col-val='$col_val' style='display:none;'>{$column}</td>";
 
        				foreach($this->table_structure[$ckey]['foreign_key']['table_vars'] as $meno => $var){
        			 			
-       			 			$html .= "<td col-name='$meno' col-val='$row[$meno]'>{$row[$meno]}</td>";
+       			 			$html .= "<td col-name='$meno' col-val='$rowf[$meno]'>{$rowf[$meno]}</td>";
        			 			
        			 	}
        			}else{
@@ -170,7 +174,16 @@ class SimpleTable{
        			
        		}
        		//controls
-       		if($this->options['edit']) $html .= '<td><button class="btn btn-primary btn-xs" edit-row="'.$row[$this->db_table_pk].'" data-title="Edit" data-toggle="modal" data-target="#edit'.$this->options['table_id'].'Modal" onclick="load_form_'.$this->options['table_id'].'(this)">Upraviť</span></button></td>';
+       		if($this->options['edit']) {
+
+	       		if($this->options['edit_redirect'] != NULL){
+	       			$html.="<td><a class='btn btn-primary btn-xs' target='_new' href='{$this->options['edit_redirect']}{$row[$this->db_table_pk]}'>Edit</a> </td>";
+	       		}
+	       		else{
+	       			$html .= '<td><button class="btn btn-primary btn-xs" edit-row="'.$row[$this->db_table_pk].'" data-title="Edit" data-toggle="modal" data-target="#edit'.$this->options['table_id'].'Modal" onclick="load_form_'.$this->options['table_id'].'(this)">Upraviť</span></button></td>';
+	       		}
+       		}
+
        		if($this->options['delete']) $html .= '<td><button class="btn btn-danger btn-xs" onclick="delete_row_'.$this->options['table_id'].'('.$row[$this->db_table_pk].')" >Vymazať</button></td>';
        		$html .= "</tr>";
        	}
@@ -180,7 +193,15 @@ class SimpleTable{
        	$html .= '</tbody></table><div class="clearfix"></div>';
 
        	if($this->options['delete']) $html.= '<button class="ml-2 mb-10 btn btn-danger btn-xs" onclick="delete_checked_'.$this->options['table_id'].'()" style="float:right;" >Vymazať označené</button>';
-       	if($this->options['add']) $html .= '<button class="ml-2 mb-10 btn btn-success btn-xs" style="margin-bottom: 15px;float:right;" data-toggle="modal" data-target="#add'.$this->options['table_id'].'Modal">Pridať záznam</button>';
+       	
+       	if($this->options['add']){
+       		if($this->options['add_redirect'] != NULL){
+       			$html .= '<a class="ml-2 mb-10 btn btn-success btn-xs" style="margin-bottom: 15px;float:right;" href="'.$this->options['add_redirect'].'">Pridať záznam</a>';
+       		}
+       		else{
+       			$html .= '<button class="ml-2 mb-10 btn btn-success btn-xs" style="margin-bottom: 15px;float:right;" data-toggle="modal" data-target="#add'.$this->options['table_id'].'Modal">Pridať záznam</button>';
+       		}
+       	} 
        	if($this->options['edit']) $html.= self::get_table_edit_modal();
        	if($this->options['add']) $html.= self::get_table_add_modal();
 
@@ -323,8 +344,13 @@ class SimpleTable{
 
 	private function get_all_rows_count(){
 		$db = new Database();
+		if($db->error) {
+			display_alert("Nepodarilo sa nadviazať spojenie s databázou.");
+			exit("Nepodarilo sa nadviazať spojenie s databázou.");
+			return false;
+		}
         $conn = $db->handle;
-        $cnt_req = $conn->query("SELECT COUNT(*) FROM ".$this->db_table_name);
+        $cnt_req = $conn->query("SELECT COUNT(*) FROM ".$this->db_table_name." ".$this->options['custom_SQL'] );
         $cnt_res = $cnt_req->fetch_all()[0][0];
         $db->close();
         return $cnt_res;
@@ -354,6 +380,12 @@ class SimpleTable{
 	private function get_FK_all_rows($fk = array()){
 
 		$db = new Database();
+
+		if($db->error) {
+			display_alert("Nepodarilo sa nadviazať spojenie s databázou.");
+			exit("Nepodarilo sa nadviazať spojenie s databázou.");
+			return false;
+		}
         $conn = $db->handle;
 
         $query = "SELECT * FROM ".$fk['table']." ".$fk['custom_where'] ;
@@ -371,6 +403,13 @@ class SimpleTable{
 
 	private function get_FK_row_values($fk,$val){
 		$db = new Database();
+
+		if($db->error) {
+			display_alert("Nepodarilo sa nadviazať spojenie s databázou.");
+			exit("Nepodarilo sa nadviazať spojenie s databázou.");
+			return false;
+		}
+
         $conn = $db->handle;
 
         $query = "SELECT * FROM ".$fk['table']." WHERE {$fk['fk_key_name']} = '{$val}' LIMIT 1";
