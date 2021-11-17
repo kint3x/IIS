@@ -22,21 +22,29 @@ start_session_if_none();
         
         echo get_navbar();
 
-        verify_conference();
-        verify_lecture_in_conference();
+        verify_lecture();
 
-        $conference = Conferences::get_conference_by_id($_GET['id']);
-        $lecture = Lecture::get_room_by_id($_GET['lecture']);
+        $lecture = Lecture::get_lecture_by_id($_GET['id']);
         
         if ($lecture === false) {
             display_alert_container(Lecture::$error_message);
             exit();
         }
+       
+        $conference_id = Lecture::get_conference_id($lecture['id']);
 
+        if ($conference_id === false) {
+            display_alert_container(Lecture::$error_message);
+            exit();
+        }
+       
+        $conference = Conferences::get_conference_by_id($conference_id);
+        
         if ($conference === false) {
             display_alert_container(Conferences::$error_message);
             exit();
         }
+
         ?>
 
         <div class="container-fluid">
