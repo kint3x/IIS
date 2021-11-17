@@ -23,13 +23,13 @@ start_session_if_none();
         echo get_navbar();
 
         verify_conference();
-        verify_room_in_conference();
+        verify_lecture_in_conference();
 
         $conference = Conferences::get_conference_by_id($_GET['id']);
-        $room = Room::get_room_by_id($_GET['room']);
+        $lecture = Lecture::get_room_by_id($_GET['lecture']);
         
-        if ($room === false) {
-            display_alert_container(Room::$error_message);
+        if ($lecture === false) {
+            display_alert_container(Lecture::$error_message);
             exit();
         }
 
@@ -46,7 +46,7 @@ start_session_if_none();
                 
                 <div class="col-sm-8 align-self-top">
                     <h2 class="mb-1">
-                        <?php echo $room['name'];?>
+                        <?php echo $lecture['name'];?>
                     </h2>
        
                 </div>

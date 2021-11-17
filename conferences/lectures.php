@@ -129,7 +129,6 @@ start_session_if_none();
                                 "custom_where" => ""
                             ];
 
-
                             $table->table_structure['room_id']['name'] = "Miestnosť";
                             $table->table_structure['room_id']['show_column'] = true;
                             $table->table_structure['room_id']['form_edit_prefill'] = true;

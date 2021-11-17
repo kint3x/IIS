@@ -98,6 +98,9 @@ class Room {
 		return $owner_id;
 	}
 
+	/**
+	 * Get the id of the conference this room belongs to.
+	 */
 	public static function get_conference_id($room_id) {
 		$db = new Database();
 		

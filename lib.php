@@ -46,7 +46,35 @@ function verify_conference_owner() {
   }
 }
 
+/** 
+ * Check whether the room belongs to the given conference.
+ */
 function verify_room_in_conference() {
+
+  $conference = Conferences::get_conference_by_id($_GET['id']);
+  $conference_id = Room::get_conference_id($_GET['room']);
+
+  if ($conference === false || $conference_id === false 
+      || $conference_id != $conference['id']) {
+    ?>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 align-self-center pb-2">
+                <div class='alert alert-secondary' role='alert'>
+                    Je nám to ľúto, ale daná miestnosť neexistuje.
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php
+    exit();
+  }  
+}
+
+/**
+ * Check whether the lecture belongs to the given conference.
+ */
+function verify_lecture_in_conference() {
 
   $conference = Conferences::get_conference_by_id($_GET['id']);
   $conference_id = Room::get_conference_id($_GET['room']);
