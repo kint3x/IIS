@@ -70,7 +70,15 @@ Class Conferences{
 		};
 		
 		$res = $stmt->get_result();
+		
+		if ($res->num_rows < 1) {
+			self::$error_message = 'Daná konferencia neexistuje.';
+			return false;
+		}
+		
 		$conference = $res->fetch_assoc();
+
+
 		
 		$db->close();
 		

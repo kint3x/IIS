@@ -162,6 +162,43 @@ class Room {
     }
 
 	/**
+	 * Search for the room with the given id.
+	 */
+    public static function get_room_by_id($room_id) {
+		$db = new Database();
+		
+		if ($db->error) {
+			self::$error_message = 'Problém s pripojením k databáze.';
+			return false;
+		}
+
+		$conn = $db->handle;
+		
+		$stmt = $conn->prepare('SELECT * FROM Room WHERE id = ?');
+		$stmt->bind_param('i', $room_id);
+
+		if (!$stmt->execute()) {
+			self::$error_message = 'Chyba pri načítaní údajov.';
+			$db->close();
+			return false;
+		};
+		
+		$res = $stmt->get_result();
+		
+		if ($res->num_rows < 1) {
+			self::$error_message = 'Daná miestnosť nebola nájdená.';
+			return false;
+		}
+
+		$room = $res->fetch_assoc();
+		
+		$db->close();
+
+		self::$error_message = 'Miestnosť bola úspešne nájdená.';
+		return $room;
+	}
+
+	/**
 	 * Return a list of rooms tied to the given conference.
 	 */
     public static function get_conference_rooms($conference_id) {

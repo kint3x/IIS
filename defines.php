@@ -2,9 +2,16 @@
 
 define('USER_ADMIN',1);
 define('USER_REGULAR',0);
+
+define('LECTURE_UNDEF', 0);
+define('LECTURE_CONFIRMED', 1);
+define('LECTURE_DENIED', 2);
+
 define('ROOT',__DIR__);
+
 define('DATE_FORMAT_CARD', 'd.m.y - h:i');
 define('DATE_FORMAT_HTML', 'Y-m-d h:i');
+
 define('IMG_DEFAULT', '/img/placeholder.jpg');
 
 include_once(ROOT."/lib.php");

@@ -46,6 +46,28 @@ function verify_conference_owner() {
   }
 }
 
+function verify_room_in_conference() {
+
+  $conference = Conferences::get_conference_by_id($_GET['id']);
+  $conference_id = Room::get_conference_id($_GET['room']);
+
+  if ($conference === false || $conference_id === false 
+      || $conference_id != $conference['id']) {
+    ?>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 align-self-center pb-2">
+                <div class='alert alert-secondary' role='alert'>
+                    Je nám to ľúto, ale daná miestnosť neexistuje.
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php
+    exit();
+  }  
+}
+
 /**
  * Removes the get parameters from the url
  */
@@ -164,6 +186,23 @@ function display_alert($message) {
     <?php echo $message; ?>
   </div>
   <?php  
+}
+
+/**
+ * Display alert in a container.
+ */
+function display_alert_container($message) {
+  ?>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class='alert alert-secondary' role='alert'>
+          <?php echo $message; ?>
+        </div>
+      </div>
+    </div>
+  </div>
+  <?php
 }
 
 /**

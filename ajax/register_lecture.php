@@ -10,8 +10,8 @@ if (!isset($_SESSION['user'])) {
     return;
 }
 
-if (isset($_POST['name']) && isset($_POST['description'])) {
-    $res = Lecture::register_lecture($_POST['name'], $_POST['description'], $_SESSION['user']->get_user_data()['id']);
+if (isset($_POST['name']) && isset($_POST['description']) && isset($_POST['conference_id'])) {
+    $res = Lecture::register_lecture($_POST['name'], $_POST['description'], $_SESSION['user']->get_user_data()['id'], $_POST['conference_id']);
 
     echo_json_response($res, Lecture::$error_message);
     return;

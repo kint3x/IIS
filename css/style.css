@@ -52,6 +52,10 @@ body {
   padding-right: 2rem !important;
 }
 
+.mb-1 {
+    margin-bottom: 1rem !important;
+}
+
 .badge {
     margin-right: 0.5rem !important;
     margin-bottom: 0.5rem !important;

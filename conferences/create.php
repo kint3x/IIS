@@ -15,7 +15,7 @@ start_session_if_none();
     <body>
         <?php 
         echo get_navbar();
-        check_login("Pre pridanie konferencie je potrbené sa prihlásiť.");
+        check_login("Pre pridanie konferencie je potrebené sa prihlásiť.");
         ?>
 
         <div class="container">
