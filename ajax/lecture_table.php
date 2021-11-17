@@ -32,33 +32,37 @@ if ($action == "edit") {
         && isset($_POST["conference_id"]) 
         && isset($_POST["status"])) {
 
-        $owner_id = Lecture::get_conference_owner($_POST["id"]);
-
+        $lecture = Lecture::get_lecture_by_id($_POST["id"]);
+        
         // Couldn't find the owner
-        if ($owner_id === false) {
-            echo_json_response(false, Room::$error_message);
+        if ($lecture === false) {
+            echo_json_response(false, Lecture::$error_message);
             return false;
         }
-
-        // Logged in user doesn't own the conference.
-        if ($owner_id != $_SESSION['user']->get_user_data()['id']) {
-            echo_json_response(false, "Na úpravu danej miestnosti nemáte právo.");
+        
+        $conference = Conferences::get_conference_by_id($lecture['conference_id']);
+        
+        // Couldn't find the lecture
+        if ($conference === false) {
+            echo_json_response(false, Conferences::$error_message);
             return false;
         }
+        
+        // User must be an owner of the conference or an admin
+        if (!user_owns_conference($conference['id_user']) && !is_admin()) {
+            echo_json_response(false, "Na úpravu danej prednášky nemáte právo.");
+            return false;
+        }        
 
         // Make timestamps and check for conflicts
-        $format = "Y-m-d H:i";
-
         if ($_POST["time_from"] != '') {
-            $start = convert_timestring($_POST["time_from"]);
-            $start = DateTime::createFromFormat($format, $start)->getTimestamp();
+            $start = DateTime::createFromFormat(DATE_FORMAT_SIMPLE_TABLE, $_POST["time_from"])->getTimestamp();
         } else {
             $start = NULL;
         }
 
         if ($_POST["time_to"] != '') {
-            $end = convert_timestring($_POST["time_to"]);
-            $end = DateTime::createFromFormat($format, $end)->getTimestamp();
+            $end = DateTime::createFromFormat(DATE_FORMAT_SIMPLE_TABLE, $_POST["time_to"])->getTimestamp();
         } else {
             $end = NULL;
         }
@@ -68,7 +72,7 @@ if ($action == "edit") {
             return;
         }
 
-        if (Room::is_free($_POST['room_id'], $start, $end) === false) {
+        if (Room::is_free($_POST['room_id'], $_POST['id'], $start, $end) === false) {
             echo_json_response(false, "Miestnost je v danom časovom intervale obsadená.");
             return;
         }

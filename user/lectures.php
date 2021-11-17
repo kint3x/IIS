@@ -23,7 +23,7 @@ start_session_if_none();
             
             <?php get_user_sidebar(); ?>
 
-            <div class='col-sm-8 align-self-top'>
+            <div class='col-xl-8 align-self-top'>
                 <div class='row'>
                     <div class='col-sm-12 align-self-center pb-1'>
                         <h2>Moje prednášky</h2>

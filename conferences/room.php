@@ -52,7 +52,7 @@ start_session_if_none();
                 
                 <?php get_conference_sidebar($conference); ?>
                 
-                <div class="col-sm-8 align-self-top">
+                <div class="col-xl-8 align-self-top">
                     <h2 class="mb-1">
                         <?php echo $room['name'];?>
                         <br>
@@ -68,7 +68,7 @@ start_session_if_none();
 
                         $options = [
                             "table_id" => "lectures",
-                            "ajax_url" => "/ajax/conference_lecture.php",
+                            "ajax_url" => "/ajax/lecture_table.php",
                             "edit" => $is_owner,
                             "add" => false,
                             "delete" => false, // same as $is_owner ? true : false;

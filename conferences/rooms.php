@@ -34,7 +34,7 @@ start_session_if_none();
                 
                 <?php get_conference_sidebar($conference); ?>
                 
-                <div class="col-sm-8 align-self-center">
+                <div class="col-xl-8 align-self-center">
 
                     <?php
                         $rooms = Room::get_conference_rooms($conference['id']);

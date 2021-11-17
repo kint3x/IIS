@@ -29,7 +29,7 @@
 
 		      	?>
 
-		<div class="col-sm-8">
+		<div class="col-xl-8">
       	<?php 
       	$table = new SimpleTable("User",
 				    	array(

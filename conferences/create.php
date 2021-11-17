@@ -40,23 +40,23 @@ start_session_if_none();
                 </div>
                 <h4>Adresa</h4>
                 <div class="form-group row">
-                    <div class="col-sm-6">
+                    <div class="col-lg-6">
                         <label for="street">Ulica</label>
                         <input type="text" class="form-control" id="street" placeholder="Zadajte adresu..." autocomplete="street-address" required>
                     </div>
                 </div>
                 <div class="form-group row">
-                    <div class="col-sm-6">
+                    <div class="col-lg-6">
                         <label for="city">Mesto</label>
                         <input type="text" class="form-control" id="city" placeholder="" autocomplete="address-level2" required>
                     </div>
                 </div>
                 <div class="form-group row">
-                    <div class="col-sm-3">
+                    <div class="col-lg-4">
                         <label for="state">Štát</label>
                         <input type="text" class="form-control" id="state" placeholder="" autocomplete="country-name" required>
                     </div>
-                    <div class="col-sm-3">
+                    <div class="col-lg-4">
                         <label for="zip">PSČ</label>
                         <input type="number" class="form-control" id="zip" placeholder="" autocomplete="postal-code" required>
                     </div>
@@ -64,29 +64,29 @@ start_session_if_none();
                 <h4>Čas</h4>
                 <label for="from">Začiatok konania</label>    
                 <div class="form-group row" id="from">
-                    <div class="col-sm-3">
+                    <div class="col-lg-4">
                         <input type="time" class="form-control timepicker" id="fromTime" autocomplete="off">
                     </div>
-                    <div class="col-sm-3">
+                    <div class="col-lg-4">
                         <input type="date" class="form-control" id="fromDate" autocomplete="off">
                     </div>
                 </div>
                 <label for="to">Koniec konania</label>    
                 <div class="form-group row" id="to">
-                    <div class="col-sm-3">
+                    <div class="col-lg-4">
                         <input type="time" class="form-control" id="toTime" autocomplete="off">
                     </div>
-                    <div class="col-sm-3">
+                    <div class="col-lg-4">
                         <input type="date" class="form-control" id="toDate" autocomplete="off">
                     </div>
                 </div>
                 <h4>Cena a kapacita</h4>
                 <div class="form-group row">
-                    <div class="form-group col-sm-3">
+                    <div class="form-group col-lg-4">
                         <label for="price">Cena lístku v &euro;</label>
                         <input type=number class="form-control" min=0 step="0.01" pattern="\d+\.\d\d" id="price" value="0.00" autocomplete="off">
                     </div>
-                    <div class="form-group col-sm-3">
+                    <div class="form-group col-lg-4">
                         <label for="capacity">Počet voľných miest</label>
                         <input type=number class="form-control" min=0 pattern="\d+" id="capacity" value="0" step="1" autocomplete="off">
                     </div>

@@ -112,7 +112,7 @@ start_session_if_none();
             
         <?php get_user_sidebar(); ?>
 
-        <div class='col-sm-8 align-self-top'>
+        <div class='col-xl-8 align-self-top'>
 
           
           <div class='row'>
@@ -144,23 +144,23 @@ start_session_if_none();
           
           <h4>Adresa</h4>
           <div class="form-group row">
-            <div class="col-sm-6">
+            <div class="col-lg-6">
               <label for="street">Ulica</label>
                 <input type="text" class="form-control" id="street" value="<?php echo $user_data['street'];?>" autocomplete="street-address" required>
             </div>
           </div>
           <div class="form-group row">
-            <div class="col-sm-6">
+            <div class="col-lg-6">
               <label for="city">Mesto</label>
               <input type="text" class="form-control" id="city" value="<?php echo $user_data['city'];?>" autocomplete="address-level2" required>
             </div>
           </div>
           <div class="form-group row">
-            <div class="col-sm-3">
+            <div class="col-lg-3">
               <label for="state">Štát</label>
               <input type="text" class="form-control" id="state" value="<?php echo $user_data['state'];?>" autocomplete="country-name" required>
             </div>
-            <div class="col-sm-3 mb-3">
+            <div class="col-lg-3 mb-3">
               <label for="zip">PSČ</label>
               <input type="number" class="form-control" id="zip" value="<?php echo $user_data['zip'];?>" autocomplete="postal-code" required>
             </div>
@@ -168,13 +168,13 @@ start_session_if_none();
         </div>
       </div>
       <div class='row pb-1'>
-        <div class='col-sm-2 align-self-center'>
+        <div class='col-md-2 align-self-center'>
           <button type='submit' class='btn btn-primary btn-block'>Uložiť</button>
       </div>
       </form>
     </div>
       <div class='row pb-1' >
-        <div class='col-sm-2 align-self-start'>
+        <div class='col-md-2 align-self-start'>
           <button type='button' class='btn btn-outline-dark btn-block'
           aria-hidden='true' data-toggle='modal' data-target='#changePasswordModal'>Zmeniť heslo</button>
         </div>

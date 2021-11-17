@@ -32,14 +32,7 @@ start_session_if_none();
             exit();
         }
        
-        $conference_id = Lecture::get_conference_id($lecture['id']);
-
-        if ($conference_id === false) {
-            display_alert_container(Lecture::$error_message);
-            exit();
-        }
-       
-        $conference = Conferences::get_conference_by_id($conference_id);
+        $conference = Conferences::get_conference_by_id($lecture['conference_id']);
         
         if ($conference === false) {
             display_alert_container(Conferences::$error_message);
@@ -66,7 +59,7 @@ start_session_if_none();
             $time = date(DATE_FORMAT_CARD, $lecture['time_from']).' - '.date(DATE_FORMAT_CARD, $lecture['time_to']);
         }
 
-        $can_edit = is_admin() || user_owns_lecture($lecture['id']);
+        $can_edit = is_admin() || user_owns_lecture($lecture['id']) || user_owns_conference($conference['id_user']); # TODO OWNS CONFERENCE
 
         ?>
 
@@ -75,7 +68,7 @@ start_session_if_none();
                 
                 <?php get_conference_sidebar($conference); ?>
 
-                <div class="col-sm-8 align-self-top">
+                <div class="col-xl-8 align-self-top">
                     <div class="card mb-12">
                         <img class="card-img-top img-top-fixed-height" src="<?php echo $lecture['img_url']; ?>" alt="Card image cap">
                         <?php
@@ -95,11 +88,11 @@ start_session_if_none();
                         <ul class="list-group list-group-flush d-flex flex-row flex-wrap">
                             
 
-                            <li class="list-group-item col-sm-6 pl-list-item">
+                            <li class="list-group-item col-md-6 pl-list-item">
                                 <h6>Čas</h6>
                                 <?php echo $time; ?>
                             </li>
-                            <li class="list-group-item col-sm-6">
+                            <li class="list-group-item col-md-6">
                                 <h6>Miestnosť</h6><?php echo $room_name;?>
                             </li>
                         </ul>

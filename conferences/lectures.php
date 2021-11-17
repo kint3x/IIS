@@ -36,7 +36,7 @@ start_session_if_none();
                 
                 <?php get_conference_sidebar($conference); ?>
                 
-                <div class="col-sm-8 align-self-center">
+                <div class="col-xl-8 align-self-center">
                     
                     <?php
                         $lectures = Lecture::get_conference_lectures($conference['id']);
@@ -60,7 +60,7 @@ start_session_if_none();
 
                             $options = [
                                 "table_id" => "lectures",
-                                "ajax_url" => "/ajax/edit_lecture.php",
+                                "ajax_url" => "/ajax/lecture_table.php",
                                 "edit" => $is_owner,
                                 "add" => false,
                                 "delete" => false, // same as $is_owner ? true : false;
