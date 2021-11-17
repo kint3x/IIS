@@ -350,7 +350,7 @@ class SimpleTable{
 			return false;
 		}
         $conn = $db->handle;
-        $cnt_req = $conn->query("SELECT COUNT(*) FROM ".$this->db_table_name);
+        $cnt_req = $conn->query("SELECT COUNT(*) FROM ".$this->db_table_name." ".$this->options['custom_SQL'] );
         $cnt_res = $cnt_req->fetch_all()[0][0];
         $db->close();
         return $cnt_res;
