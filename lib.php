@@ -128,11 +128,11 @@ function get_user_sidebar() {
  */
 function get_admin_sidebar() {
   $menu_array = [
-      "Správa uživateľov" => "/admin/manage_users.php",
+      "Správa užívateľov" => "/admin/manage_users.php",
       "Správa konferencií" => "/admin/manage_conferences.php",
   ];
 
-  get_sidebar("Admin menu",$menu_array);
+  get_sidebar("Administrátor",$menu_array);
 }
 
 
@@ -350,6 +350,9 @@ function get_navbar(){
                       <li><hr class="dropdown-divider" /></li>
                       <li>
                         <a class="dropdown-item" href="/admin/manage_users.php">Správa užívateľov</a>
+                      </li>
+                      <li>
+                        <a class="dropdown-item" href="/admin/manage_conferences.php">Správa konferencií</a>
                       </li>';
             		$admin = is_curr_user_admin() ? $admin_menu : "";
                 $nav .= '
@@ -376,7 +379,7 @@ function get_navbar(){
                         <a class="dropdown-item" href="/user/lectures.php">Prednášky</a>
                       </li>
                       <li>
-                        <a class="dropdown-item" href="#">Rozvrh</a>
+                        <a class="dropdown-item" href="/user/schedule.php">Rozvrh</a>
                       </li>
                       <li>
                       '.$admin.'
