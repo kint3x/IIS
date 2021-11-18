@@ -1,6 +1,5 @@
 # IIS
 ## TODO
-- Nahravanie obrazku, osetrit ak sa neposle ziaden file
 - Po registrácii sa treba znova prihlasovať -> možno automaticky prihlásiť.
 - ajax call -> if (data.success) -> obsluhu vynať do funkcíí
 - miesto konania konferencie odvodit z miestnosti kde sa kona
