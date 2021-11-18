@@ -266,7 +266,7 @@ function get_navbar(){
             if(!isset($_SESSION["user"])){
                 $nav .= ' 
                 <li class="dropdown order-1">
-                  <button type="button" data-toggle="modal" data-target="#loginModal" class="btn btn-outline-secondary">Prihlásiť sa</button>
+                  <button type="button" data-toggle="modal" data-target="#loginModal" class="btn btn-outline-secondary mr-2">Prihlásiť sa</button>
                 </li>
                  <li class="nav-item me-auto dropdown kosik_icon order-2">
                   <a

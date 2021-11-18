@@ -169,6 +169,7 @@ Class User {
 	 * Return user data.
 	 */
 	public function get_user_data() {		
+		$this->update_user();
 		return $this->user_data;
 	}
 

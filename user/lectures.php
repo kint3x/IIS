@@ -32,7 +32,63 @@ start_session_if_none();
 
                 <div class='row'>
                     <div class='col-sm-12 align-self-center pb-1'>
-                        <p>#TODO</p>
+
+
+                        <?php
+                        $sql = "WHERE id_user = {$_SESSION['user']->get_user_data()['id']}";
+                        
+                        $options = [
+                            "table_id" => "lectures",
+                            "ajax_url" => "/ajax/lecture_table.php",
+                            "edit" => false,
+                            "add" => false,
+                            "delete" => false, // same as $is_owner ? true : false;
+                            "custom_SQL" => $sql
+                        ];
+
+                        $table = new SimpleTable("Lecture", $options);
+
+                        $table->table_structure['name']['name'] = "Názov";
+                        $table->table_structure['name']['href_url'] = "/conferences/lecture.php?id=";
+
+                        $table->table_structure['description']['name'] = "Popis";
+                        $table->table_structure['description']['show_column'] = false;
+                        
+                        $table->table_structure['time_from']['name'] = "Od";
+                        $table->table_structure['time_from']['type'] = "TIMESTAMP";
+                        
+                        $table->table_structure['time_to']['name'] = "Do";
+                        $table->table_structure['time_to']['type'] = "TIMESTAMP";
+                        
+                        $table->table_structure['status']['name'] = "Stav";
+                        $table->table_structure['status']['show_column'] = true;
+                        $table->table_structure['status']['override'] = [
+                            LECTURE_UNDEF => "navrhnutá",
+                            LECTURE_CONFIRMED => "schválená",
+                            LECTURE_DENIED => "zamietnutá"
+                        ];
+
+                        $table->table_structure['img_url']['show_column'] = false;
+                        
+                        $table->table_structure['id']['show_column'] = false;
+                        
+                        $table->table_structure['id_user']['show_column'] = false;
+
+                        $table->table_structure['room_id']['name'] = "Miestnosť";
+                        $table->table_structure['room_id']['href_url'] = "/conferences/room.php?id=";
+                        $table->table_structure['room_id']['show_column'] = true;
+                        $table->table_structure['room_id']['foreign_key'] = [
+                            "table" => "Room",
+                            "fk_key_name" => "id",
+                            "table_vars" => ["name" => "Miestnosť"],
+                            "form_var" => "name",
+                            "custom_where" => ""
+                        ];
+
+                        $table->table_structure['conference_id']['show_column'] = false;
+
+                        echo $table->generate_table_html();
+                        ?>
                     </div>
                 </div>
             </div>
