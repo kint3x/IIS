@@ -7,6 +7,10 @@ define('LECTURE_UNDEF', 0);
 define('LECTURE_CONFIRMED', 1);
 define('LECTURE_DENIED', 2);
 
+define('RESERVATION_NEW', 0);
+define('RESERVATION_CONFIRMED', 1);
+define('RESERVATION_DENIED', 2);
+
 define('ROOT',__DIR__);
 
 define('DATE_FORMAT_CARD', 'h:i d.m.y');

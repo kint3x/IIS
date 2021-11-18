@@ -71,10 +71,16 @@ Class Reservation{
 			return false;
 		}
 
+		$conf = Conferences::get_conference_by_id($conference_id);
+		if($conf == false){
+			self::$error_message = "Nenašla sa konferencia s daným ID";
+			return false;
+		}
+		$price = $conf['price']*$num_tickets;
 
 		$conn = $db->handle;
-		$stmt = $conn->prepare('INSERT INTO Reservation (name, surname, email, num_tickets, state, conference_id, street, city , zip, user_id, country) VALUES (?, ?, ?, ? , ? , ? , ? , ? ,? ,?,?)');
-		$stmt->bind_param('sssdsdsssds', $name, $surname, $email, $num_tickets, $state , $conference_id, $street, $city, $zip, $user_id,$country);
+		$stmt = $conn->prepare('INSERT INTO Reservation (name, surname, email, num_tickets, state, conference_id, street, city , zip, user_id, country,price) VALUES (?, ?, ?, ? , ? , ? , ? , ? ,? ,?,?,?)');
+		$stmt->bind_param('sssisisssisd', $name, $surname, $email, $num_tickets, $state , $conference_id, $street, $city, $zip, $user_id,$country,$price);
 
 		if (!($stmt->execute())) {
 			self::$error_message = 'Problém pri vytváraní rezervácie.'.$conn->error;

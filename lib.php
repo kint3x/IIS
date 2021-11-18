@@ -117,6 +117,7 @@ function get_user_sidebar() {
       "Nastavenia" => "/user/settings.php",
       "Konferencie" => "/user/conferences.php",
       "Prednášky" => "/user/lectures.php",
+      "Rezervácie" => "/user/reservations.php",
       "Rozvrh" => "/user/schedule.php"
   ];
 
@@ -377,6 +378,9 @@ function get_navbar(){
                       </li>
 					            <li>
                         <a class="dropdown-item" href="/user/lectures.php">Prednášky</a>
+                      </li>
+                      <li>
+                        <a class="dropdown-item" href="/user/reservations.php">Moje rezervácie</a>
                       </li>
                       <li>
                         <a class="dropdown-item" href="/user/schedule.php">Rozvrh</a>
