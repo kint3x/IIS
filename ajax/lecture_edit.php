@@ -65,6 +65,11 @@ if (isset($_POST["id"])
         $end = NULL;
     }
 
+    // No room was selected
+    if ($_POST["room_id"] == "") {
+        $_POST["room_id"] = NULL;
+    }
+
     $time_changed = $start != $lecture['time_from'] || $end != $lecture['time_to'];
     $room_changed = $_POST["room_id"] != $lecture['room_id'];
 

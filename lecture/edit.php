@@ -35,7 +35,11 @@ start_session_if_none();
                 exit();
             }
 
-            $can_edit = is_admin() || user_owns_conference($conference['owner_id']) || user_owns_lecture($lecture['id']);
+            $can_edit = is_admin() || user_owns_conference($conference['id_user']) || user_owns_lecture($lecture['id']);
+            $only_lecture_owner = !user_owns_conference($conference['id_user']) && !is_admin() && user_owns_lecture($lecture['id']);
+
+            // Only an admin or the conference owner can edit the staus, time and place of the lecture
+            $disabled = $only_lecture_owner ? "disabled" : "";
 
             if (!$can_edit) {
                 display_alert_container("Pre upravovanie prednášok musíte byť prihlásený.");
@@ -72,7 +76,7 @@ start_session_if_none();
                 <h4>Stav</h4>    
                 <div class="form-group row" id="status">
                     <div class="col-lg-4">
-                        <select class="form-control" id="status">
+                        <select class="form-control" id="status" <?php echo $disabled; ?>>
                             <option <?php if ($lecture['status'] == LECTURE_CONFIRMED) {echo "selected";}?> value="<?php echo LECTURE_CONFIRMED;?>">Schválená</option>
                             <option <?php if ($lecture['status'] == LECTURE_DENIED) {echo "selected";}?> value="<?php echo LECTURE_DENIED;?>">Zamietnutá</option>
                             <option <?php if ($lecture['status'] == LECTURE_UNDEF) {echo "selected";}?> value="<?php echo LECTURE_UNDEF;?>">Navrhnutá</option>
@@ -89,26 +93,34 @@ start_session_if_none();
                 ?>
                 <div class="form-group row" id="from">
                     <div class="col-lg-4">
-                        <input type="datetime-local" class="form-control timepicker" id="fromTime" value="<?php echo $from;?>">
+                        <!-- <input type="datetime-local" class="form-control timepicker" id="fromTime" value="<?php echo $from;?>" <?php echo $disabled; ?>> -->
+                        <input type="datetime-local" class="form-control timepicker" id="fromTime" <?php echo $disabled; ?>>
                     </div>
                 </div>
                 <label for="to">Koniec konania</label>    
                 <div class="form-group row" id="to">
                     <div class="col-lg-4">
-                        <input type="datetime-local" class="form-control" id="toTime" value="<?php echo $to;?>">
+                        <!-- <input type="datetime-local" class="form-control" id="toTime" value="<?php echo $to;?>" <?php echo $disabled; ?>> -->
+                        <input type="datetime-local" class="form-control" id="toTime" <?php echo $disabled; ?>>
                     </div>
                 </div>
 
                 <label for="roomSelect">Miestnosť</label>    
                 <div class="form-group row" id="roomSelect">
                     <div class="col-lg-4">
-                        <select class="form-control" id="room">
+                        <select class="form-control" id="room" <?php echo $disabled; ?>>
                             <?php
                             $rooms = Room::get_conference_rooms($conference['id']);
                             
+                            if ($lecture['room_id'] == NULL) {
+                                ?>
+                                <option selected value="">Výber miestnosti...</option>
+                                <?php
+                            }
+
                             foreach ($rooms as $room) {
                                 $select = $lecture['room_id'] == $room['id'] ? "selected" : "";
-                                echo "<option {$select} value={$room['id']}>{$room['name']}</option>";
+                                echo "<option {$select} value='{$room['id']}'>{$room['name']}</option>";
                             }
                         ?>
                         </select>
