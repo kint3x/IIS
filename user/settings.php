@@ -146,23 +146,23 @@ start_session_if_none();
           <div class="form-group row">
             <div class="col-lg-6">
               <label for="street">Ulica</label>
-                <input type="text" class="form-control" id="street" value="<?php echo $user_data['street'];?>" autocomplete="street-address" required>
+                <input type="text" class="form-control" id="street" value="<?php echo $user_data['street'];?>" autocomplete="street-address">
             </div>
           </div>
           <div class="form-group row">
             <div class="col-lg-6">
               <label for="city">Mesto</label>
-              <input type="text" class="form-control" id="city" value="<?php echo $user_data['city'];?>" autocomplete="address-level2" required>
+              <input type="text" class="form-control" id="city" value="<?php echo $user_data['city'];?>" autocomplete="address-level2">
             </div>
           </div>
           <div class="form-group row">
             <div class="col-lg-3">
               <label for="state">Štát</label>
-              <input type="text" class="form-control" id="state" value="<?php echo $user_data['state'];?>" autocomplete="country-name" required>
+              <input type="text" class="form-control" id="state" value="<?php echo $user_data['state'];?>" autocomplete="country-name">
             </div>
             <div class="col-lg-3 mb-3">
               <label for="zip">PSČ</label>
-              <input type="number" class="form-control" id="zip" value="<?php echo $user_data['zip'];?>" autocomplete="postal-code" required>
+              <input type="number" class="form-control" id="zip" value="<?php echo $user_data['zip'];?>" autocomplete="postal-code">
             </div>
           </div>
         </div>

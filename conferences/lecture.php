@@ -46,11 +46,11 @@ start_session_if_none();
             $room = Room::get_room_by_id($lecture['room_id']);
 
             if ($room === false) {
-                display_alert_container(Room::$error_message);
-                exit();
+                $room_name = '-';
+            } else {
+                $room_name = $room['name'];
             }
 
-            $room_name = $room['name'];
         }
 
         if ($lecture['time_from'] === NULL || $lecture['time_to'] === NULL) {

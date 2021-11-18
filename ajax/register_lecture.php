@@ -6,7 +6,7 @@ require_once ROOT."/classes/lecture.class.php";
 start_session_if_none();
 
 if (!isset($_SESSION['user'])) {
-    echo_json_response(false, 'Pre registráciu konferencie je potrebné sa prihlásiť.');
+    echo_json_response(false, 'Pre navrhnutie príspevku je potrebné sa prihlásiť.');
     return;
 }
 

@@ -21,17 +21,6 @@ require_once(ROOT."/classes/room.class.php");
 require_once(ROOT."/classes/lecture.class.php");
 
 /**
- * Converts a time string from the 'Y-m-dTh:i' format to the 'Y-m-d h:i' format.
- */
-function convert_timestring($timestring) {
-    $t_index = strpos($timestring, 'T');
-    $time = substr($timestring, 0, $t_index);
-    $date = substr($timestring, $t_index+1);
-
-    return $time.' '.$date;
-}
-
-/**
  * Echo an encoded json array representing the response from ajax calls.
  */
 function echo_json_response($success, $error) {
@@ -53,6 +42,10 @@ function is_admin() {
 }
 
 function user_owns_lecture($lecture_id) {
+    if (is_admin()) {
+        return true;
+    }
+
     $lecture = Lecture::get_lecture_by_id($lecture_id);
 
     if ($lecture === false) {
@@ -66,6 +59,10 @@ function user_owns_lecture($lecture_id) {
  * Checks if the user is logged in and if so checks if he owns the conference.
  */
 function user_owns_conference($owner_id) {
+    if (is_admin()) {
+        return true;
+    }
+
     return (isset($_SESSION['user']) && $_SESSION['user']->get_user_data()['id'] == $owner_id);
 }
 

@@ -21,11 +21,23 @@ if (isset($_POST['id'])
     && isset($_POST['capacity'])
     && isset($_POST['image_url'])) {
 
-    if (!isset($_SESSION['user']) || !Conferences::is_owner($_SESSION['user']->get_user_data()['id'], $_POST['id'])) {
+    if (!isset($_SESSION['user'])) {
         echo_json_response(false, "Na vykonanie daných zmien nemáte oprávnenie.");
         return;
     }
     
+    $conference = Conferences::get_conference_by_id($_POST['id']);
+
+    if ($conference === false) {
+        echo_json_response($conference, Conferences::$error_message);
+        return;
+    }
+
+    if (!user_owns_conference($conference['id_user'])) {
+        echo_json_response(false, 'Na úpravu danej konferencie nemáte právo.');
+        return;
+    }
+
     // Create timestamps from the entered time and date values
     $format = "Y-m-d H:i";
     $from_ts = DateTime::createFromFormat($format, $_POST['fromDate']." ".$_POST['fromTime'])->getTimestamp();

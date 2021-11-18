@@ -20,6 +20,10 @@ function verify_conference() {
  * Check if the signed in user owns the conference. Must be called only after verify_conference() has been called.
  */
 function verify_conference_owner() {
+  if (is_admin()) {
+    return;
+  }
+
   if (!isset($_SESSION['user']) || !Conferences::is_owner($_SESSION['user']->get_user_data()['id'], $_GET['id'])) {
     display_alert_container('Danú konferenciu nemôžte upravovať.');
     exit();

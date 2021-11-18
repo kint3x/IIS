@@ -50,7 +50,7 @@ if ($action == "add") {
             return false;
         }
 
-        if ($owner_id != $_SESSION['user']->get_user_data()['id']) {
+        if ($owner_id != $_SESSION['user']->get_user_data()['id'] && !is_admin()) {
             echo_json_response(false, "Na úpravu danej miestnosti nemáte právo.");
             return false;
         }
@@ -72,7 +72,7 @@ if ($action == "add") {
             return false;
         }
 
-        if ($owner_id != $_SESSION['user']->get_user_data()['id']) {
+        if ($owner_id != $_SESSION['user']->get_user_data()['id'] && !is_admin()) {
             echo_json_response(false, "Na zrušenie danej miestnosti nemáte právo.");
             return false;
         }
