@@ -296,7 +296,7 @@ class SimpleTable{
 		      </div>
 		      <div class="modal-footer">
 		        <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Zrušiť</button>
-		        <button type="button" class="btn btn-primary" onclick="save_form_'.$this->options['table_id'].'()">Save changes</button>
+		        <button type="button" class="btn btn-primary" onclick="save_form_'.$this->options['table_id'].'()">Uložiť zmeny</button>
 		      </div>
 		    </div>
 		  </div>
