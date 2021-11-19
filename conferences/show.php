@@ -91,6 +91,11 @@ start_session_if_none();
                             ?>
                         </div>
                     </div>
+                    <!-- Otázky -->
+                    <div class="otazky" style="margin-top:10px">
+                        
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -101,6 +106,81 @@ start_session_if_none();
 
             url =  "/?tag=" + encodeURIComponent(tag_id);
             window.location.href = url;
+        }
+        </script>
+
+        <script>
+        $(document).ready(function(){
+            var formData={
+                    "conference_id" : "<?php echo $_GET['id']; ?>",
+                    "html" : true 
+                };
+                $(".otazky").html("<img src='/img/loading-buffering.gif'/>");
+                $.ajax({
+                    type: "POST",
+                    url: "/ajax/questions_get.php",
+                    data: formData,
+                    dataType: "json",
+                    encode: true,
+                  }).done(function (data) {
+                    if(data.success){
+                        $(".otazky").html(data.error);
+                    }
+                    else{
+                        $(".otazky").html("Nepodarilo sa načítať otázky: "+data.error);
+                    }
+
+                  });
+        });
+
+        $(document).on("click", '#btn-send-question', function(event) { 
+            var msg = $("#txt-send").val();
+                var formData={
+                    "conference_id" : "<?php echo $_GET['id']; ?>",
+                    "msg" : msg 
+                };
+
+                $.ajax({
+                    type: "POST",
+                    url: "/ajax/questions_get.php",
+                    data: formData,
+                    dataType: "json",
+                    encode: true,
+                  }).done(function (data) {
+                    if(data.success){
+                        $("#txt-send").val("");
+                        $("#error-msg").html("");
+                        location.reload();
+                    }
+                    else{
+                        $("#txt-send").val("");
+                        $("#error-msg").html(data.error);
+                    }
+
+                  });
+        });
+
+        function delete_question(id){
+             var formData={
+                    "conference_id" : "<?php echo $_GET['id']; ?>",
+                    "delete" : id 
+                };
+
+                $.ajax({
+                    type: "POST",
+                    url: "/ajax/questions_get.php",
+                    data: formData,
+                    dataType: "json",
+                    encode: true,
+                  }).done(function (data) {
+                    if(data.success){
+                        $("#question-id"+id).hide();
+                    }
+                    else{
+                        alert(data.error);
+                    }
+
+                  });
         }
         </script>
 
