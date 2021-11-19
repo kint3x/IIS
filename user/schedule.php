@@ -185,7 +185,7 @@ start_session_if_none();
                         + '<small>' + time_start + ' - ' + time_end + '</small>'
                         + "<button class='close font-weight-light' onclick='removeFromSchedule(this)' value='" + el.id + "' aria-label='close'>&times;</button>"
                         + '<br>'
-                        + el.name
+                        + '<a href="/conferences/lecture.php?id=' + el.id + '" class="text-decoration-none">' + el.name + '</a>'
                         + "<br>"
                         + '<small>' + el.room + '</small>'
                         + '</li>';
