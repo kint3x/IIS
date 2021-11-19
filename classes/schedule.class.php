@@ -37,8 +37,40 @@ Class Schedule{
 
 	/**
 	 * Check whether the user has already scheduled this lecture.
+	 * Returns -1 if the lecture wasn't scheduled and 1 otherwise.
 	 */
-	// public static function is_scheduled($user_id, $lecture_id)
+	public static function is_scheduled($user_id, $lecture_id) {
+		$db = new Database();
+
+		if ($db->error) {
+			self::$error_message = 'Problém s pripojením k databáze.';
+			return false;
+		}
+
+		$conn = $db->handle;
+		
+		// Return the id, name, start and end time of the lecture and also the name of the room where the lecture is held
+		$stmt = $conn->prepare('SELECT * FROM Schedule WHERE id_user = ? AND id_lecture = ?');
+		$stmt->bind_param('ii', $user_id, $lecture_id);
+
+		if (!$stmt->execute()) {
+			self::$error_message = 'Chyba pri vyhľadávaní prednášky v rozvrhu.';
+			$db->close();
+			return false;
+		};
+
+		$res = $stmt->get_result();
+
+		self::$error_message = 'Naplánovanie prednášky bolo úspešne zistené.';
+		
+		if ($res->num_rows < 1) {
+			$db->close();
+			return -1;
+		} else {
+			$db->close();
+			return 1;
+		}
+	}
 
 	/**
 	 * Adds the given lecture to the user's schedule.

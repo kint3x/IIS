@@ -6,6 +6,7 @@ require_once ROOT.'/classes/conferences.class.php';
 require_once ROOT.'/classes/room.class.php';
 require_once ROOT.'/classes/lecture.class.php';
 require_once ROOT.'/classes/table.class.php';
+require_once ROOT.'/classes/schedule.class.php';
 
 start_session_if_none();
 
@@ -75,7 +76,7 @@ start_session_if_none();
                         if ($lecture['status'] != LECTURE_CONFIRMED) {
                             ?>
                             <div class="card-header">
-                                Táto konferencia, zatiaľ nie je potvrdená.
+                                Táto prednáška zatiaľ nebola potvrdená.
                             </div>
                             <?php
                         }
@@ -96,17 +97,84 @@ start_session_if_none();
                                 <h6>Miestnosť</h6><?php echo $room_name;?>
                             </li>
                         </ul>
-                        <?php if($can_edit) {
+                        <div class="card-footer">
+                        <?php 
+                        if($can_edit) {
                             ?>
-                            <div class="card-footer">
-                                <a href="/lecture/edit.php?id=<?php echo $lecture['id'];?>" class="btn btn-outline-dark">Upraviť</a>
-                            </div>
-                            <?php
+                                <a href="/lecture/edit.php?id=<?php echo $lecture['id'];?>" class="btn btn-outline-dark mr-2">Upraviť</a>
+                                <?php
                         }
                         ?>
+                        <?php 
+                        if(isset($_SESSION['user'])) {
+                            $user_id = $_SESSION['user']->get_user_data()['id'];
+                            $is_scheduled = Schedule::is_scheduled($user_id, $lecture['id']);
+
+                            if ($is_scheduled === 1) {
+                                // Lecture was scheduled
+                                ?>
+                                <button class="btn btn-outline-danger" id="scheduleBtn" onclick="removeFromSchedule(this)" value="<?php echo $lecture['id'];?>">Odstrániť z rozvrhu</button>
+                                <?php
+                            } else if ($is_scheduled === -1) {
+                                // Lecture wasn't scheduled
+                                ?>
+                                <button class="btn btn-outline-success" id="scheduleBtn" onclick="addToSchedule(this)" value="<?php echo $lecture['id'];?>">Pridať do rozvrhu</button>
+                                <?php
+                            }
+
+                        }
+                        ?>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+                        
+    <script>
+    // Add  lecture to the schedule
+    function addToSchedule(el) {
+        var formData = {
+            lecture_id: el.value
+        };
+
+        $.ajax({
+                type: "POST",
+                url: "/ajax/add_to_schedule.php",
+                data: formData,
+                dataType: "json",
+                encode: true
+            }).done(function (data) {
+                if (data.success) {
+                    var btn = $("#scheduleBtn")
+                    var succBtn = '<button class="btn btn-outline-danger" id="scheduleBtn" onclick="removeFromSchedule(this)"'
+                        + 'value="' + el.value + '">Odstrániť z rozvrhu</button>';
+                    btn.replaceWith(succBtn);
+                }
+            });
+    }
+
+    // Remove the lecture from schedule
+    function removeFromSchedule(el) {
+        var formData = {
+            lecture_id: el.value
+        };
+
+        $.ajax({
+                type: "POST",
+                url: "/ajax/remove_from_schedule.php",
+                data: formData,
+                dataType: "json",
+                encode: true
+            }).done(function (data) {
+                if (data.success) {
+                    var btn = $("#scheduleBtn")
+                    var succBtn = '<button class="btn btn-outline-success" id="scheduleBtn" onclick="addToSchedule(this)"'
+                        + 'value="' + el.value + '">Pridať do rozvrhu</button>';
+                    btn.replaceWith(succBtn);
+                }
+            });
+    } 
+    </script>
+
     </body>
 </html
