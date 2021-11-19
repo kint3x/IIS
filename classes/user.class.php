@@ -255,6 +255,28 @@ Class User {
 		return true;
 	}
 
+	/* Get user by id */
+	public static function get_user_data_by_id($id){
+		$db = new Database();
+		
+		if($db->error) {	
+			self::$error_message = 'Problém s pripojením k databáze.';
+			return false;
+		}
+		
+		$conn = $db->handle;
+		$stmt = $conn->prepare('SELECT * FROM User WHERE id = ?');
+		$stmt->bind_param('i', $id);
+		$stmt->execute();
+		$res = $stmt->get_result();
+		$rows = $res->fetch_assoc();
+
+		$db->close();
+		
+		return $rows;
+
+	}
+
 	/**
 	 * Get the email registered to the given id.
 	 */
