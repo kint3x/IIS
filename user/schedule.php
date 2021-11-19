@@ -33,7 +33,7 @@ start_session_if_none();
                     </div>
                     
                     <div class="col-sm-5">
-                        <input type="week" class="form-control" id="weekPicker" name="weekPicker" placeholder="yyyy-Www" value="">
+                        <input type="week" class="form-control" id="weekPicker" name="weekPicker" pattern="^\d\d\d\d-W\d\d$" placeholder="yyyy-Www" value="">
                     </div>
                     
                     <div class="col-sm-1 d-flex justify-content-start">
@@ -140,6 +140,11 @@ start_session_if_none();
 
     // Update the calendar
     $("#weekPicker").change(function(e) {
+        // Check if the value is valid (yyyy-Www)
+        if (/^\d\d\d\d-W\d\d$/.test($("#weekPicker").val()) == false) {
+            return;
+        }
+
         // Update the date variable
         date = getDateOfWeek($("#weekPicker").val());
 
