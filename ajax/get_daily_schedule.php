@@ -10,10 +10,10 @@ if (!isset($_SESSION['user'])) {
     return;
 }
 
-if (isset($_GET["start"]) 
-    && isset($_GET["end"])) {
+if (isset($_POST["start"]) 
+    && isset($_POST["end"])) {
 
-    $lectures = Schedule::get_user_schedule($_SESSION['user']->get_user_data()['id'], $_GET["start"], $_GET["end"]);
+    $lectures = Schedule::get_user_schedule($_SESSION['user']->get_user_data()['id'], $_POST["start"], $_POST["end"]);
 
     if ($lectures === false) {
         echo_json_response(false, Schedule::$error_message);

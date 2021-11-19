@@ -41,6 +41,8 @@ start_session_if_none();
                     </div>
                 </div>
                 
+                <div class="row" id="info"></div>
+
                 <div class="row">
                     <?php 
                     $days = ["Pondelok", "Utorok", "Streda", "Štvrtok", "Piatok", "Sobota", "Nedeľa"];
@@ -109,6 +111,33 @@ start_session_if_none();
 
     var date = new Date()
 
+    // Remove the lecture from schedule
+    function removeFromSchedule(el) {
+        var formData = {
+            lecture_id: el.value
+        };
+
+        $.ajax({
+                type: "POST",
+                url: "/ajax/remove_from_schedule.php",
+                data: formData,
+                dataType: "json",
+                encode: true
+            }).done(function (data) {
+                if (data.success) {
+                    var li = $(el).closest('li');
+                    li.remove();
+                } else {
+                    var alert = "<div class='alert alert-warning alert-dismissible' role='alert'>" 
+                        + "<a href='#' class='close font-weight-light' data-dismiss='alert' aria-label='close'>&times;</a>"
+                        + data.error 
+                        + "</div>";
+                    $("#info").css('display','block');
+                    $("#info").html(alert);
+                }
+            });
+    }
+
     // Update the calendar
     $("#weekPicker").change(function(e) {
         // Update the date variable
@@ -130,12 +159,12 @@ start_session_if_none();
                 start: ts_start,
                 end: ts_end
             };
-
+        
             // Remove all the displayed lectures;
             $("#schedule"+i).html('');
 
             $.ajax({
-                type: "GET",
+                type: "POST",
                 url: "/ajax/get_daily_schedule.php",
                 data: formData,
                 dataType: "json",
@@ -153,8 +182,11 @@ start_session_if_none();
                         time_end = ('0' + time_end.getHours()).substr(-2) + ':' + ('0' + time_end.getMinutes()).substr(-2);
 
                         var li = "<li class='list-group-item'>"
-                        + '<small>' + time_start + ' - ' + time_end + '</small> <br>'
-                        + el.name + '<br>'
+                        + '<small>' + time_start + ' - ' + time_end + '</small>'
+                        + "<button class='close font-weight-light' onclick='removeFromSchedule(this)' value='" + el.id + "' aria-label='close'>&times;</button>"
+                        + '<br>'
+                        + el.name
+                        + "<br>"
                         + '<small>' + el.room + '</small>'
                         + '</li>';
 
