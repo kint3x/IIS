@@ -70,7 +70,7 @@ function without_params($url) {
  */
 function get_sidebar($title, $page_array) {
   ?>
-  <div class="col-lg-2 align-self-top">    
+  <div class="col-lg-2 align-self-top mb-2">    
     <ul class="nav nav-pills flex-column">
       <li class="nav-item">
         <h5 class="nav-link text-wrap">
