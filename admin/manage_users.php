@@ -10,7 +10,7 @@
 	if_not_admin_die();
 ?>
 <html>
-    <?php echo get_head(); ?>
+    <?php echo get_head(['title' => 'Správa užívateľov']); ?>
     
     <body>
       <?php echo get_navbar(); ?>

@@ -11,7 +11,7 @@ start_session_if_none();
 ?>
 
 <html>
-    <?php echo get_head(); ?>
+    <?php verify_room_and_generate_head(); ?>
 
     <script>
         
@@ -21,8 +21,6 @@ start_session_if_none();
         <?php 
         
         echo get_navbar();
-
-        verify_room();
 
         $room = Room::get_room_by_id($_GET['id']);
         

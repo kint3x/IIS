@@ -11,7 +11,7 @@ start_session_if_none();
 ?>
 
 <html>
-    <?php echo get_head(); ?>
+    <?php verify_conference_and_generate_head(); ?>
 
     <script>
         
@@ -21,7 +21,6 @@ start_session_if_none();
         <?php 
         
         echo get_navbar();
-        verify_conference();
         check_login('Pre správu konferencie musíte byť prihlásený.');
         verify_conference_owner();        
 

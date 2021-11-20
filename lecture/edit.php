@@ -12,14 +12,13 @@ start_session_if_none();
 ?>
 
 <html>
-    <?php echo get_head(); ?>
+    <?php verify_lecture_and_generate_header(); ?>
 
     <body>
         <?php 
-            echo get_navbar(); 
+            echo get_navbar();
 
             check_login("Pre upravovanie prednášok musíte byť prihlásený.");
-            verify_lecture();
             
             $lecture = Lecture::get_lecture_by_id($_GET['id']);
         

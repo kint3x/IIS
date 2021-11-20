@@ -13,26 +13,28 @@ start_session_if_none();
 ?>
 
 <html>
-    <?php echo get_head(); ?>
+    <?php 
 
+    verify_lecture_and_generate_head();
+    
+    ?>
+    
     <script>
         
-    </script>
+        </script>
 
-    <body>
-        <?php 
-        
+
+<body>
+    <?php 
         echo get_navbar();
-
-        verify_lecture();
-
+                
         $lecture = Lecture::get_lecture_by_id($_GET['id']);
-        
+
         if ($lecture === false) {
             display_alert_container(Lecture::$error_message);
             exit();
         }
-       
+
         $conference = Conferences::get_conference_by_id($lecture['conference_id']);
         
         if ($conference === false) {
@@ -103,7 +105,7 @@ start_session_if_none();
                             
                             if($can_edit) {
                                 ?>
-                                <a href="/lecture/edit.php?id=<?php echo $lecture['id'];?>" class="btn btn-outline-dark mr-2">Upraviť</a>
+                                <a href="/lecture/edit.php?id=<?php echo $lecture['id'];?>" class="btn btn-outline-dark mr-1">Upraviť</a>
                                 <?php
                             }
                         
@@ -186,7 +188,7 @@ start_session_if_none();
                 "html" : true 
             };
             
-        $(".otazky").html("<div class='d-flex p-2 justify-content-center'><img style='height: 3rem' src='/img/loading-buffering.gif'/></div>");
+        $(".otazky").html("<div class='d-flex p-2 mt-4 justify-content-center'><img style='height: 3rem' src='/img/loading-buffering.gif'/></div>");
         $.ajax({
             type: "POST",
             url: "/ajax/questions.php",

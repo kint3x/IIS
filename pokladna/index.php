@@ -19,10 +19,6 @@ Cart::setup_cart_if_not();
     "email" => ""
   );
 
-
-
-
-
   $user_id = NULL;
 
   // user is logged in
@@ -82,7 +78,7 @@ $print_items = $_SESSION['cart']->get_items_structured();
 ?>
 
 <html>
-  <?php echo get_head(); ?>
+  <?php echo get_head(['title' => 'Pokladňa']); ?>
   <body>
     <?php echo get_navbar(); 
 
