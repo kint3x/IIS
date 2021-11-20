@@ -97,16 +97,16 @@ start_session_if_none();
                                 <h6>Miestnosť</h6><?php echo $room_name;?>
                             </li>
                         </ul>
-                        <div class="card-footer">
-                        <?php 
-                        if($can_edit) {
-                            ?>
+                        <?php
+                        if(isset($_SESSION['user'])) {
+                            ?> <div class="card-footer"> <?php
+                            
+                            if($can_edit) {
+                                ?>
                                 <a href="/lecture/edit.php?id=<?php echo $lecture['id'];?>" class="btn btn-outline-dark mr-2">Upraviť</a>
                                 <?php
-                        }
-                        ?>
-                        <?php 
-                        if(isset($_SESSION['user'])) {
+                            }
+                        
                             $user_id = $_SESSION['user']->get_user_data()['id'];
                             $is_scheduled = Schedule::is_scheduled($user_id, $lecture['id']);
 
@@ -121,16 +121,16 @@ start_session_if_none();
                                 <button class="btn btn-outline-success" id="scheduleBtn" onclick="addToSchedule(this)" value="<?php echo $lecture['id'];?>">Pridať do rozvrhu</button>
                                 <?php
                             }
-
+                            ?> </div> <?php
                         }
                         ?>
                         </div>
+                        
+                        <div class="otazky mb-1" style="margin-top:10px"></div>
+                        
+                        <div id="error-msg"></div>
+                        
                     </div>
-                        
-                    <div class="otazky mb-1" style="margin-top:10px"></div>
-                    
-                    <div id="error-msg"></div>
-                        
                 </div>
             </div>
         </div>
@@ -186,7 +186,7 @@ start_session_if_none();
                 "html" : true 
             };
             
-        $(".otazky").html("<img style='height: 2rem' src='/img/loading-buffering.gif'/>");
+        $(".otazky").html("<div class='d-flex p-2 justify-content-center'><img style='height: 2rem' src='/img/loading-buffering.gif'/></div>");
         $.ajax({
             type: "POST",
             url: "/ajax/questions.php",
@@ -198,7 +198,14 @@ start_session_if_none();
                 $(".otazky").html(data.error);
             }
             else{
-                $(".otazky").html("Nepodarilo sa načítať otázky: "+data.error);
+                var alert = "<div class='alert alert-warning'>"
+                        + data.error
+                        + "<a href='#' class='close font-weight-light' data-dismiss='alert' aria-label='close'>&times;</a>"
+                        + "</div>";
+                $("#txt-send").val("");
+                $("#error-msg").css('display','block');
+                $("#error-msg").html(alert);
+                $(".otazky").html("");
             }
         });
     });
@@ -252,7 +259,13 @@ start_session_if_none();
                     $("#question-id"+id).hide();
                 }
                 else{
-                    alert(data.error);
+                    var alert = "<div class='alert alert-warning'>"
+                            + data.error
+                            + "<a href='#' class='close font-weight-light' data-dismiss='alert' aria-label='close'>&times;</a>"
+                            + "</div>";
+                    $("#txt-send").val("");
+                    $("#error-msg").css('display','block');
+                    $("#error-msg").html(alert);
                 }
             });
     }
