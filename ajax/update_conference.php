@@ -38,11 +38,18 @@ if (isset($_POST['id'])
         return;
     }
 
+    $tickets_left = Conferences::get_number_tickets_left($conference['id']);
+
+    if ($_POST['capacity'] < $tickets_left) {
+        echo_json_response(false, "Kapacita musí byť vačšia ako počet rezervovaných vstupeniek");
+        return;
+    }
+
     // Create timestamps from the entered time and date values
     $format = "Y-m-d H:i";
     $from_ts = DateTime::createFromFormat($format, $_POST['fromDate']." ".$_POST['fromTime'])->getTimestamp();
     $to_ts = DateTime::createFromFormat($format, $_POST['toDate']." ".$_POST['toTime'])->getTimestamp();
-    
+
     // Create new conference
     $res = Conferences::update_conference(
         $_POST['id'],

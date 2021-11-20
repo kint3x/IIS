@@ -22,11 +22,10 @@ start_session_if_none();
         
         echo get_navbar();
         verify_conference();
-        check_login('Pre správu konferencíí musíte byť prihlásený.');
+        check_login('Pre správu konferencie musíte byť prihlásený.');
         verify_conference_owner();        
 
         $conference = Conferences::get_conference_by_id($_GET['id']);
-        $tags = Tag::get_conference_tags($conference['id']);
         ?>
 
         <div class="container-fluid">

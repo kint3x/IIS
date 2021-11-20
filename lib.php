@@ -104,6 +104,7 @@ function get_conference_sidebar($conference) {
 
   if (user_owns_conference($conference['id_user'])) {
       $menu_array["Miestnosti"] = "/conferences/rooms.php?id={$conference['id']}";
+      $menu_array["Rezervácie"] = "/conferences/reservations.php?id={$conference['id']}";
   }
   
   get_sidebar($conference['name'], $menu_array); 
