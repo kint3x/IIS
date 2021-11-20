@@ -260,9 +260,6 @@ function get_navbar(){
           &#9776;
         </button>
         <div class="collapse navbar-collapse" id="exCollapsingNavbar">
-          <ul class="nav navbar-nav">
-            <li class="nav-item"><a href="/" class="nav-link">Domov</a></li>
-          </ul>
           <ul class="nav navbar-nav flex-row justify-content-between ml-auto align-items-middle">';
 
             if(!isset($_SESSION["user"])){

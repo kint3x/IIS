@@ -14,12 +14,11 @@ function add_to_cart(id,btn){
             dataType: "json",
             encode: true,
           }).done(function (data) {
-            if (!data.error) {
+            if (data.success) {
             	add_to_cart_animation(btn);
             } else {
-             	alert("Nepodarilo sa pridať do košíka.");
+             	alert(data.error);
             }
-            
     	});
 
 }
@@ -72,7 +71,6 @@ function reload_cart(){
 		    		html += '<div class="col-sm-2">'+val.count*val.price+'&euro;</div>';
 					html += '<div class="col-sm-1"><span class="close font-weight-light" style="cursor:pointer;" onclick="cart_action('+val.id+',\'remove_from_cart\')">&times;</span></div>';
 						html += '</div></div>';
-						console.log(val.count,val.price);
 		    		$("#cartModal").find(".cart").append(html);
 
 
