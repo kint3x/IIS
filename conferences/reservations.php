@@ -42,7 +42,7 @@ start_session_if_none();
                             "delete" => false,
                             "edit" => true,
                             "add" => false,
-                            "custom_SQL" => "WHERE conference_id = {$conference['id']}"
+                            "custom_SQL" => "WHERE conference_id = {$conference['id']} ORDER BY id DESC"
                         ];
 
                         ?>

@@ -55,7 +55,7 @@ start_session_if_none();
                         } else {
                             
                             $sql = $is_owner ? "WHERE conference_id = {$conference['id']}" : 
-                                "WHERE conference_id = {$conference['id']} AND status = ".LECTURE_CONFIRMED;
+                                "WHERE conference_id = {$conference['id']} AND status = ".LECTURE_CONFIRMED." ORDER BY time_from ASC";
 
                             $options = [
                                 "table_id" => "lectures",

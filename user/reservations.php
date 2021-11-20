@@ -35,7 +35,7 @@ start_session_if_none();
 
 
                         <?php
-                        $sql = "WHERE user_id = {$_SESSION['user']->get_user_data()['id']}";
+                        $sql = "WHERE user_id = {$_SESSION['user']->get_user_data()['id']} ORDER BY id DESC";
                         
                         $options = [
                             "table_id" => "reservation",
