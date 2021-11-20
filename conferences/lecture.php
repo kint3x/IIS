@@ -186,7 +186,7 @@ start_session_if_none();
                 "html" : true 
             };
             
-        $(".otazky").html("<div class='d-flex p-2 justify-content-center'><img style='height: 2rem' src='/img/loading-buffering.gif'/></div>");
+        $(".otazky").html("<div class='d-flex p-2 justify-content-center'><img style='height: 3rem' src='/img/loading-buffering.gif'/></div>");
         $.ajax({
             type: "POST",
             url: "/ajax/questions.php",

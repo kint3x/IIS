@@ -438,8 +438,8 @@ function get_navbar(){
 						            
 						        </div>
 						        <div class="col-md-12">
-						        	<div class="row" style="padding:10%;padding-bottom:0px;">
-						        		<a href="/pokladna/" class="cart_button">Prejsť do pokladne</a>
+						        	<div class="row mt-4 justify-content-center">
+						        		<a href="/pokladna/" class="btn btn-primary">Prejsť do pokladne</a>
 						        	</div>
 						        </div>
 					     		</div>
