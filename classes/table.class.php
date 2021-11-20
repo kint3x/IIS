@@ -128,6 +128,15 @@ class SimpleTable{
        	}
 
        	$cnt_res = Self::get_all_rows_count();
+		
+		if ($cnt_res == 0) {
+			// No rows for the given query
+			$html = "<div class='alert alert-secondary' role='alert'>
+    					Vyzerá to, že pre daný dotaz zatiaľ neexistujú žiadne záznamy.
+  						</div>";
+
+			return $html;
+		}
 
        	$last_page = intval($cnt_res/$this->options['perpage'])+1;
 
