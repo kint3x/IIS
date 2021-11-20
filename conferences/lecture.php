@@ -126,6 +126,11 @@ start_session_if_none();
                         ?>
                         </div>
                     </div>
+                        
+                    <div class="otazky mb-1" style="margin-top:10px"></div>
+                    
+                    <div id="error-msg"></div>
+                        
                 </div>
             </div>
         </div>
@@ -173,7 +178,84 @@ start_session_if_none();
                     btn.replaceWith(succBtn);
                 }
             });
-    } 
+    }
+
+    $(document).ready(function(){
+        var formData={
+                "lecture_id" : "<?php echo $_GET['id']; ?>",
+                "html" : true 
+            };
+            
+        $(".otazky").html("<img style='height: 2rem' src='/img/loading-buffering.gif'/>");
+        $.ajax({
+            type: "POST",
+            url: "/ajax/questions.php",
+            data: formData,
+            dataType: "json",
+            encode: true,
+        }).done(function (data) {
+            if(data.success){
+                $(".otazky").html(data.error);
+            }
+            else{
+                $(".otazky").html("Nepodarilo sa načítať otázky: "+data.error);
+            }
+        });
+    });
+
+    $(document).on("click", '#btn-send-question', function(event) { 
+        var msg = $("#txt-send").val();
+        
+        var formData={
+            "lecture_id" : "<?php echo $_GET['id']; ?>",
+            "msg" : msg 
+        };
+        
+        $.ajax({
+            type: "POST",
+            url: "/ajax/questions.php",
+            data: formData,
+            dataType: "json",
+            encode: true,
+            }).done(function (data) {
+                if(data.success){
+                    $("#txt-send").val("");
+                    $("#error-msg").html("");
+                    location.reload();
+                }
+                else{
+                    var alert = "<div class='alert alert-warning'>"
+                            + data.error
+                            + "<a href='#' class='close font-weight-light' data-dismiss='alert' aria-label='close'>&times;</a>"
+                            + "</div>";
+                    $("#txt-send").val("");
+                    $("#error-msg").css('display','block');
+                    $("#error-msg").html(alert);
+                }
+        });
+    });
+
+    function delete_question(id){
+         var formData={
+                "lecture_id" : "<?php echo $_GET['id']; ?>",
+                "delete" : id 
+            };
+
+        $.ajax({
+            type: "POST",
+            url: "/ajax/questions.php",
+            data: formData,
+            dataType: "json",
+            encode: true,
+        }).done(function (data) {
+                if(data.success){
+                    $("#question-id"+id).hide();
+                }
+                else{
+                    alert(data.error);
+                }
+            });
+    }
     </script>
 
     </body>

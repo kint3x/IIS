@@ -132,29 +132,23 @@ body {
     -webkit-border-radius: 50px;
     -moz-border-radius: 50px;
     border-radius: 50px;
-    background: #5a99ee;
+    background: #f7f7f7;
     display: inline-block;
     padding: 10px 20px;
     position: relative;
-}
-
-.chat-list .chat-message:before {
-    content: "";
-    position: absolute;
-    top: 15px;
-    width: 0;
-    height: 0;
 }
 
 .chat-list .chat-message h5 {
     margin: 0 0 5px 0;
     font-weight: 600;
     line-height: 100%;
+    color: #343a40;
     font-size: .9rem;
 }
 
 .chat-list .chat-message p {
     line-height: 18px;
+    color: #343a40;
     margin: 0;
     padding: 0;
 }
@@ -168,7 +162,7 @@ body {
 .chat-list .in .chat-message:before {
     left: -12px;
     border-bottom: 20px solid transparent;
-    border-right: 20px solid #5a99ee;
+    border-right: 20px solid #f7f7f7;
 }
 
 .chat-list .out .chat-img {
