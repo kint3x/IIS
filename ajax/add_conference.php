@@ -34,53 +34,20 @@ if (isset($_POST['name'])
     $to_ts = DateTime::createFromFormat($format, $_POST['toDate']." ".$_POST['toTime'])->getTimestamp();
     
     // Default img url
-    $image_url = htmlspecialchars($_POST['image_url']);
+    $image_url = $_POST['image_url'];
     if ($image_url == "") {
         $image_url = IMG_DEFAULT;
     }
 
-    //check vars
-    if(is_length_long(htmlspecialchars($_POST['name']),150)){
-         echo_json_response(false, "Meno konferencie je príliš dlhé.");
-         return;
-    }
-    if(is_length_long(htmlspecialchars($_POST['street']),150)){
-         echo_json_response(false, "Meno ulice je príliš dlhé.");
-         return;
-    }
-    if(is_length_long(htmlspecialchars($_POST['city']),150)){
-         echo_json_response(false, "Meno mesta je príliš dlhé.");
-         return;
-    }
-    if(is_length_long(htmlspecialchars($_POST['state']),150)){
-         echo_json_response(false, "Meno štátu je príliš dlhé.");
-         return;
-    }
-    if(!is_numeric($_POST['zip'])){
-        echo_json_response(false, "PSČ nie je číslo");
-        return;
-    }
-    if(!is_numeric($_POST['capacity'])){
-        echo_json_response(false, "Kapacita nie je číslo");
-        return;
-    }
-    $_POST['price'] = str_replace(",",".",$_POST['price']);
-    if(!is_numeric($_POST['price'])){
-        echo_json_response(false, "Cena nie je číslo");
-        return;
-    }
-
-
-
     // Create new conference
     $res = Conferences::create_conference(
         $owner_id,
-        htmlspecialchars($_POST['name']),
-        htmlspecialchars($_POST['description']),
-        htmlspecialchars($_POST['street']),
-        htmlspecialchars($_POST['city']),
+        $_POST['name'],
+        $_POST['description'],
+        $_POST['street'],
+        $_POST['city'],
         $_POST['zip'],
-        htmlspecialchars($_POST['state']),
+        $_POST['state'],
         $from_ts,
         $to_ts,
         $_POST['price'],
@@ -93,7 +60,6 @@ if (isset($_POST['name'])
         echo_json_response($res, Conferences::$error_message);
         return;
     }
-
     
     $conference_id = $res[0][0];
 

@@ -624,9 +624,3 @@ function getPaginationString($page, $lastpage, $adjacents = 2)
     }
     return $pagination;
 }
-
-function is_length_long($var,$length){
-  if(strlen($var)>$length) return true;
-  
-  return false;
-}
