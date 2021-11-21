@@ -8,7 +8,7 @@ require_once ROOT."/classes/reservation.class.php";
 start_session_if_none();
 
 if(isset($_POST['email']) && isset($_POST['password'])){
-	$res = User::register_user($_POST['email'], $_POST['password']);
+	$res = User::register_user(htmlspecialchars_decode($_POST['email'],ENT_QUOTES), htmlspecialchars_decode($_POST['password'],ENT_QUOTES));
 	
 	
 	if(isset($_SESSION['created_orders'])){

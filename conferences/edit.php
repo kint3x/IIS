@@ -40,30 +40,30 @@ start_session_if_none();
                     <input class="form-control" type="number" hidden="true" id="id" name="id" value="<?php echo $conference['id'];?>">
                     
                     <label for="name">Názov konferencie</label>
-                    <input type="text" class="form-control" id="name" placeholder="Názov" value="<?php echo $conference['name'];?>" required>
+                    <input type="text" class="form-control" id="name" placeholder="Názov" value="<?php echo htmlspecialchars($conference['name'],ENT_QUOTES);?>" required>
                 </div>
                 <div class="form-group">
                     <label for="description">Popis konferencie</label>
-                    <textarea class="form-control" id="description" placeholder="Detailný popis..."><?php echo $conference['description'];?></textarea>
+                    <textarea class="form-control" id="description" placeholder="Detailný popis..."><?php echo htmlspecialchars($conference['description'],ENT_QUOTES);?></textarea>
                 </div>
 
                 <h4>Adresa</h4>
                 <div class="form-group row">
                     <div class="col-lg-6">
                         <label for="street">Ulica</label>
-                        <input type="text" class="form-control" id="street" value="<?php echo $conference['street'];?>" autocomplete="street-address" required>
+                        <input type="text" class="form-control" id="street" value="<?php echo htmlspecialchars($conference['street'],ENT_QUOTES);?>" autocomplete="street-address" required>
                     </div>
                 </div>
                 <div class="form-group row">
                     <div class="col-lg-6">
                         <label for="city">Mesto</label>
-                        <input type="text" class="form-control" id="city" value="<?php echo $conference['city'];?>" autocomplete="address-level2" required>
+                        <input type="text" class="form-control" id="city" value="<?php echo htmlspecialchars($conference['city'],ENT_QUOTES);?>" autocomplete="address-level2" required>
                     </div>
                 </div>
                 <div class="form-group row">
                     <div class="col-lg-4">
                         <label for="state">Štát</label>
-                        <input type="text" class="form-control" id="state" value="<?php echo $conference['state'];?>" autocomplete="country-name" required>
+                        <input type="text" class="form-control" id="state" value="<?php echo htmlspecialchars($conference['state'],ENT_QUOTES);?>" autocomplete="country-name" required>
                     </div>
                     <div class="col-lg-4">
                         <label for="zip">PSČ</label>
@@ -125,7 +125,7 @@ start_session_if_none();
                     <br>
                     <input type="file" id="poster"/>
                     <img id="img_loader" src="<?php echo $conference['image_url'];?>" style="height: 50px" />
-                    <input type="hidden" name="image" id="img_url" value="<?php echo $conference['image_url'];?>">
+                    <input type="hidden" name="image" id="img_url" value="<?php echo htmlspecialchars($conference['image_url'],ENT_QUOTES);?>">
                 </div>
                 <label for="tags">Kategórie</label>
                 <div class="form-group row" name="tags">

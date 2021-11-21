@@ -18,9 +18,9 @@ if(isset($_POST['passwordCurrent']) && isset($_POST['passwordNew']) && isset($_P
 	}
 
 	$res = $_SESSION['user']->change_password(
-		$_POST['passwordCurrent'],
-		$_POST['passwordNew'],
-		$_POST['passwordNewAgain']
+		htmlspecialchars_decode($_POST['passwordCurrent'],ENT_QUOTES),
+		htmlspecialchars_decode($_POST['passwordNew'],ENT_QUOTES),
+		htmlspecialchars_decode($_POST['passwordNewAgain'],ENT_QUOTES),
 	);
 
 	echo_json_response($res, User::$error_message);

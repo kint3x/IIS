@@ -7,8 +7,9 @@ start_session_if_none();
 
 if (isset($_POST['email']) && isset($_POST['password'])) {
 	try {
-		$user = new User($_POST['email'], $_POST['password']);
+		$user = new User(htmlspecialchars_decode($_POST['email'],ENT_QUOTES), htmlspecialchars_decode($_POST['password'],ENT_QUOTES));
 		$_SESSION['user'] = $user;
+		$_SESSION['logged_in'] = time();
 		$res = true;
 	}
 	catch (Exception $e) {

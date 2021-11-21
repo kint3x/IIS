@@ -73,7 +73,7 @@ start_session_if_none();
 
                 <div class="col-lg-8 align-self-top">
                     <div class="card mb-12">
-                        <img class="card-img-top img-top-fixed-height" src="<?php echo $lecture['img_url']; ?>" alt="Card image cap">
+                        <img class="card-img-top img-top-fixed-height" src="<?php echo htmlspecialchars($lecture['img_url'],ENT_QUOTES); ?>" alt="Card image cap">
                         <?php
                         if ($lecture['status'] != LECTURE_CONFIRMED) {
                             ?>
@@ -84,8 +84,8 @@ start_session_if_none();
                         }
                         ?>
                         <div class="card-body">
-                            <h5 class="card-title"><?php echo $lecture['name'];?></h5>
-                            <p class="card-text"><?php echo $lecture['description'];?></p>
+                            <h5 class="card-title"><?php echo htmlspecialchars($lecture['name']);?></h5>
+                            <p class="card-text"><?php echo htmlspecialchars($lecture['description']);?></p>
                         </div>                            
 
                         <ul class="list-group list-group-flush d-flex flex-row flex-wrap">
@@ -96,7 +96,7 @@ start_session_if_none();
                                 <?php echo $time; ?>
                             </li>
                             <li class="list-group-item col-md-6">
-                                <h6>Miestnosť</h6><?php echo $room_name;?>
+                                <h6>Miestnosť</h6><?php echo htmlspecialchars($room_name);?>
                             </li>
                         </ul>
                         <?php

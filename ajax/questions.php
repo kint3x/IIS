@@ -50,7 +50,7 @@ if(isset($_POST['lecture_id'])){
         	$html.= '<li class="in" id="question-id'.$question['id'].'">
                                 <div class="chat-message">
                                     <h5>'.$name.'</h5>
-                                    <p>'.$question['question'].'</p>'
+                                    <p>'.htmlspecialchars($question['question']).'</p>'
                                     .sprintf($delete,$question['id']).
                                 '</div>
                         </li>';

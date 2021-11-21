@@ -235,19 +235,19 @@ function get_conference_card($conference, $sold_out) {
 
 	echo '
     <div class="card mb-4" style="width: 48%;">
-      	<img class="card-img-top img-top-fixed-height" src="'.$conference['image_url'].'" alt="">
+      	<img class="card-img-top img-top-fixed-height" src="'.htmlspecialchars($conference['image_url']).'" alt="">
       	<div class="card-body">
       	  <h5 class="card-title">
-				    <a href="/conferences/show.php?id='.$conference['id'].'" class="text-decoration-none")">'.$conference['name'].'</a>
+				    <a href="/conferences/show.php?id='.$conference['id'].'" class="text-decoration-none")">'.htmlspecialchars($conference['name']).'</a>
 			    </h5>
-          <p class="card-text text-truncate">'.$conference['description'].'</p>
-          <p class="card-text"><small class="text-muted">'.$conference['city'].'</small></p>
+          <p class="card-text text-truncate">'.htmlspecialchars($conference['description']).'</p>
+          <p class="card-text"><small class="text-muted">'.htmlspecialchars($conference['city']).'</small></p>
 	';
     
 	$tags = Tag::get_conference_tags($conference['id']);
 
 	foreach ($tags as $tag) {
-        echo '<div style="cursor:pointer" onclick="searchByTag('.$tag['id'].')" class="badge badge-dark">'.$tag['name'].'</div>';
+        echo '<div style="cursor:pointer" onclick="searchByTag('.$tag['id'].')" class="badge badge-dark">'.htmlspecialchars($tag['name']).'</div>';
   }
 
 	echo '</div>';    

@@ -53,17 +53,17 @@ if (isset($_POST['id'])
     // Create new conference
     $res = Conferences::update_conference(
         $_POST['id'],
-        $_POST['name'],
-        $_POST['description'],
-        $_POST['street'],
-        $_POST['city'],
+        htmlspecialchars_decode($_POST['name'],ENT_QUOTES),
+        htmlspecialchars_decode($_POST['description'],ENT_QUOTES),
+        htmlspecialchars_decode($_POST['street'],ENT_QUOTES),
+        htmlspecialchars_decode($_POST['city'],ENT_QUOTES),
         $_POST['zip'],
-        $_POST['state'],
+        htmlspecialchars_decode($_POST['state'],ENT_QUOTES),
         $from_ts,
         $to_ts,
         $_POST['price'],
         $_POST['capacity'],
-        $_POST['image_url']
+        htmlspecialchars_decode($_POST['image_url'],ENT_QUOTES)
     );
     
     // Conference wasn't updated

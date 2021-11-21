@@ -128,37 +128,37 @@ start_session_if_none();
           <form id='settingsForm'>
 		      <div class='form-group'>
             <label>Meno</label>
-		        <input type='text' class='form-control' id='nameSet' value='<?php echo $user_data['name'];?>'>
+		        <input type='text' class='form-control' id='nameSet' value='<?php echo htmlspecialchars($user_data['name'],ENT_QUOTES);?>'>
 		      </div>
           
           <div class='form-group'>
             <label>Priezvisko</label>
-		        <input type='text' class='form-control' id='surnameSet' value='<?php echo $user_data['surname'];?>'>
+		        <input type='text' class='form-control' id='surnameSet' value='<?php echo htmlspecialchars($user_data['surname'],ENT_QUOTES);?>'>
 		      </div>
           
           <div class='form-group'>
             <label>Email</label>
 		        <input type='email' class='form-control' id='emailSet' aria-describedby='emailHelp'
-            value='<?php echo $user_data['email'];?>'>
+            value='<?php echo htmlspecialchars($user_data['email'],ENT_QUOTES);?>'>
 		      </div>
           
           <h4>Adresa</h4>
           <div class="form-group row">
             <div class="col-lg-6">
               <label for="street">Ulica</label>
-                <input type="text" class="form-control" id="street" value="<?php echo $user_data['street'];?>" autocomplete="street-address">
+                <input type="text" class="form-control" id="street" value="<?php echo htmlspecialchars($user_data['street'],ENT_QUOTES);?>" autocomplete="street-address">
             </div>
           </div>
           <div class="form-group row">
             <div class="col-lg-6">
               <label for="city">Mesto</label>
-              <input type="text" class="form-control" id="city" value="<?php echo $user_data['city'];?>" autocomplete="address-level2">
+              <input type="text" class="form-control" id="city" value="<?php echo htmlspecialchars($user_data['city'],ENT_QUOTES);?>" autocomplete="address-level2">
             </div>
           </div>
           <div class="form-group row">
             <div class="col-lg-3">
               <label for="state">Štát</label>
-              <input type="text" class="form-control" id="state" value="<?php echo $user_data['state'];?>" autocomplete="country-name">
+              <input type="text" class="form-control" id="state" value="<?php echo htmlspecialchars($user_data['state'],ENT_QUOTES);?>" autocomplete="country-name">
             </div>
             <div class="col-lg-3 mb-3">
               <label for="zip">PSČ</label>

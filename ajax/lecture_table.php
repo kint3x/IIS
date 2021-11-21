@@ -79,11 +79,11 @@ if ($action == "edit") {
 
         $res = Lecture::update(
             $_POST["id"],
-            $_POST["name"],
-            $_POST["description"],
+            htmlspecialchars_decode($_POST["name"],ENT_QUOTES),
+            htmlspecialchars_decode($_POST["description"],ENT_QUOTES),
             $start,
             $end,
-            $_POST["img_url"],
+            htmlspecialchars_decode($_POST["img_url"],ENT_QUOTES),
             $_POST["room_id"],
             $_POST["id_user"],
             $_POST["conference_id"],

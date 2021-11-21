@@ -65,11 +65,11 @@ start_session_if_none();
                     <input class="form-control" type="number" hidden="true" id="id_user" name="id_user" value="<?php echo $lecture['id_user'];?>">
                     
                     <label for="name">Názov konferencie</label>
-                    <input type="text" class="form-control" id="name" placeholder="Názov" value="<?php echo $lecture['name'];?>" required>
+                    <input type="text" class="form-control" id="name" placeholder="Názov" value="<?php echo htmlspecialchars($lecture['name'],ENT_QUOTES);?>" required>
                 </div>
                 <div class="form-group">
                     <label for="description">Popis konferencie</label>
-                    <textarea class="form-control" id="description" placeholder="Detailný popis..."><?php echo $lecture['description'];?></textarea>
+                    <textarea class="form-control" id="description" placeholder="Detailný popis..."><?php echo htmlspecialchars($lecture['description'],ENT_QUOTES);?></textarea>
                 </div>
                 
                 <h4>Stav</h4>    

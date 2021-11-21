@@ -30,8 +30,19 @@ if (isset($_POST['name'])
 
     // Create timestamps from the entered time and date values
     $format = "Y-m-d H:i";
-    $from_ts = DateTime::createFromFormat($format, $_POST['fromDate']." ".$_POST['fromTime'])->getTimestamp();
-    $to_ts = DateTime::createFromFormat($format, $_POST['toDate']." ".$_POST['toTime'])->getTimestamp();
+    $dt_format_from =  DateTime::createFromFormat($format, $_POST['fromDate']." ".$_POST['fromTime']);
+    $dt_format_to = DateTime::createFromFormat($format, $_POST['toDate']." ".$_POST['toTime']);
+
+    if($dt_format_from ===false){
+        echo_json_response(false,"Zlý čas od");
+        return;
+    }
+    if($dt_format_to ===false){
+        echo_json_response(false,"Zlý čas od");
+        return;
+    }
+    $from_ts = $dt_format_from->getTimestamp();
+    $to_ts = $dt_format_to->getTimestamp();
     
     // Default img url
     $image_url = $_POST['image_url'];
@@ -42,17 +53,17 @@ if (isset($_POST['name'])
     // Create new conference
     $res = Conferences::create_conference(
         $owner_id,
-        $_POST['name'],
-        $_POST['description'],
-        $_POST['street'],
-        $_POST['city'],
+        htmlspecialchars_decode($_POST['name'],ENT_QUOTES),
+        htmlspecialchars_decode($_POST['description'],ENT_QUOTES),
+        htmlspecialchars_decode($_POST['street'],ENT_QUOTES),
+        htmlspecialchars_decode($_POST['city'],ENT_QUOTES),
         $_POST['zip'],
-        $_POST['state'],
+        htmlspecialchars_decode($_POST['state'],ENT_QUOTES),
         $from_ts,
         $to_ts,
-        $_POST['price'],
+        htmlspecialchars_decode($_POST['price'],ENT_QUOTES),
         $_POST['capacity'],
-        $image_url
+        htmlspecialchars_decode($image_url,ENT_QUOTES)
     );
     
     // Conference wasn't created

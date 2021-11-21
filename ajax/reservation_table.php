@@ -40,13 +40,13 @@ if ($_POST["action"] == "edit") {
 
         $res = Reservation::update_reservation(
             $_POST['id'],
-            $_POST['name'],
-            $_POST['surname'],
-            $_POST['email'],
-            $_POST['street'],
-            $_POST['city'],
+            htmlspecialchars_decode($_POST['name'],ENT_QUOTES),
+            htmlspecialchars_decode($_POST['surname'],ENT_QUOTES),
+            htmlspecialchars_decode($_POST['email'],ENT_QUOTES),
+            htmlspecialchars_decode($_POST['street'],ENT_QUOTES),
+            htmlspecialchars_decode($_POST['city'],ENT_QUOTES),
             $_POST['zip'],
-            $_POST['country'],
+            htmlspecialchars_decode($_POST['country'],ENT_QUOTES),
             $_POST['num_tickets'],
             $_POST['state']
         );

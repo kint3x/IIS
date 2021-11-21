@@ -25,13 +25,13 @@ if(isset($_POST['email'])
 	}
 	
 	$res = $_SESSION['user']->change_user_data(
-		$_POST['email'],
-		$_POST['name'],
-		$_POST['surname'],
-		$_POST['street'],
-		$_POST['city'],
+		htmlspecialchars_decode($_POST['email'],ENT_QUOTES),
+		htmlspecialchars_decode($_POST['name'],ENT_QUOTES),
+		htmlspecialchars_decode($_POST['surname'],ENT_QUOTES),
+		htmlspecialchars_decode($_POST['street'],ENT_QUOTES),
+		htmlspecialchars_decode($_POST['city'],ENT_QUOTES),
 		$_POST['zip'],
-		$_POST['state']
+		htmlspecialchars_decode($_POST['state'],ENT_QUOTES)
 	);
 	
 	echo_json_response($res, User::$error_message);

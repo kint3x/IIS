@@ -52,7 +52,7 @@ start_session_if_none();
                 
                 <div class="col-lg-8 align-self-top">
                     <h2 class="mb-1">
-                        <?php echo $room['name'];?>
+                        <?php echo htmlspecialchars($room['name']);?>
                         <br>
                         <small class="text-muted">Rozpis prednášok</small>
                     </h2>

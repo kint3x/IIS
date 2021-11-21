@@ -452,6 +452,9 @@ class SimpleTable{
 
         $rows = array();
         while ($row = $req->fetch_assoc()){
+        	foreach($row as $key => $column){
+        		$row[$key] = htmlspecialchars($column,ENT_QUOTES);
+        	}
         	$rows[] = $row;
         }
         $db->close();

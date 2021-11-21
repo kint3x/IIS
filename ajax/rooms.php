@@ -55,7 +55,7 @@ if ($action == "add") {
             return false;
         }
 
-        $res = Room::update($_POST["id"], $_POST["name"], $_POST["conference_id"]);
+        $res = Room::update($_POST["id"], htmlspecialchars_decode($_POST["name"],ENT_QUOTES), $_POST["conference_id"]);
 
         echo_json_response($res, Room::$error_message);
         return;

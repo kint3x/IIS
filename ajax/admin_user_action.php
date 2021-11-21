@@ -37,7 +37,7 @@ if(isset($_POST['action'])){
 				return;
 			}
 
-			if(User::change_user_data_by_id($ret, $_POST['email'], $_POST['name'], $_POST['surname'], $_POST['street'], $_POST['city'], $_POST['zip'], $_POST['state']) == false){
+			if(User::change_user_data_by_id($ret, htmlspecialchars_decode($_POST['email'],ENT_QUOTES), htmlspecialchars_decode($_POST['name'],ENT_QUOTES), htmlspecialchars_decode($_POST['surname'],ENT_QUOTES), htmlspecialchars_decode($_POST['street'],ENT_QUOTES), htmlspecialchars_decode($_POST['city'],ENT_QUOTES), $_POST['zip'], htmlspecialchars_decode($_POST['state'],ENT_QUOTES)) == false){
 				echo_json_response(true,"Užívateľ bol registrovaný ale nepodarilo sa mu nastaviť dáta pretože:".User::$error_message);
 				return;
 			}
@@ -61,7 +61,7 @@ if(isset($_POST['action'])){
 			isset($_POST['zip']) &&
 			isset($_POST['state'])
 		){
-			if(User::change_user_data_by_id($_POST['id'], $_POST['email'], $_POST['name'], $_POST['surname'], $_POST['street'], $_POST['city'], $_POST['zip'], $_POST['state']) == false){
+			if(User::change_user_data_by_id($_POST['id'], htmlspecialchars_decode($_POST['email'],ENT_QUOTES), htmlspecialchars_decode($_POST['name'],ENT_QUOTES), htmlspecialchars_decode($_POST['surname'],ENT_QUOTES), htmlspecialchars_decode($_POST['street'],ENT_QUOTES), htmlspecialchars_decode($_POST['city'],ENT_QUOTES), $_POST['zip'], htmlspecialchars_decode($_POST['state'],ENT_QUOTES)) == false){
 				echo_json_response(false,User::$error_message);
 				return;
 			}

@@ -36,12 +36,12 @@ start_session_if_none();
                     <div class="card mb-12">
                         <img class="card-img-top img-top-fixed-height" src="<?php echo $conference['image_url']; ?>" alt="Card image cap">
                         <div class="card-body">
-                            <h5 class="card-title"><?php echo $conference['name'];?></h5>
-                            <p class="card-text"><?php echo $conference['description'];?></p>
+                            <h5 class="card-title"><?php echo htmlspecialchars($conference['name']);?></h5>
+                            <p class="card-text"><?php echo htmlspecialchars($conference['description']);?></p>
                             
                             <?php
                             foreach ($tags as $tag) {
-                                echo '<div onclick="searchByTag('.$tag['id'].')" style="cursor:pointer" class="badge badge-dark">'.$tag['name'].'</div>';
+                                echo '<div onclick="searchByTag('.$tag['id'].')" style="cursor:pointer" class="badge badge-dark">'.htmlspecialchars($tag['name']).'</div>';
                             }
                             ?>
                             
@@ -56,11 +56,11 @@ start_session_if_none();
                                             ?>
                                             <li class="list-group-item col-sm-12 pl-list-item">
                                                 <h6>Miesto konania</h6>
-                                                <span><?php echo $conference['street']; ?></span>
+                                                <span><?php echo htmlspecialchars($conference['street']); ?></span>
                                                 <br>
-                                                <span><?php echo $conference['zip'].' '.$conference['city']; ?></span>
+                                                <span><?php echo $conference['zip'].' '.htmlspecialchars($conference['city']); ?></span>
                                                 <br>
-                                                <span><?php echo $conference['state']; ?></span>
+                                                <span><?php echo htmlspecialchars($conference['state']); ?></span>
                                             </li>
                                             <?php
                                     }
