@@ -39,16 +39,16 @@ if ($_POST["action"] == "edit") {
         }
 
         $res = Reservation::update_reservation(
-            htmlspecialchars($_POST['id']),
-            htmlspecialchars($_POST['name']),
-            htmlspecialchars($_POST['surname']),
-            htmlspecialchars($_POST['email']),
-            htmlspecialchars($_POST['street']),
-            htmlspecialchars($_POST['city']),
-            htmlspecialchars($_POST['zip']),
-            htmlspecialchars($_POST['country']),
-            htmlspecialchars($_POST['num_tickets']),
-            htmlspecialchars($_POST['state'])
+            $_POST['id'],
+            $_POST['name'],
+            $_POST['surname'],
+            $_POST['email'],
+            $_POST['street'],
+            $_POST['city'],
+            $_POST['zip'],
+            $_POST['country'],
+            $_POST['num_tickets'],
+            $_POST['state']
         );
 
         echo_json_response($res, Reservation::$error_message);
