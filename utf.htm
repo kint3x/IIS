@@ -1,0 +1,101 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html><head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Projekt IIS</title>
+    <style type="text/css">
+    	table { border-collapse: collapse; }
+    	td, th { border: 1px solid black; padding: 0.3em 0.5em; text-align: left; }
+    	dt { font-weight: bold; margin-top: 0.5em; }
+    </style>
+</head>
+<body data-new-gr-c-s-check-loaded="8.890.0" data-gr-ext-installed="" cz-shortcut-listen="true">
+
+<!-- Zkontrolujte prosím nastavení kódování v hlavièce dokumentu 
+     podle pou¾itého editoru -->
+
+<h1>1. Konference: správa událostí, prezentací a účastníků</h1> <!-- Nahradte názvem svého zadání -->
+
+<dl>
+	<dt>Autoři</dt>
+	<dd>Martin Matějka<!-- Nahraïte skuteèným jménem a e-mailem autora a popisem èinnosti -->
+	    <a href="mailto:xautor01@stud.fit.vutbr.cz">xmatej55@stud.fit.vutbr.cz</a> -
+		Simpletable, Pagination, Otázky, Admin panel
+	</dd>
+	<dd>Simon Košina <!-- Nahraïte skuteèným jménem a e-mailem autora a popisem èinnosti -->
+	    <a href="mailto:xkosin09@stud.fit.vutbr.cz">xkosin09@stud.fit.vutbr.cz</a> - 
+		Konference, Miestnosi,Prednášky, Main page	
+	</dd>
+  <dd>Adam Kačo <!-- Nahraïte skuteèným jménem a e-mailem autora a popisem èinnosti -->
+	    <a href="mailto:xkacoa00@stud.fit.vutbr.cz">xkacoa00@stud.fit.vutbr.cz</a> - 
+		Inštalačný skript, Košík, Rozvrh, Rezervace
+	</dd>
+	<dt>URL Projektu</dt>
+	<dd><a href="https://iis.aurelserver.eu">https://iis.aurelserver.eu</a></dd>
+</dl>
+
+<h2>Uživatelé systému pro testování</h2>
+<p>Uveďte prosím existující zástupce <strong>všech rolí užívatelu</strong>.</p>
+<table>
+<tbody><tr><th>Login</th><th>Heslo</th><th>Role</th></tr>
+<tr><td>admin@admin.sk</td><td>adminadmin</td><td>Administrátor</td></tr>
+<tr><td>user@user.sk</td><td>useruser</td><td>Uživatel</td></tr>
+</tbody></table>
+
+
+<h2>Implementace</h2>
+<p>
+	Zložka /admin obsahuje dve stránky na spravovanie konferencí a užívateľov, ostatné veci môže admin spravovať rovnako ako užívateľ<br>
+	Zložka /ajax obsahuje skripty na obsluhovanie všetkých ajax dotazov, ktoré sa nachádzajú v konkrétnych stránkach<br>
+	Zložka /classes obsahuje triedy implementujúce objekty v zadaní:<br>
+	<ul>
+		<li>cart.class.php obsahuje implementáciu košíka</li>
+		<li>conferences.class.php obsahuje implementáciu konferencií</li>
+		<li>database.class.php obsahuje implementáciu pripojenia k databáze</li>
+		<li>fileUpload.class.php obsahuje implementáciu uploadovania súboru na server</li>
+		<li>lecture.class.php obsahuje implementáciu prednášok</li>
+		<li>question.class.php obsahuje implementáciu otázok k prednáškam</li>
+		<li>reservation.class.php obsahuje implementáciu rezervácií</li>
+		<li>room.class.php obsahuje implementáciu miestností</li>
+		<li>schedule.class.php obsahuje implementáciu rozvrhu</li>
+		<li>table.class.php obsahuje implementáciu SimpleTable, ktorá automaticky generuje výpis tabuľky podľa nastavených kritérií</li>
+		<li>tag.class.php obsahuje implementáciu označení každej konferencie</li>
+		<li>user.class.php obsahuje implementáciu používateľa</li>
+	</ul>
+	Zložka /conferences obsahuje všetky stránky, ktoré sa týkajú Konferencie, miestností a prednášok<br>
+	Zložka /css obsahuje použité štýly a štýly z knižnice Bootstrap a Font-Awesome <br>
+	Zložka /img obsahuje statické obrázky na stránke<br>
+	Zložka /js obsahuje použité skripty a skripty knižnice Bootstrap a JQuery<br>
+	Zložka /lecture obsahuje stránky pre akcie ohľadom prednášok <br>
+	Zložka /user obsahuje všetky stránky ktoré sa týkajú užívateľa - nastavenia, jeho konferencie ...<br>
+
+
+<p>
+
+<h3>Databáze</h3>
+
+<img src="rel_dab.png" alt="Obrázek relační databáze"/>
+
+<h2>Instalace</h2>
+
+Struční popis<br>
+<ul>
+<li>Postup instalace:<br>
+	<ul>
+		<li>Presunúť súbory do koreňového adresáru web serveru</li>
+		<li>V súbore /classes/database.class.php zadať v defines názov hostitela,meno,heslo,meno databázy</li>
+		<li>Načítať skript /install.php</li>
+		<li>Po úspešnej inštalácií vymazať súbory install.php a db_init.sql</li>
+		<li>Inštalácia vyvorí Administrátora admin@admin.sk s vygenerovaným heslom, ktoré vypíše pri inštalácií.</li>
+	</ul>
+</li>
+<li>Software bol odladený a testovaný na PHP verzi 7.4.10, požadovaná verzia je PHP 5.6+</li>
+</ul>
+
+<h2>Známé problémy</h2>
+<p>Zde popi¹te, které body zadání nejsou implementovány a z jakého 
+dùvodu. Napø. &#8222;Z èasových dùvodù nebyla implementována správa 
+u¾ivatelù.&#8221; Pomù¾ete tím zrychlit hodnocení, kdy¾ neimplementované 
+funkce nebudeme muset dlouze hledat.</p>
+
+
+</body></html>
