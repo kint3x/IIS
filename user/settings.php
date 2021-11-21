@@ -8,7 +8,7 @@ start_session_if_none();
 
 <html>
 
-  <?php echo get_head(); ?>
+  <?php echo get_head(['title' => 'Nastavenia']); ?>
 
   <body>
     <?php 

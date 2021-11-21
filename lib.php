@@ -9,11 +9,15 @@ require_once ROOT."/classes/lecture.class.php";
 /**
  * Check if and id was passed and if so check if a conference with a given id exists.
  */
-function verify_conference() {
-  if (!isset($_GET['id']) || Conferences::get_conference_by_id($_GET['id']) === false) {
+function verify_conference_and_generate_head() {
+  if (!isset($_GET['id']) || !is_numeric($_GET['id']) || ($conference = Conferences::get_conference_by_id($_GET['id'])) === false) {
+    echo get_head(['title' => 'Chyba']);
+    echo get_navbar();
     display_alert_container('Je nám ľúto ale daná konferencia neexistuje.');
     exit();
   }
+
+  echo get_head(['title' => $conference['name']]);
 }
 
 /**
@@ -33,23 +37,31 @@ function verify_conference_owner() {
 /** 
  * Check whether the room belongs to the given conference.
  */
-function verify_room() {
+function verify_room_and_generate_head() {
 
-  if (!isset($_GET['id']) || Room::get_conference_id($_GET['id']) === false) {
+  if (!isset($_GET['id']) || !is_numeric($_GET['id']) || ($room = Room::get_room_by_id($_GET['id'])) === false) {
+    echo get_head(['title' => 'Chyba']);
+    echo get_navbar();
     display_alert_container('Je nám to ľúto, ale daná miestnosť neexistuje.');
     exit();
   }
+
+  echo get_head(['title' => $room['name']]);
 }
 
 /**
  * Check whether the lecture belongs to the given conference.
  */
-function verify_lecture() {
+function verify_lecture_and_generate_head() {
 
-  if (!isset($_GET['id']) || Lecture::get_lecture_by_id($_GET['id']) === false) {
+  if (!isset($_GET['id']) || !is_numeric($_GET['id']) || ($lecture = Lecture::get_lecture_by_id($_GET['id'])) === false) {
+    echo get_head(['title' => 'Chyba']);
+    echo get_navbar();
     display_alert_container('Je nám to ľúto, ale daná prednáška neexistuje.');
     exit();
   }
+
+  echo get_head(['title' => $lecture['name']]);
 }
 
 /**
@@ -260,9 +272,6 @@ function get_navbar(){
           &#9776;
         </button>
         <div class="collapse navbar-collapse" id="exCollapsingNavbar">
-          <ul class="nav navbar-nav">
-            <li class="nav-item"><a href="/" class="nav-link">Domov</a></li>
-          </ul>
           <ul class="nav navbar-nav flex-row justify-content-between ml-auto align-items-middle">';
 
             if(!isset($_SESSION["user"])){
@@ -438,8 +447,8 @@ function get_navbar(){
 						            
 						        </div>
 						        <div class="col-md-12">
-						        	<div class="row" style="padding:10%;padding-bottom:0px;">
-						        		<a href="/pokladna/" class="cart_button">Prejsť do pokladne</a>
+						        	<div class="row mt-4 justify-content-center">
+						        		<a href="/pokladna/" class="btn btn-primary">Prejsť do pokladne</a>
 						        	</div>
 						        </div>
 					     		</div>

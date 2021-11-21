@@ -9,7 +9,7 @@ start_session_if_none();
 ?>
 
 <html>
-    <?php echo get_head(); ?>
+    <?php echo get_head(['title' => 'Moje prednášky']); ?>
     
     <body>
         <?php 
@@ -35,7 +35,7 @@ start_session_if_none();
 
 
                         <?php
-                        $sql = "WHERE id_user = {$_SESSION['user']->get_user_data()['id']}";
+                        $sql = "WHERE id_user = {$_SESSION['user']->get_user_data()['id']} ORDER BY time_from ASC";
                         
                         $options = [
                             "table_id" => "lectures",
@@ -85,7 +85,15 @@ start_session_if_none();
                             "custom_where" => ""
                         ];
 
-                        $table->table_structure['conference_id']['show_column'] = false;
+                        $table->table_structure['conference_id']['show_column'] = true;
+                        $table->table_structure['conference_id']['href_url'] = "/conferences/show.php?id=";
+                        $table->table_structure['conference_id']['foreign_key'] = [
+                            "table" => "Conference",
+                            "fk_key_name" => "id",
+                            "table_vars" => ["name" => "Konferencia"],
+                            "form_var" => "id",
+                            "custom_where" => ""
+                        ];
 
                         echo $table->generate_table_html();
                         ?>

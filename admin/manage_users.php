@@ -10,7 +10,7 @@
 	if_not_admin_die();
 ?>
 <html>
-    <?php echo get_head(); ?>
+    <?php echo get_head(['title' => 'Správa užívateľov']); ?>
     
     <body>
       <?php echo get_navbar(); ?>
@@ -25,7 +25,7 @@
 		      	?>
 
 		<div class="col-xl-8">
-			<h1 class="mb-1">Správa uživateľov</h1>
+			<h2 class="mb-2">Správa uživateľov</h2>
       	<?php 
       	$table = new SimpleTable("User",
 				    	array(

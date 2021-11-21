@@ -11,13 +11,12 @@ start_session_if_none();
 ?>
 
 <html>
-    <?php echo get_head(); ?>
+    <?php verify_conference_and_generate_head(); ?>
 
     <body>
         <?php 
             echo get_navbar(); 
 
-            verify_conference();
             check_login('Pre upravovanie konferencie musíte byť prihlásený.');
             verify_conference_owner();
 

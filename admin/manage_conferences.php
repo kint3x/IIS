@@ -10,7 +10,7 @@
 	if_not_admin_die();
 ?>
 <html>
-    <?php echo get_head(); ?>
+    <?php echo get_head(['title' => 'Správa konferencií']); ?>
     
     <body>
       <?php echo get_navbar(); ?>
@@ -25,7 +25,7 @@
 		      	?>
 
 		<div class="col-xl-8">
-			<h1 class="mb-1">Správa konferencií</h1>
+			<h2 class="mb-2">Správa konferencií</h2>
       	<?php 
       	$table = new SimpleTable("Conference",
 				    	array(
@@ -39,10 +39,11 @@
 						)
 				    );
 
-      		$table->table_structure['id']['name'] = "ID";
+      		$table->table_structure['id']['name'] = "ID konferencie";
       		$table->table_structure['id_user']['name'] = "Užívateľ";
-      		$table->table_structure['name']['name'] = "Názov";
-      		$table->table_structure['price']['name'] = "Cena";
+      		$table->table_structure['name']['name'] = "Názov konferencie";
+			$table->table_structure['name']['href_url'] = "/conferences/show.php?id=";
+      		$table->table_structure['price']['name'] = "Cena (&euro;)";
       		$table->table_structure['capacity']['name'] = "Kapacita";
 
       		$table->table_structure['description']['show_column'] = false;
@@ -58,7 +59,7 @@
       		$table->table_structure['id_user']['foreign_key'] = array(
 				    	"table" => "User",
 				    	"fk_key_name" => "id",
-				    	"table_vars" => array("id" => "ID užívateľa", "email" => "Užívateľ"),
+				    	"table_vars" => array("id" => "ID užívateľa", "email" => "Vlastník"),
 				    	"form_var" => "email",
 				    	"custom_where" => "", // ked to je napriklad v uzivatelovi a chces obmedzit co mu da do selectu
 				    );

@@ -10,7 +10,9 @@ start_session_if_none();
 ?>
 
 <html>
-    <?php echo get_head(); ?>
+    <?php ; 
+    verify_conference_and_generate_head();
+    ?>
 
     <script>
         
@@ -20,8 +22,6 @@ start_session_if_none();
         <?php 
         
         echo get_navbar();
-
-        verify_conference();
 
         $conference = Conferences::get_conference_by_id($_GET['id']);
         $tags = Tag::get_conference_tags($conference['id']);
