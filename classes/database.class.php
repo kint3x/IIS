@@ -1,12 +1,17 @@
 <?php
 
+define ("DB_HOST","aurelius.aurelserver.eu");
+define("DB_NAME","test_install");
+define("DB_USER","test_user");
+define("DB_PASS","testpw");	
+
 Class Database {
 
 	public $handle;
 	public $error;
 
 	public function __construct(){
-		$mysqli = new mysqli("aurelius.aurelserver.eu","iis","iis","iis");
+		$mysqli = new mysqli(DB_HOST,DB_USER,DB_PASS,DB_NAME);
 
 		// Check connection
 		if ($mysqli -> connect_errno) {
