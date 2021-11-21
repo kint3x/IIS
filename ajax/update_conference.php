@@ -45,6 +45,37 @@ if (isset($_POST['id'])
         return;
     }
 
+    //check vars
+    if(is_length_long(htmlspecialchars($_POST['name']),150)){
+         echo_json_response(false, "Meno konferencie je príliš dlhé.");
+         return;
+    }
+    if(is_length_long(htmlspecialchars($_POST['street']),150)){
+         echo_json_response(false, "Meno ulice je príliš dlhé.");
+         return;
+    }
+    if(is_length_long(htmlspecialchars($_POST['city']),150)){
+         echo_json_response(false, "Meno mesta je príliš dlhé.");
+         return;
+    }
+    if(is_length_long(htmlspecialchars($_POST['state']),150)){
+         echo_json_response(false, "Meno štátu je príliš dlhé.");
+         return;
+    }
+    if(!is_numeric($_POST['zip'])){
+        echo_json_response(false, "PSČ nie je číslo");
+        return;
+    }
+    if(!is_numeric($_POST['capacity'])){
+        echo_json_response(false, "Kapacita nie je číslo");
+        return;
+    }
+    $_POST['price'] = str_replace(",",".",$_POST['price']);
+    if(!is_numeric($_POST['price'])){
+        echo_json_response(false, "Cena nie je číslo");
+        return;
+    }
+
     // Create timestamps from the entered time and date values
     $format = "Y-m-d H:i";
     $from_ts = DateTime::createFromFormat($format, $_POST['fromDate']." ".$_POST['fromTime'])->getTimestamp();
@@ -53,17 +84,17 @@ if (isset($_POST['id'])
     // Create new conference
     $res = Conferences::update_conference(
         $_POST['id'],
-        $_POST['name'],
-        $_POST['description'],
-        $_POST['street'],
-        $_POST['city'],
+        htmlspecialchars($_POST['name']),
+        htmlspecialchars($_POST['description']),
+        htmlspecialchars($_POST['street']),
+        htmlspecialchars($_POST['city']),
         $_POST['zip'],
-        $_POST['state'],
+        htmlspecialchars($_POST['state']),
         $from_ts,
         $to_ts,
         $_POST['price'],
         $_POST['capacity'],
-        $_POST['image_url']
+        htmlspecialchars($_POST['image_url'])
     );
     
     // Conference wasn't updated

@@ -54,8 +54,12 @@ if ($action == "add") {
             echo_json_response(false, "Na úpravu danej miestnosti nemáte právo.");
             return false;
         }
+        if(is_length_long($_POST['name'],100)){
+            echo_json_response(false, "Názov miestnosti je príliš dlhý.");
+            return false;
+        }
 
-        $res = Room::update($_POST["id"], $_POST["name"], $_POST["conference_id"]);
+        $res = Room::update($_POST["id"], htmlspecialchars($_POST["name"]), $_POST["conference_id"]);
 
         echo_json_response($res, Room::$error_message);
         return;

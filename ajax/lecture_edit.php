@@ -88,13 +88,18 @@ if (isset($_POST["id"])
         return;
     }
 
+    if(is_length_long(htmlspecialchars($_POST['name']),150)){
+        echo_json_response(false, "Názov prednášky je moc dlhý.");
+        return;
+    }
+
     $res = Lecture::update(
         $_POST["id"],
-        $_POST["name"],
-        $_POST["description"],
+        htmlspecialchars($_POST["name"]),
+        htmlspecialchars($_POST["description"]),
         $start,
         $end,
-        $_POST["img_url"],
+        htmlspecialchars($_POST["img_url"]),
         $_POST["room_id"],
         $_POST["id_user"],
         $_POST["conference_id"],

@@ -77,8 +77,8 @@ if(isset($_POST['lecture_id'])){
              echo_json_response(false, "Musíš byť prihlásený.");
             return;
         }
-        if(strlen($_POST['msg']) > 249){
-            echo_json_response(false, "Otázka musí byť kratšia ako 250 znakov.");
+        if(strlen($_POST['msg']) > 200){
+            echo_json_response(false, "Otázka musí byť kratšia ako 200 znakov.");
             return;
         }
         if(strlen($_POST['msg']) < 5){
