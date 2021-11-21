@@ -210,6 +210,7 @@ class SimpleTable{
        			 				$html .= "<td col-name='fk_$meno' col-val=''></td>";
        			 			}
        			 			else{
+       			 				$rowf[$meno] = htmlspecialchars($rowf[$meno],ENT_QUOTES);
        			 				$html .= "<td col-name='fk_$meno' col-val='$rowf[$meno]'>{$a_start}{$rowf[$meno]}{$a_end}</td>";
        			 			}
        			 			
@@ -220,8 +221,15 @@ class SimpleTable{
        			else{
        				// If its timestamp we need to change values
        				if($this->table_structure[$ckey]['type'] == "TIMESTAMP"){
-       					$col_val = date(DATE_FORMAT_SIMPLE_TABLE, $col_val);
-       					$column = date(DATE_FORMAT_CARD, $column);
+       					if($column == ""){
+       						$col_val = "";
+       						$column = "";
+       					}
+       					else{
+       						$col_val = date(DATE_FORMAT_SIMPLE_TABLE, $col_val);
+       						$column = date(DATE_FORMAT_CARD, $column);
+       					}
+       					
        				}
        				
        				$html .= "<td col-name='$ckey' col-val='$col_val' {$visible}>{$a_start}{$column}{$a_end}</td>";
@@ -400,6 +408,7 @@ class SimpleTable{
 				if(count($column['foreign_key']) > 0){
 					$rows = self::get_FK_all_rows($column['foreign_key']);
 					foreach($rows as $row){
+						$row[$column['foreign_key']['form_var']] = htmlspecialchars($row[$column['foreign_key']['form_var']],ENT_QUOTES);
 						$html.="<option value='{$row[$column['foreign_key']['fk_key_name']]}'>{$row[$column['foreign_key']['form_var']]}</option>";
 					}
 				}
