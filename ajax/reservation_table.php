@@ -81,7 +81,7 @@ if ($_POST["action"] == "edit") {
             return;
         }
 
-        $res = Reservation::change_status($reservation['id'], htmlspecialchars($_POST['state']));
+        $res = Reservation::change_status($reservation['id'], $_POST['state']);
         
         echo_json_response($res, Reservation::$error_message);
         return;

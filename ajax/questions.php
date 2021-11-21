@@ -86,7 +86,7 @@ if(isset($_POST['lecture_id'])){
             return;
         }
 
-        $res = Question::add_question($_POST['lecture_id'],htmlspecialchars($_POST['msg']),$_SESSION['user']->get_user_data()['id']);
+        $res = Question::add_question($_POST['lecture_id'],$_POST['msg'],$_SESSION['user']->get_user_data()['id']);
 
         echo_json_response($res, Question::$error_message);
         return;
