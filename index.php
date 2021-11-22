@@ -7,6 +7,8 @@ start_session_if_none();
 if(isset($_GET["logout"])){
   if(isset($_SESSION['user'])){
     unset($_SESSION['user']);
+    unset($_SESSION['logged_in_t']);
+
     header("Location: /");
   }
 }

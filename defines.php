@@ -24,6 +24,9 @@ require_once(ROOT."/classes/conferences.class.php");
 require_once(ROOT."/classes/room.class.php");
 require_once(ROOT."/classes/lecture.class.php");
 
+start_session_if_none();
+logout_if_time_up();
+
 /**
  * Echo an encoded json array representing the response from ajax calls.
  */
@@ -76,5 +79,14 @@ function user_owns_conference($owner_id) {
 function start_session_if_none() {
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
+    }
+}
+
+function logout_if_time_up(){
+    if(isset($_SESSION['logged_in_t'])){
+        if(time()-$_SESSION['logged_in_t'] > (900)){
+            //logout after 15 min
+            header("Location: /?logout=time_up");
+        }
     }
 }

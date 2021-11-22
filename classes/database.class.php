@@ -1,9 +1,9 @@
 <?php
 
 define ("DB_HOST","aurelius.aurelserver.eu");
-define("DB_NAME","test_install");
-define("DB_USER","test_user");
-define("DB_PASS","testpw");	
+define("DB_NAME","iis");
+define("DB_USER","iis");
+define("DB_PASS","iis");	
 
 Class Database {
 

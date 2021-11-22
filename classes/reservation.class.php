@@ -48,7 +48,7 @@ Class Reservation{
 			$country,
 			$num_tickets,
 			$state,
-			$id,
+			$id
 		);
 
 		if (!$stmt->execute()) {
