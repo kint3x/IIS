@@ -101,5 +101,6 @@ start_session_if_none();
                 </div>
             </div>
         </div>
+        <?php echo $table->generate_table_scripts();?>
     </body>
 </html>
