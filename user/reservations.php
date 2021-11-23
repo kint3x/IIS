@@ -48,7 +48,7 @@ start_session_if_none();
 
                         $table = new SimpleTable("Reservation", $options);
 
-                        $table->table_structure['id']['show_column'] = false;
+                        
                         $table->table_structure['name']['show_column'] = false;
                         $table->table_structure['email']['show_column'] = false;
                         $table->table_structure['street']['show_column'] = false;
@@ -58,6 +58,7 @@ start_session_if_none();
                         $table->table_structure['country']['show_column'] = false;
                         $table->table_structure['surname']['show_column'] = false;
 
+                        $table->table_structure['id']['name'] = "Číslo rezervácie";
 
                         $table->table_structure['num_tickets']['name'] = "Počet lístkov";
                         $table->table_structure['state']['name'] = "Status";

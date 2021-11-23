@@ -255,4 +255,34 @@ Class Reservation{
 		return true;
 		$db->close();
 	}
+
+	public static function get_all_reservation_by_user_id($user_id){
+		$db = new Database();
+		$rows = array();
+
+		if ($db->error) {
+			self::$error_message = 'Problém s pripojením k databáze.';
+			return $rows;
+		}
+
+		$conn = $db->handle;
+		
+		$stmt = $conn->prepare('SELECT * FROM Reservation WHERE user_id = ?');
+		$stmt->bind_param('i', $user_id);
+
+		if (!$stmt->execute()) {
+			self::$error_message = 'Chyba pri načítaní údajov.';
+			$db->close();
+			return $rows;
+		};
+		
+		$res = $stmt->get_result();
+
+		while($row = $res->fetch_assoc()){
+			$rows[] = $row;
+		}
+		
+		$db->close();
+		return $rows;
+	}
 }

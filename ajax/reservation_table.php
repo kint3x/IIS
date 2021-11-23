@@ -2,6 +2,7 @@
 require_once "../defines.php";
 require_once ROOT."/classes/reservation.class.php";
 require_once ROOT."/classes/conferences.class.php";
+require_once ROOT."/classes/ticket.class.php";
 
 start_session_if_none();
 
@@ -37,6 +38,13 @@ if ($_POST["action"] == "edit") {
             ) {
             return;
         }
+        
+        $reservation = Reservation::get_reservation_by_id($_POST["id"]);
+
+        if ($reservation === false) {
+            echo_json_respone($reservation, Reservation::$error_message);
+            return;
+        }
 
         $res = Reservation::update_reservation(
             $_POST['id'],
@@ -50,6 +58,16 @@ if ($_POST["action"] == "edit") {
             $_POST['num_tickets'],
             $_POST['state']
         );
+
+        if(($_POST['state'] == RESERVATION_CONFIRMED) && ($reservation['state'] != RESERVATION_CONFIRMED)){
+            for($i=0; $i<$_POST['num_tickets'];$i++){
+                $ticket = Ticket::generate_ticket($_POST['id']);
+            }
+            if($ticket == false){
+                echo_json_response(false, "Dáta boli uložené ale nepodarilo sa vytvoriť lístky pre zákazníka.");
+                return;
+            }
+        }
 
         echo_json_response($res, Reservation::$error_message);
         return;
@@ -82,6 +100,16 @@ if ($_POST["action"] == "edit") {
         }
 
         $res = Reservation::change_status($reservation['id'], $_POST['state']);
+
+        if(($_POST['state'] == RESERVATION_CONFIRMED) && ($reservation['state'] != RESERVATION_CONFIRMED)){
+            for($i=0; $i<$reservation['num_tickets'];$i++){
+                $ticket = Ticket::generate_ticket($_POST['id']);
+            }
+            if($ticket == false){
+                echo_json_response(false, "Dáta boli uložené ale nepodarilo sa vytvoriť lístky pre zákazníka.");
+                return;
+            }
+        }
         
         echo_json_response($res, Reservation::$error_message);
         return;

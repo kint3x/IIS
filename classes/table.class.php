@@ -96,7 +96,8 @@ class SimpleTable{
 				"override" => array(), // override ints to string for example: "1" => "Admin", in table, value will be 1 but text will be Admin
 				"foreign_key" => array(), // if is FK , give me
 				"static_value" => NULL,
-				"href_url" => "" // eg /conferences/?id=  takes key
+				"href_url" => "", // eg /conferences/?id=  takes keys
+				"href_url_type" =>"", //for overriding key and FK with value
 				/*
 				*	array("table" => "name",
 					"fk_key_name" => "id", name in Foreign table
@@ -193,7 +194,8 @@ class SimpleTable{
        			}
        			//if link is defined, use it
        			if($this->table_structure[$ckey]['href_url'] != ""){
-       				$id = (count($this->table_structure[$ckey]['foreign_key']) > 0) ? $col_val : $row[$this->db_table_pk] ;
+       				$id = (count($this->table_structure[$ckey]['foreign_key']) > 0) ? $col_val : $row[$this->db_table_pk];
+       				$id = ($this->table_structure[$ckey]['href_url_type'] == "VALUE") ? $col_val : $id;
        				$a_start= "<a href='{$this->table_structure[$ckey]['href_url']}{$id}'>";
        				$a_end = "</a>";
        			}
