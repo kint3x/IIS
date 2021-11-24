@@ -391,10 +391,10 @@ function get_navbar(){
                         <a class="dropdown-item" href="/user/lectures.php">Prednášky</a>
                       </li>
                       <li>
-                        <a class="dropdown-item" href="/user/reservations.php">Moje rezervácie</a>
+                        <a class="dropdown-item" href="/user/reservations.php">Rezervácie</a>
                       </li>
                       <li>
-                        <a class="dropdown-item" href="/user/tickets.php">Moje vstupenky</a>
+                        <a class="dropdown-item" href="/user/tickets.php">Vstupenky</a>
                       </li>
                       <li>
                         <a class="dropdown-item" href="/user/schedule.php">Rozvrh</a>

@@ -60,17 +60,20 @@ start_session_if_none();
 
                         $table->table_structure['id']['show_column'] = false;
 
-                        $table->table_structure['reservation_id']['name'] = "Rezervácia číslo";
+                        $table->table_structure['reservation_id']['name'] = "Číslo rezervácie";
                         $table->table_structure['reservation_id']['show_column'] = true;
+                        
+                        $table->table_structure['reservation_id']['foreign_key'] = [
+                            "table" => "Reservation",
+                            "fk_key_name" => "id",
+                            "table_vars" => array("conference_id" => "Číslo konferencie"),
+                            "form_var" => "",
+                            "custom_where" => "",
+                        ];
 
                         $table->table_structure['hash']['name'] = "Kód vstupenky";
                         $table->table_structure['hash']['href_url'] = "https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=";
-                        $table->table_structure['hash']['href_url_type'] = "VALUE";
-
-
-
-
-                       
+                        $table->table_structure['hash']['href_url_type'] = "VALUE";                 
 
                         echo $table->generate_table_html();
                         ?>
