@@ -168,7 +168,11 @@ Class User {
 	/**
 	 * Return user data.
 	 */
-	public function get_user_data() {		
+	public function get_user_data() {
+		if (!isset($this->user_data['id'])) {
+			return false;
+		}
+		
 		$this->update_user();
 		return $this->user_data;
 	}
@@ -379,8 +383,14 @@ Class User {
 
 		// User identified by id
 		$res = $conn->query("SELECT * FROM User WHERE id = {$this->user_data['id']}");
+
+		if ($res === NULL) {
+			self::$error_message = "Zadaný užívateľ sa nenašiel.";
+			return false;
+		}
+
 		$rows = $res->fetch_assoc();
-		
+
 		// Save the data
 		$this->user_data = $rows;
 		
