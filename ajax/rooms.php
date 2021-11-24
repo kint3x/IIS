@@ -1,7 +1,7 @@
 <?php
 require_once "../defines.php";
-require_once ROOT."/classes/Room.class.php";
-require_once ROOT."/classes/Conferences.class.php";
+require_once ROOT."/classes/room.class.php";
+require_once ROOT."/classes/conferences.class.php";
 
 start_session_if_none();
 
