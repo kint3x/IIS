@@ -66,9 +66,16 @@ start_session_if_none();
                         $table->table_structure['reservation_id']['foreign_key'] = [
                             "table" => "Reservation",
                             "fk_key_name" => "id",
-                            "table_vars" => array("conference_id" => "Číslo konferencie"),
+                            "table_vars" => array("conference_id" => "Konferencia"),
                             "form_var" => "",
                             "custom_where" => "",
+                            "foreign_key" => array(
+                                "table" => "Conference",
+                                "fk_key_name" => "id",
+                                "table_vars" => array("name" => "Konferencia"),
+                                "form_var" => "",
+                                "custom_where" => "",
+                            )
                         ];
 
                         $table->table_structure['hash']['name'] = "Kód vstupenky";

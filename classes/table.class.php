@@ -204,12 +204,16 @@ class SimpleTable{
        			//IF COLUMN IS FOREIGN KEY, GET ALL DEFINED COLUMNS
  				if(count($this->table_structure[$ckey]['foreign_key']) > 0 ){
  					$rowf=self::get_FK_row_values($this->table_structure[$ckey]['foreign_key'],$column);
- 					if(isset($this->table_structure[$ckey]['foreign_key']['foreign_key'])){
- 						$rowf=self::get_FK_row_values($this->table_structure[$ckey]['foreign_key']['foreign_key'],$column);
+ 					$table_vars =  $this->table_structure[$ckey]['foreign_key']['table_vars'];
+
+ 					if(isset($this->table_structure[$ckey]['foreign_key']['foreign_key'])){ // double fk fk 
+ 						$row_fk=self::get_FK_row_values($this->table_structure[$ckey]['foreign_key'],$column);
+ 						$rowf=self::get_FK_row_values($this->table_structure[$ckey]['foreign_key']['foreign_key'],$row_fk[array_keys($table_vars)[0]]);
+ 						$table_vars =  $this->table_structure[$ckey]['foreign_key']['foreign_key']['table_vars'];
  					}
  					$html .= "<td col-name='$ckey' col-val='$col_val' style='display:none;'>{$column}</td>";
 
-       				foreach($this->table_structure[$ckey]['foreign_key']['table_vars'] as $meno => $var){
+       				foreach($table_vars as $meno => $var){
        			 			
        			 			if($rowf == NULL){
        			 				$html .= "<td col-name='fk_$meno' col-val=''></td>";
