@@ -77,7 +77,7 @@ Class Reservation{
 
 		$conn = $db->handle;
 		
-		$stmt = $conn->prepare("SELECT SUM(num_tickets) FROM Reservation WHERE conference_id = ? AND state = ".RESERVATION_CONFIRMED);
+		$stmt = $conn->prepare("SELECT SUM(num_tickets) FROM Reservation WHERE conference_id = ? AND (state = ".RESERVATION_CONFIRMED." OR state = ".RESERVATION_NEW.")");
 		$stmt->bind_param('i', $conference_id);
 		
 		if (!$stmt->execute()) {
