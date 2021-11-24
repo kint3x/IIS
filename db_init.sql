@@ -67,7 +67,7 @@ CREATE TABLE `Lecture` (
   `description` text CHARACTER SET utf8 COLLATE utf8_slovak_ci NOT NULL,
   `time_from` int(11) DEFAULT NULL,
   `time_to` int(11) DEFAULT NULL,
-  `img_url` varchar(300) CHARACTER SET utf8 COLLATE utf8_slovak_ci DEFAULT '/img/lecture_placholder.jpg',
+  `img_url` varchar(300) CHARACTER SET utf8 COLLATE utf8_slovak_ci DEFAULT '/img/lecture_placeholder.jpg',
   `conference_id` int(11) NOT NULL,
   `room_id` int(11) DEFAULT NULL,
   `id_user` int(100) NOT NULL,
