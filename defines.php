@@ -23,6 +23,8 @@ include_once(ROOT."/lib.php");
 require_once(ROOT."/classes/conferences.class.php");
 require_once(ROOT."/classes/room.class.php");
 require_once(ROOT."/classes/lecture.class.php");
+require_once(ROOT."/classes/user.class.php");
+require_once(ROOT."/classes/cart.class.php");
 
 start_session_if_none();
 logout_if_time_up();

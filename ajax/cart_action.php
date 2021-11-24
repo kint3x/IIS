@@ -6,7 +6,7 @@ require_once ROOT."/classes/cart.class.php";
 require_once ROOT."/classes/user.class.php";
 require_once ROOT."/classes/conferences.class.php";
 
-session_start();
+start_session_if_none();
 
 Cart::setup_cart_if_not();
 
@@ -31,6 +31,7 @@ if(isset($_POST['cart_action'])){
 			return;
 		}
 		
+		var_dump($_SESSION);
 		$ret = $_SESSION['cart']->add_item($_POST['item_id'],1);
 		if($ret !== true) {
 			echo_json_response(false, $ret);

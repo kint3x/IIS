@@ -4,8 +4,7 @@ include "../defines.php";
 include_once ROOT."/classes/user.class.php";
 include_once ROOT."/classes/fileUpload.class.php";
 
-
-session_start();
+start_session_if_none();
 
 /**
  * 
