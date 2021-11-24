@@ -84,7 +84,7 @@ if (isset($_POST["id"])
     }
 
     if ($start < $conference['time_from'] || $end > $conference['time_to']) {
-        echo_json_response(false, "Prednáška sa musí uskutočniť v časovom rozmedzí konferencie, v rámci ktorej sa koná.");
+        echo_json_response(false, "Prednáška sa musí uskutočniť v časovom rozmedzí konferencie, v rámci ktorej sa koná. (".date(DATE_FORMAT_HTML_EXPLICIT,$conference['time_from'])." - ".date(DATE_FORMAT_HTML_EXPLICIT,$conference['time_to']).")" );
         return;
     }
 

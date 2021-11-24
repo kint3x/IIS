@@ -16,6 +16,7 @@ define('ROOT',__DIR__);
 define('DATE_FORMAT_CARD', 'H:i d.m.y');
 define('DATE_FORMAT_HTML', 'Y-m-d H:i');
 define('DATE_FORMAT_SIMPLE_TABLE', 'Y-m-d\TH:i');
+define('DATE_FORMAT_HTML_EXPLICIT', 'd-M-Y H:i');
 
 define('IMG_DEFAULT', '/img/placeholder.jpg');
 

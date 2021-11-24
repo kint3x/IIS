@@ -12,7 +12,7 @@ start_session_if_none();
 ?>
 
 <html>
-    <?php verify_lecture_and_generate_header(); ?>
+    <?php verify_lecture_and_generate_head(); ?>
 
     <body>
         <?php 
@@ -93,14 +93,14 @@ start_session_if_none();
                 <div class="form-group row" id="from">
                     <div class="col-lg-4">
                         <!-- <input type="datetime-local" class="form-control timepicker" id="fromTime" value="<?php echo $from;?>" <?php echo $disabled; ?>> -->
-                        <input type="datetime-local" class="form-control timepicker" id="fromTime" <?php echo $disabled; ?>>
+                        <input type="datetime-local" class="form-control timepicker" id="fromTime" value="<?php echo $from;?>"  <?php echo $disabled; ?>>
                     </div>
                 </div>
                 <label for="to">Koniec konania</label>    
                 <div class="form-group row" id="to">
                     <div class="col-lg-4">
                         <!-- <input type="datetime-local" class="form-control" id="toTime" value="<?php echo $to;?>" <?php echo $disabled; ?>> -->
-                        <input type="datetime-local" class="form-control" id="toTime" <?php echo $disabled; ?>>
+                        <input type="datetime-local" class="form-control" id="toTime" value="<?php echo $to;?>" <?php echo $disabled; ?>>
                     </div>
                 </div>
 
