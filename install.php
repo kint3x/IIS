@@ -37,7 +37,7 @@ $res = $conn->query("INSERT INTO User (email,password,role) VALUES ('admin@admin
 echo $conn->error;
 
 if($res === false){
-	echo "Podarilo sa vytvoriť tabuľky, ale admin účet sa nevytvoril, skúste spustiť skript znova.";
+	echo "Podarilo sa vytvoriť tabuľky, ale admin účet sa nevytvoril, skúste <b>spustiť skript znova</b>.<br>";
 	return;
 }
 
