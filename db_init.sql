@@ -365,3 +365,15 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+INSERT INTO `Tag` (`name`) VALUES ('Enviromentalistika');
+INSERT INTO `Tag` (`name`) VALUES ('Šport');
+INSERT INTO `Tag` (`name`) VALUES ('Informačné technológie');
+INSERT INTO `Tag` (`name`) VALUES ('Duchovné');
+INSERT INTO `Tag` (`name`) VALUES ('Cestovanie');
+INSERT INTO `Tag` (`name`) VALUES ('Technológie');
+INSERT INTO `Tag` (`name`) VALUES ('Auto-moto');
+INSERT INTO `Tag` (`name`) VALUES ('Hudba');
+INSERT INTO `Tag` (`name`) VALUES ('Filmy');
+INSERT INTO `Tag` (`name`) VALUES ('Veda');
+INSERT INTO `Tag` (`name`) VALUES ('Zdravie');
