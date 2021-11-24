@@ -35,6 +35,10 @@ start_session_if_none();
                 <?php get_conference_sidebar($conference); ?>
                 
                 <div class="col-lg-8 align-self-center">
+                    ?>
+                    <h2 class="pb-1">
+                        Miestnosti
+                    </h2>
 
                     <?php
                         $rooms = Room::get_conference_rooms($conference['id']);
@@ -61,10 +65,6 @@ start_session_if_none();
                                 "custom_SQL" => "WHERE conference_id = {$conference['id']} ORDER BY name ASC"
                             ];
     
-                            ?>
-                            <h2 class="pb-1">
-                                Miestnosti
-                            </h2>
                             <?php
 
                             $table = new SimpleTable("Room", $options);

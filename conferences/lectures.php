@@ -36,7 +36,9 @@ start_session_if_none();
                 <?php get_conference_sidebar($conference); ?>
                 
                 <div class="col-lg-8 align-self-center">
-                    
+                    <h2 class="mb-1">
+                        Prednášky
+                    </h2>
                     <?php
                         $lectures = Lecture::get_conference_lectures($conference['id']);
                         
@@ -68,9 +70,7 @@ start_session_if_none();
     
                             ?>
                             <div class="d-flex flex-row justify-content-between">
-                                <h2 class="mb-1">
-                                    Prednášky
-                                </h2>
+
                                 <?php                            
                                     if ($is_logged) {
                                         ?>
