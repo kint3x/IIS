@@ -26,4 +26,25 @@ class Ticket{
 		}
 		return true;
 	}
+
+	static function count_tickets_reservation($reservation_id){
+		$db = new Database();
+
+		if ($db->error) {
+			self::$error_message = 'Problém s pripojením k databáze.';
+			return false;
+		}
+
+		$conn = $db->handle;
+
+		$res =$conn->query("SELECT COUNT(*) FROM Ticket WHERE reservation_id = {$reservation_id}");
+
+		if($res== false){
+			return false;
+		}
+
+		$row = $res->fetch_all();
+
+		return $row[0][0];
+	}
 }

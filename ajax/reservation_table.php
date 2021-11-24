@@ -38,7 +38,7 @@ if ($_POST["action"] == "edit") {
             ) {
             return;
         }
-        
+
         $reservation = Reservation::get_reservation_by_id($_POST["id"]);
 
         if ($reservation === false) {
@@ -60,13 +60,17 @@ if ($_POST["action"] == "edit") {
         );
 
         if(($_POST['state'] == RESERVATION_CONFIRMED) && ($reservation['state'] != RESERVATION_CONFIRMED)){
-            for($i=0; $i<$_POST['num_tickets'];$i++){
-                $ticket = Ticket::generate_ticket($_POST['id']);
+            if(Ticket::count_tickets_reservation($reservation['id']) < $_POST['num_tickets']){
+                $diff = $_POST['num_tickets'] - Ticket::count_tickets_reservation($reservation['id']);
+                for($i=0; $i<$diff;$i++){
+                    $ticket = Ticket::generate_ticket($_POST['id']);
+                }
+                if($ticket == false){
+                    echo_json_response(false, "Dáta boli uložené ale nepodarilo sa vytvoriť lístky pre zákazníka.");
+                    return;
+                } 
             }
-            if($ticket == false){
-                echo_json_response(false, "Dáta boli uložené ale nepodarilo sa vytvoriť lístky pre zákazníka.");
-                return;
-            }
+
         }
 
         echo_json_response($res, Reservation::$error_message);
@@ -74,6 +78,7 @@ if ($_POST["action"] == "edit") {
 
     } else {
         // user can only change the reservation status
+
 
         if(!isset($_POST['id']) || !isset($_POST['state'])) {
             return;
@@ -102,13 +107,17 @@ if ($_POST["action"] == "edit") {
         $res = Reservation::change_status($reservation['id'], $_POST['state']);
 
         if(($_POST['state'] == RESERVATION_CONFIRMED) && ($reservation['state'] != RESERVATION_CONFIRMED)){
-            for($i=0; $i<$reservation['num_tickets'];$i++){
-                $ticket = Ticket::generate_ticket($_POST['id']);
+            if(Ticket::count_tickets_reservation($reservation['id']) < $reservation['num_tickets']){
+                $diff = $reservation['num_tickets'] - Ticket::count_tickets_reservation($reservation['id']);
+                for($i=0; $i<$diff;$i++){
+                    $ticket = Ticket::generate_ticket($_POST['id']);
+                }
+                if($ticket == false){
+                    echo_json_response(false, "Dáta boli uložené ale nepodarilo sa vytvoriť lístky pre zákazníka.");
+                    return;
+                } 
             }
-            if($ticket == false){
-                echo_json_response(false, "Dáta boli uložené ale nepodarilo sa vytvoriť lístky pre zákazníka.");
-                return;
-            }
+         
         }
         
         echo_json_response($res, Reservation::$error_message);
