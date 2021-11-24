@@ -68,7 +68,12 @@ if ($action == "edit") {
         }
 
         if ($start > $end) {
-            echo_json_response(false, "Konferencia musí začať skôr ako skončí.");
+            echo_json_response(false, "Prednáška musí začať skôr ako skončí.");
+            return;
+        }
+
+        if ($start < $conference['time_from'] || $end > $conference['time_to']) {
+            echo_json_response(false, "Prednáška sa musí uskutočniť v časovom rozmedzí konferencie, v rámci ktorej sa koná.");
             return;
         }
 

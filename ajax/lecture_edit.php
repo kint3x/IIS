@@ -83,6 +83,11 @@ if (isset($_POST["id"])
         return;
     }
 
+    if ($start < $conference['time_from'] || $end > $conference['time_to']) {
+        echo_json_response(false, "Prednáška sa musí uskutočniť v časovom rozmedzí konferencie, v rámci ktorej sa koná.");
+        return;
+    }
+
     if (Room::is_free($_POST['room_id'], $_POST['id'], $start, $end) === false) {
         echo_json_response(false, "Miestnost je v danom časovom intervale obsadená.");
         return;
