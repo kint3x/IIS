@@ -26,6 +26,7 @@ if($res === false){
 }
 
 $db->close();
+
 $db = new Database();
 
 $conn = $db->handle;
@@ -40,6 +41,37 @@ if($res === false){
 	echo "Podarilo sa vytvoriť tabuľky, ale admin účet sa nevytvoril, skúste <b>spustiť skript znova</b>.<br>";
 	return;
 }
+
+$db->close();
+
+//dummy data tags
+
+$sql = "
+INSERT INTO `Tag` (`name`) VALUES ('Enviromentalistika');
+INSERT INTO `Tag` (`name`) VALUES ('Šport');
+INSERT INTO `Tag` (`name`) VALUES ('Informačné technológie');
+INSERT INTO `Tag` (`name`) VALUES ('Duchovné');
+INSERT INTO `Tag` (`name`) VALUES ('Cestovanie');
+INSERT INTO `Tag` (`name`) VALUES ('Technológie');
+INSERT INTO `Tag` (`name`) VALUES ('Auto-moto');
+INSERT INTO `Tag` (`name`) VALUES ('Hudba');
+INSERT INTO `Tag` (`name`) VALUES ('Filmy');
+INSERT INTO `Tag` (`name`) VALUES ('Veda');
+INSERT INTO `Tag` (`name`) VALUES ('Zdravie');";
+
+$db = new Database();
+
+$conn = $db->handle;
+
+
+$res = $conn->multi_query($sql);
+
+if($res === false){
+	echo "Podarilo sa vytvoriť tabuľky, ale tagy sa nenahrali, skúste <b>spustiť skript znova</b>.<br>";
+	return;
+}
+
+$db->close();
 
 echo "Databáza bola úspešen nainštalovaná, Admin user login: admin@admin.sk heslo: {$pw}<br>";
 echo "<b>Prosím vymažte súbory install.php a db_init.sql z bezpečnostných dôvodov</b>";
