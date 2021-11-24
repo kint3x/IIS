@@ -8,7 +8,7 @@ if(isset($_GET["logout"])){
   if(isset($_SESSION['user'])){
     unset($_SESSION['user']);
     unset($_SESSION['logged_in_t']);
-
+    unset($_SESSION['created_orders']);
     header("Location: /");
   }
 }
